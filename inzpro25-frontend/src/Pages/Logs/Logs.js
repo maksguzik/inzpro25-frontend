@@ -1,5 +1,11 @@
+import DeviceToken from "./DeviceTokenViewComponents/DeviceToken";
+
 function LogsPage() {
-  return <div>Logs</div>;
+  return (
+  <>
+    <DeviceToken></DeviceToken>
+    </>
+  );
 }
 
 export default LogsPage;
