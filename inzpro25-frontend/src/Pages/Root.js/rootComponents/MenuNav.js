@@ -1,30 +1,30 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./MenuNav.css";
 
 function MenuNav() {
   return (
-    <header>
-      <div className="Logo">
+    <header className="header-menu">
+      <div className="logo">
         <p>LOGO</p>
       </div>
       <nav>
         <ul className="menu-top">
           <li>
-            <Link to="/">Home</Link>
+            <NavLink to="/" className={({isActive}) => isActive? "active": undefined}>Home</NavLink>
           </li>
           <li>
-            <Link to="Logs">Logs</Link>
+            <NavLink to="Logs" className={({isActive}) => isActive? "active": undefined}>Logs</NavLink>
           </li>
           <li>
-            <Link to="Alerts">Alerts</Link>
+            <NavLink to="Alerts"className={({isActive}) => isActive? "active": undefined}>Alerts</NavLink>
           </li>
           <li>
-            <Link to="Raports">Raports</Link>
+            <NavLink to="Raports"className={({isActive}) => isActive? "active": undefined}>Raports</NavLink>
           </li>
         </ul>
         <ul className="menu-bottom">
           <li>
-            <Link to="Settings">Settings</Link>
+            <NavLink to="Settings"className={({isActive}) => isActive? "active": undefined}>Settings</NavLink>
           </li>
         </ul>
       </nav>
