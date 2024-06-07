@@ -2,6 +2,8 @@ import React from "react";
 import { useState} from "react";
 import DeviceTokenGet from "./Components/DeviceTokenGet";
 import DeviceTokenDisplay from "./Components/DeviceTokenDisplay";
+import DeviceTokenDelete from "./Components/DeviceTokenDelete";
+
 
 function DeviceToken(){
     const [tokenId, setTokenId] = useState("");
@@ -22,8 +24,13 @@ function DeviceToken(){
             </DeviceTokenGet>
             <button>PUT</button>
             <input></input>
-            <button>DELETE</button>
-            <input></input>
+            <DeviceTokenDelete
+            tokenId = {tokenId}
+            setTokenId = {setTokenId}
+            tokenData = {tokenData}
+            setTokenData = {setTokenData}
+            >
+            </DeviceTokenDelete>
             </div>
     );
 }
