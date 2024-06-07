@@ -1,19 +1,34 @@
-import './App.css';
-import DeviceToken from './DeviceTokenViewComponents/DeviceToken';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import HomePage from "./Pages/Home/Home";
+import AlertsPage from "./Pages/Alerts/Alerts";
+import LogsPage from "./Pages/Logs/Logs";
+import RaportsPage from "./Pages/Raports/Raports";
+import RootLayout from "./Pages/Root.js/Root";
+import SettingsPage from "./Pages/Settings/Settings";
 
-export default function App() {
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "Alerts", element: <AlertsPage /> },
+      { path: "Logs", element: <LogsPage /> },
+      { path: "Raports", element: <RaportsPage /> },
+      { path: "Settings", element: <SettingsPage />},
+    ],
+  },
+]);
+
+function App() {
   return (
-    <div className="App">
-      <DeviceToken></DeviceToken>
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-          
-          Learn React
-      </header>
-    </div>
+    <>
+      <RouterProvider router={router} />
+    </>
   );
 }
+
+export default App;
+
 
 
