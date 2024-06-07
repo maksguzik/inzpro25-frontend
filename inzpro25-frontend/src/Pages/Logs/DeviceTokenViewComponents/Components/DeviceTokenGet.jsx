@@ -6,7 +6,9 @@ function DeviceTokenGet(props){
     const getDeviceToken = () => {
         fetch(URL)
             .then(response => response.json())
-            .then(json => props.setTokenData(json.message))
+            .then(json => props.setTokenData(
+                json.token
+            ))
             .catch(error => console.error(error));
             console.log(props.tokenId);
     };
