@@ -1,9 +1,10 @@
 import DeviceToken from "./DeviceTokenViewComponents/DeviceToken";
+import DeviceTokenList from "./DeviceTokenViewComponents/DeviceTokenList";
 
 function LogsPage() {
   return (
   <>
-    <DeviceToken></DeviceToken>
+    <DeviceTokenList></DeviceTokenList>
     </>
   );
 }

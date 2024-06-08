@@ -7,10 +7,10 @@ function DeviceTokenGet(props){
         fetch(URL)
             .then(response => response.json())
             .then(json => props.setTokenData(
-                json.token
+                json
             ))
             .catch(error => console.error(error));
-            console.log(props.tokenId);
+            console.log(props.tokenData);
     };
 
     useEffect(() => {
