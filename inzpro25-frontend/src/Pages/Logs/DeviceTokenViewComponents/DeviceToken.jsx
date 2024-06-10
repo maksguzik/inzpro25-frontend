@@ -1,6 +1,6 @@
 import DeviceTokenDisplay from "./Components/DeviceTokenDisplay";
 import DeviceTokenDelete from "./Components/DeviceTokenDelete";
-
+import UpdateDeviceToken from "./Components/UpdateDeviceToken";
 
 function DeviceToken({tokenId, token, deviceTypeName, setUpdateDeviceTokenList}){
 
@@ -11,6 +11,10 @@ function DeviceToken({tokenId, token, deviceTypeName, setUpdateDeviceTokenList})
                 deviceTypeName = {deviceTypeName}
             />
             <DeviceTokenDelete
+                tokenId = {tokenId}
+                setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+            />
+            <UpdateDeviceToken
                 tokenId = {tokenId}
                 setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
             />
