@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 function DeviceTokenList(){
     const [deviceTokenList, setDeviceTokenList] = useState([]);
+    const [updateDeviceTokenList, setUpdateDeviceTokenList] = useState(true);
 
     const URL = 'http://localhost:8080/api/devices-tokens';
 
@@ -10,20 +11,23 @@ function DeviceTokenList(){
         fetch(URL)
         .then(response => response.json())
         .then(json => setDeviceTokenList(json))
+        .then(()=>setUpdateDeviceTokenList(false))
         .catch(error => console.error(error));
     }
 
     useEffect(() => {
-        getDeviceTokenList();
+        // (updateDeviceTokenList)? getDeviceTokenList() : null
+        if (updateDeviceTokenList) getDeviceTokenList();
     });
 
     return(
-        <div>
+        <div className = "deviceTokenListContainer">
             {deviceTokenList.map((element) => (
                 <DeviceToken
                 tokenId = {element.id} 
                 token = {element.token}
                 deviceTypeName = {element.deviceTypeName} 
+                setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                 />
             ))}
         </div>
