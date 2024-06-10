@@ -6,12 +6,12 @@ import './Root.css';
 
 function RootLayout() {
   return (
-    <div class="container">
-      <div class="menu">
+    <div className = "container">
+      <div className = "menu">
         <MenuNav />
       </div>
-      <div class = "content">
-        <div class= "row">
+      <div className = "content">
+        <div className = "row">
         <TopBar />
         <Outlet />
         </div>

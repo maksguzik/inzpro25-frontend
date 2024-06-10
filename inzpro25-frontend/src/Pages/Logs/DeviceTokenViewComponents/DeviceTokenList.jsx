@@ -1,5 +1,6 @@
 import DeviceToken from "./DeviceToken";
 import { useState, useEffect } from "react";
+import AddDeviceToken from "./Components/AddDeviceToken";
 
 function DeviceTokenList(){
     const [deviceTokenList, setDeviceTokenList] = useState([]);
@@ -22,6 +23,9 @@ function DeviceTokenList(){
 
     return(
         <div className = "deviceTokenListContainer">
+            <AddDeviceToken
+            setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+            />
             {deviceTokenList.map((element) => (
                 <DeviceToken
                 tokenId = {element.id} 
