@@ -1,3 +1,4 @@
+import './DeviceTokenStyle.css';
 
 function DeviceTokenDelete({tokenId, setUpdateDeviceTokenList}){
     const URL = 'http://localhost:8080/api/devices-tokens/' + tokenId;
@@ -10,7 +11,7 @@ function DeviceTokenDelete({tokenId, setUpdateDeviceTokenList}){
 
     return (
         <> 
-            <button onClick={deleteDeviceToken}>DELETE</button>
+            <button className = "redButton" onClick={deleteDeviceToken}>DELETE</button>
         </>
     )
 }

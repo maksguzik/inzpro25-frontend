@@ -1,8 +1,10 @@
 import { useState } from "react";
+import './DeviceTokenStyle.css';
 
 function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
     
     const [deviceTypeName, setDeviceTypeName] = useState("");
+    const [clicked, setClicked] = useState(false);
 
     const URL = 'http://localhost:8080/api/devices-tokens/' + tokenId;
     
@@ -14,6 +16,7 @@ function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
                     })
             .then(response => setUpdateDeviceTokenList(true))
             .then(()=>setDeviceTypeName(""))
+            .then(()=>setClicked(false))
             .catch(error=>console.error());
     }
 
@@ -22,10 +25,26 @@ function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
         setDeviceTypeName(event.target.value);
     }
 
+    const handleKeyDown = (event) =>{
+        if(event.key === 'Enter'){
+            updateDeviceToken();
+        }
+    }
+
+    const handleClickButton = () =>{
+        setClicked(true);
+    }
+
     return (
         <> 
-            <input value = {deviceTypeName} onChange = {handleInputChange}></input>
-            <button onClick = {updateDeviceToken}>UPDATE</button>
+            <button className = "greenButton" onClick = {handleClickButton}>UPDATE</button>
+            {(clicked)? 
+                <input 
+                value = {deviceTypeName} 
+                onChange = {handleInputChange}
+                onKeyDown = {handleKeyDown}>
+            </input> : <></>
+            } 
         </>
     )
 }

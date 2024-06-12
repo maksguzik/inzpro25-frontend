@@ -1,6 +1,7 @@
 import DeviceToken from "./DeviceToken";
 import { useState, useEffect } from "react";
 import AddDeviceToken from "./Components/AddDeviceToken";
+import './DeviceTokenListStyle.css';
 
 function DeviceTokenList(){
     const [deviceTokenList, setDeviceTokenList] = useState([]);
@@ -22,18 +23,30 @@ function DeviceTokenList(){
     });
 
     return(
-        <div className = "deviceTokenListContainer">
+        <div  className = "deviceTokenListContainer">
             <AddDeviceToken
             setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
             />
-            {deviceTokenList.map((element) => (
-                <DeviceToken
-                tokenId = {element.id} 
-                token = {element.token}
-                deviceTypeName = {element.deviceTypeName} 
-                setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-                />
-            ))}
+            <table>
+                <thead>
+                    <tr>
+                        <th>tokenId</th>
+                        <th>token</th>
+                        <th>deviceTypeName</th>
+                        <th>actionButtons</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {deviceTokenList.map((element) => (
+                        <DeviceToken
+                        tokenId = {element.id} 
+                        token = {element.token}
+                        deviceTypeName = {element.deviceTypeName} 
+                        setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+                        />
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }

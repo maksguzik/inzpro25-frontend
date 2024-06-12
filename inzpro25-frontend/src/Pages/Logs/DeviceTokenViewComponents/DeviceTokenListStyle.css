@@ -1,5 +1,4 @@
 .deviceTokenListContainer{
-    border-color: black;
-    border: 0ch;
-    
+    background-color: white;   
+    padding: 100px;
 }

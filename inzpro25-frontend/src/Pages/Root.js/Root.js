@@ -13,8 +13,9 @@ function RootLayout() {
       <div className = "content">
         <div className = "row">
         <TopBar />
-        <Outlet />
+        
         </div>
+        <div className = "outlet"><Outlet /></div>
       </div>
     </div>
   );
