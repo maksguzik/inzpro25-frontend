@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import './DeviceComponentStyle.css';
 
 function AddDevice({setUpdateDeviceList}){
     

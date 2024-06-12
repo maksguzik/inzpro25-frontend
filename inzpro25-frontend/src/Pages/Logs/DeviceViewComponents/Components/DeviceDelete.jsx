@@ -1,4 +1,4 @@
-
+import './DeviceComponentStyle.css';
 
 function DeviceDelete({deviceId, setUpdateDeviceList}){
     const URL = 'http://localhost:8080/api/devices/' + deviceId;

@@ -1,0 +1,39 @@
+.truncatedText{ 
+    width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+button{
+  color: white;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #ccc;
+}
+
+.greenButton{
+  background-color:rgb(0, 155, 0);
+}
+
+.greenButton:hover{
+  background-color: rgb(0, 105, 0);
+}
+
+.redButton{
+  background-color: red;
+}
+
+.redButton:hover{
+  background-color: rgb(155, 0, 0);
+}
+
+.inputAddDevice{
+  width: 300px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+}

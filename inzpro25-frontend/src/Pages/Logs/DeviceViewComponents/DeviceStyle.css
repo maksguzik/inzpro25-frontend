@@ -1,0 +1,11 @@
+.deviceListContainer{
+    background-color: white;   
+    padding: 100px;
+}
+
+.device{
+    border-width: medium;
+    border-radius: 0ch;
+    border-color: rgb(40, 135, 199);
+    border-style:solid solid none solid;
+}

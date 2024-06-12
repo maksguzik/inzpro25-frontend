@@ -1,9 +1,10 @@
 import DeviceDisplay from "./Components/DeviceDisplay";
 import DeviceDelete from "./Components/DeviceDelete";
+import './DeviceStyle.css';
 
 function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCompanyName, setUpdateDeviceList}){
 
-    return(<tr className = "Device">
+    return(<tr className = "device">
                 <DeviceDisplay
                     deviceId = {deviceId}
                     deviceSerialNumber = {deviceSerialNumber}
