@@ -1,5 +1,6 @@
 import Company from "./Company";
 import { useState, useEffect } from "react";
+import AddCompany from "./Components/AddCompany";
 
 function CompanyList(){
     const [companyList, setCompanyList] = useState([]);
@@ -21,6 +22,9 @@ function CompanyList(){
 
     return(
         <div  className = "companyListContainer">
+            <AddCompany
+            setUpdateCompanyList = {setUpdateCompanyList}
+            />
             <table>
                 <thead>
                     <tr>
