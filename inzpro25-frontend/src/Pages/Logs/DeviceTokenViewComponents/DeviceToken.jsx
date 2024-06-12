@@ -1,36 +1,23 @@
-import React from "react";
-import { useState} from "react";
-import DeviceTokenGet from "./Components/DeviceTokenGet";
 import DeviceTokenDisplay from "./Components/DeviceTokenDisplay";
 import DeviceTokenDelete from "./Components/DeviceTokenDelete";
+import UpdateDeviceToken from "./Components/UpdateDeviceToken";
 
+function DeviceToken({tokenId, token, deviceTypeName, setUpdateDeviceTokenList}){
 
-function DeviceToken(){
-    const [tokenId, setTokenId] = useState("");
-    const [tokenData, setTokenData] = useState([]);
-    
-
-    return(<div className="DeviceTokenContainer">
+    return(<div>
             <DeviceTokenDisplay
-            tokenData = {tokenData}
-            >
-            </DeviceTokenDisplay>
-            <DeviceTokenGet 
-            tokenId = {tokenId}
-            setTokenId = {setTokenId}
-            tokenData = {tokenData}
-            setTokenData = {setTokenData}
-            >
-            </DeviceTokenGet>
-            <button>PUT</button>
-            <input></input>
+                tokenId = {tokenId}
+                token = {token}
+                deviceTypeName = {deviceTypeName}
+            />
             <DeviceTokenDelete
-            tokenId = {tokenId}
-            setTokenId = {setTokenId}
-            tokenData = {tokenData}
-            setTokenData = {setTokenData}
-            >
-            </DeviceTokenDelete>
+                tokenId = {tokenId}
+                setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+            />
+            <UpdateDeviceToken
+                tokenId = {tokenId}
+                setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+            />
             </div>
     );
 }

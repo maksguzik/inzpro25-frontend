@@ -1,12 +1,13 @@
 
-
-
-function DeviceTokenDisplay({tokenData}){
+function DeviceTokenDisplay({tokenId, token, deviceTypeName}){
 
 
 
-    return(
-        <div>{tokenData}</div>
+    return(<div>
+            <div>{tokenId}</div>
+            <div>{token}</div>
+            <div>{deviceTypeName}</div>
+        </div>
     )
 }
 
