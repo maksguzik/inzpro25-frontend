@@ -1,13 +1,14 @@
 import DeviceDisplay from "./Components/DeviceDisplay";
 import DeviceDelete from "./Components/DeviceDelete";
 
-function Device({deviceId, deviceSerialNumber, deviceName, deviceCompanyName, setUpdateDeviceList}){
+function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCompanyName, setUpdateDeviceList}){
 
     return(<tr className = "Device">
                 <DeviceDisplay
                     deviceId = {deviceId}
                     deviceSerialNumber = {deviceSerialNumber}
                     deviceName = {deviceName}
+                    deviceType = {deviceType}
                     deviceCompanyName = {deviceCompanyName}
                 />
                 <DeviceDelete

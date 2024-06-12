@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Device from "./Device";
-
+import AddDevice from "./Components/AddDevice";
 
 function DeviceList(){
     const [deviceList, setDeviceList] = useState([]);
@@ -22,11 +22,15 @@ function DeviceList(){
 
     return(
         <div  className = "deviceListContainer">
+            <AddDevice
+            setUpdateDeviceList = {setUpdateDeviceList}
+            />
             {deviceList.map((element) => (
                 <Device
                 deviceId = {element.id} 
                 deviceSerialNumber = {element.serialNumber}
                 deviceName = {element.name}
+                deviceType = {element.deviceType}
                 deviceCompanyName = {element.companyName} 
                 setUpdateDeviceList = {setUpdateDeviceList}
                 />
