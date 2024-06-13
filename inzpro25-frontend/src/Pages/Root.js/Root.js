@@ -17,6 +17,7 @@ function RootLayout() {
         <TopBar activeTab={activeTab}/>
         <Outlet />
         </div>
+        <div className = "outlet"><Outlet /></div>
       </div>
     </div>
   );
