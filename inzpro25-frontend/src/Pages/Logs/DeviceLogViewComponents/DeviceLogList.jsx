@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import DeviceLog from "./DeviceLog";
-
+import DeviceLogFilter from "./Components/DeviceLogFilter";
 
 function DeviceLogList(){
     const [deviceLogList, setDeviceLogList] = useState([]);
@@ -20,6 +20,9 @@ function DeviceLogList(){
 
     return(
         <div  className = "deviceLogListContainer">
+            <DeviceLogFilter
+                    setDeviceLogList = {setDeviceLogList}
+                />
             <table>
                 <thead>
                     <tr>
