@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import DeviceLog from "./DeviceLog";
 import DeviceLogFilter from "./Components/DeviceLogFilter";
+import './DeviceLogStyle.css';
 
 function DeviceLogList(){
     const [deviceLogList, setDeviceLogList] = useState([]);

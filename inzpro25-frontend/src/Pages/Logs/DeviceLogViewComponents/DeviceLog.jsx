@@ -1,5 +1,5 @@
 import DeviceLogDisplay from "./Components/DeviceLogDisplay"
-
+import './DeviceLogStyle.css';
 
 function DeviceLog({deviceId, deviceLogTime, deviceLastSeenTime, deviceType, deviceSerialNumber, owner}){
 
