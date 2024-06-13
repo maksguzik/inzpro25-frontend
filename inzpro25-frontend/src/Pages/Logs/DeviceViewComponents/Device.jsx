@@ -1,6 +1,8 @@
 import DeviceDisplay from "./Components/DeviceDisplay";
 import DeviceDelete from "./Components/DeviceDelete";
+import UpdateDevice from "./Components/UpdateDevice";
 import './DeviceStyle.css';
+
 
 function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCompanyName, setUpdateDeviceList}){
 
@@ -13,6 +15,10 @@ function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCom
                     deviceCompanyName = {deviceCompanyName}
                 />
                 <DeviceDelete
+                    deviceId = {deviceId}
+                    setUpdateDeviceList = {setUpdateDeviceList}
+                />
+                <UpdateDevice
                     deviceId = {deviceId}
                     setUpdateDeviceList = {setUpdateDeviceList}
                 />
