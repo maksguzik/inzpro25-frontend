@@ -1,5 +1,11 @@
-function DeviceTypePage(){
-    return <div>DeviceType Page</div>
-   }
-   
-   export default DeviceTypePage;
+import DeviceType from "../DeviceTypeViewComponents/DeviceType";
+
+function DeviceTypePage() {
+  return (
+    <>
+      <DeviceType></DeviceType>
+    </>
+  );
+}
+
+export default DeviceTypePage;

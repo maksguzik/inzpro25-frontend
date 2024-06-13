@@ -1,0 +1,30 @@
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+  }
+  
+  .table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }
+  
+  .table th {
+    background-color: #f4f4f4;
+  }
+  
+
+  .table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  table tr.selected {
+    background-color: #a0a0a0 !important; 
+  }
