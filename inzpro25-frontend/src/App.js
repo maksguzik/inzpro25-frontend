@@ -8,7 +8,9 @@ import RootLayout from "./Pages/Root.js/Root";
 import SettingsPage from "./Pages/Settings/Settings";
 import DeviceTokenPage from "./Pages/Logs/Tabs/DeviceTokenPage";
 import DeviceTypePage from "./Pages/Logs/Tabs/DeviceTypePage";
+import DeviceLogPage from './Pages/Logs/Tabs/DeviceLogPage';
 import './App.css';
+
 
 
 const router = createBrowserRouter([
@@ -24,7 +26,7 @@ const router = createBrowserRouter([
         children: [
           { path: "DeviceToken", element: <DeviceTokenPage /> },
           { path: "DeviceType", element: <DeviceTypePage /> },
-          { path: "NowaStronka", element: <DeviceTokenPage />},
+          { path: "DeviceLog", element: <DeviceLogPage />},
         ],
       },
       { path: "Raports", element: <RaportsPage /> },
