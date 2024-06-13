@@ -1,0 +1,31 @@
+.device{
+    border-width: medium;
+    border-radius: 0ch;
+    border-color: rgb(40, 135, 199);
+    border-style:solid solid none solid;
+}
+
+.deviceListContainer {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+  .device:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .device.selected {
+    background-color: #a0a0a0 !important; 
+  }
+  table th{
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }

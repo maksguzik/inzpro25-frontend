@@ -1,9 +1,9 @@
-import DeviceTokenList from "./DeviceTokenViewComponents/DeviceTokenList";
+import { Outlet } from "react-router-dom";
 
 function LogsPage() {
   return (
-  <>
-    <DeviceTokenList></DeviceTokenList>
+    <>
+      <Outlet />
     </>
   );
 }
