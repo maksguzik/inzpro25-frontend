@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const tabValues = {
   Home: ["General", "Pinned"],
   Alerts: ["All", "Active", "Set off", "History"],
-  Logs: ["DeviceToken", "DeviceType", "Company", "DeviceView"],
+  Logs: ["DeviceToken", "DeviceType", "Company", "DeviceView", "DeviceLog"],
   Raports: ["To be named", "To be named", "To be named"],
   Settings: ["To be named", "To be named", "To be named"],
 };

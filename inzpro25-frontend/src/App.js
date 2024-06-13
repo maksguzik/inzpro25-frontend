@@ -11,6 +11,7 @@ import DeviceTypePage from "./Pages/Logs/Tabs/DeviceTypePage";
 import CompanyPage from "./Pages/Logs/Tabs/CompanyPage";
 import "./App.css";
 import DeviceViewPage from "./Pages/Logs/Tabs/DeviceViewPage";
+import DeviceLogPage from "./Pages/Logs/Tabs/DeviceLogPage";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
           { path: "DeviceType", element: <DeviceTypePage /> },
           { path: "Company", element: <CompanyPage /> },
           { path: "DeviceView", element: <DeviceViewPage /> },
+          { path: "DeviceLog", element: <DeviceLogPage />}
         ],
       },
       { path: "Raports", element: <RaportsPage /> },
