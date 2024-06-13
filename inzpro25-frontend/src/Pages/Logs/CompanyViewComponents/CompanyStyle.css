@@ -1,0 +1,11 @@
+.company{
+    border-width: medium;
+    border-radius: 0ch;
+    border-color: rgb(40, 135, 199);
+    border-style:solid solid none solid;
+}
+
+.companyListContainer{
+    background-color: white;   
+    padding: 100px;
+}

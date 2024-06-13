@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import './CompanyComponentStyle.css';
 
 function UpdateCompany({companyId, setUpdateCompanyList}){
     

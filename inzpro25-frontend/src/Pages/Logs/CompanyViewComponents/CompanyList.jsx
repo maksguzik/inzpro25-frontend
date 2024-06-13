@@ -1,6 +1,7 @@
 import Company from "./Company";
 import { useState, useEffect } from "react";
 import AddCompany from "./Components/AddCompany";
+import './CompanyStyle.css';
 
 function CompanyList(){
     const [companyList, setCompanyList] = useState([]);

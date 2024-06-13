@@ -1,6 +1,7 @@
 import CompanyDisplay from "./Components/CompanyDisplay";
 import CompanyDelete from "./Components/CompanyDelete";
 import UpdateCompany from "./Components/UpdateCompany";
+import './CompanyStyle.css';
 
 function Company({companyId, companyName, setUpdateCompanyList}){
 
