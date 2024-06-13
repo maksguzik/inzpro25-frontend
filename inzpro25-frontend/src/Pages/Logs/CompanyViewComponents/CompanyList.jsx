@@ -1,11 +1,14 @@
 import Company from "./Company";
 import { useState, useEffect } from "react";
 import AddCompany from "./Components/AddCompany";
+import CompanyDelete from "./Components/CompanyDelete";
+import UpdateCompany from "./Components/UpdateCompany";
 import './CompanyStyle.css';
 
 function CompanyList(){
     const [companyList, setCompanyList] = useState([]);
     const [updateCompanyList, setUpdateCompanyList] = useState(true);
+    const [selectedRecord, setSelectedRecord] = useState(null);
 
     const URL = 'http://localhost:8080/api/companies';
 
@@ -26,6 +29,19 @@ function CompanyList(){
             <AddCompany
             setUpdateCompanyList = {setUpdateCompanyList}
             />
+            {selectedRecord && 
+                (<>
+                <CompanyDelete
+                    companyId = {selectedRecord.id}
+                    setUpdateCompanyList = {setUpdateCompanyList}
+                    setSelectedRecord = {setSelectedRecord}
+                    />
+                <UpdateCompany
+                    companyId = {selectedRecord.id}
+                    setUpdateCompanyList = {setUpdateCompanyList}
+                    setSelectedRecord = {setSelectedRecord}
+                /></>
+                )}
             <table>
                 <thead>
                     <tr>
@@ -38,7 +54,7 @@ function CompanyList(){
                         <Company
                         companyId = {element.id} 
                         companyName = {element.name}
-                        setUpdateCompanyList = {setUpdateCompanyList}
+                        setSelectedRecord = {setSelectedRecord}
                         />
                     ))}
                 </tbody>

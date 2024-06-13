@@ -1,11 +1,24 @@
-.company{
-    border-width: medium;
-    border-radius: 0ch;
-    border-color: rgb(40, 135, 199);
-    border-style:solid solid none solid;
+.companyListContainer {
+    width: 100%;
+    overflow-x: auto;
 }
 
-.companyListContainer{
-    background-color: white;   
-    padding: 100px;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
 }
+
+  .company:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .company.selected {
+    background-color: #a0a0a0 !important; 
+  }
+  table th{
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }

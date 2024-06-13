@@ -1,7 +1,7 @@
 import { useState } from "react";
 import './CompanyComponentStyle.css';
 
-function UpdateCompany({companyId, setUpdateCompanyList}){
+function UpdateCompany({companyId, setUpdateCompanyList, setSelectedRecord}){
     
     const [companyName, setCompanyName] = useState("company");
     const [newCompanyId, setNewCompanyId] = useState(0);
@@ -20,6 +20,7 @@ function UpdateCompany({companyId, setUpdateCompanyList}){
             .then(response => setUpdateCompanyList(true))
             .then(()=>setCompanyName("company"))
             .then(()=>setNewCompanyId(0))
+            .then(()=>setSelectedRecord(null))
             .catch(error=>console.error());
     }
 
@@ -45,7 +46,10 @@ function UpdateCompany({companyId, setUpdateCompanyList}){
 
     return (
         <> 
+        <td>
             <button className = "greenButton" onClick = {handleClickButton}>UPDATE</button>
+        </td>
+        <td>
             <input 
                 value = {newCompanyId} 
                 onChange = {handleNewCompanyIdChange}
@@ -56,6 +60,7 @@ function UpdateCompany({companyId, setUpdateCompanyList}){
                 onChange = {handleCompanyNameChange}
                 onKeyDown = {handleKeyDown}>
             </input>
+            </td>
         </>
     )
 }

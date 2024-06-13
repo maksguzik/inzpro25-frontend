@@ -1,22 +1,20 @@
 import CompanyDisplay from "./Components/CompanyDisplay";
-import CompanyDelete from "./Components/CompanyDelete";
-import UpdateCompany from "./Components/UpdateCompany";
 import './CompanyStyle.css';
 
-function Company({companyId, companyName, setUpdateCompanyList}){
+function Company({companyId, companyName, setSelectedRecord}){
 
-    return(<tr className = "company">
+    const handleClick = () =>{
+        setSelectedRecord({
+            "id": companyId,
+            "name": companyName
+        });
+    }
+
+    return(<tr className = "company"
+                onClick = {handleClick}>
                 <CompanyDisplay
                     companyId = {companyId}
                     companyName = {companyName}
-                />
-                <CompanyDelete
-                    companyId = {companyId}
-                    setUpdateCompanyList = {setUpdateCompanyList}
-                />
-                <UpdateCompany
-                    companyId = {companyId}
-                    setUpdateCompanyList = {setUpdateCompanyList}
                 />
             </tr>
     );

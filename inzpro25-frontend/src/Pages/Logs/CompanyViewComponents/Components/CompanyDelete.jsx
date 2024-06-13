@@ -1,11 +1,12 @@
 
 
-function CompanyDelete({companyId, setUpdateCompanyList}){
+function CompanyDelete({companyId, setUpdateCompanyList, setSelectedRecord}){
     const URL = 'http://localhost:8080/api/companies/' + companyId;
     
     const deleteCompany = () => {
         fetch(URL, {method:'DELETE'})
             .then(response => setUpdateCompanyList(true))
+            .then(()=>setSelectedRecord(null))
             .catch(error=>console.error());
     }
 
