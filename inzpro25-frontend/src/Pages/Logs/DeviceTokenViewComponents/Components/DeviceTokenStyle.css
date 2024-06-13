@@ -30,7 +30,7 @@ button{
   background-color: rgb(155, 0, 0);
 }
 
-.inputAddToken{
+.inputAddDeviceToken{
   width: 300px;
   padding: 8px;
   border-radius: 4px;
@@ -38,3 +38,12 @@ button{
   outline: none;
 }
 
+
+table th, table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f4f4f4;
+}

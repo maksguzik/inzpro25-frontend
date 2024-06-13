@@ -1,11 +1,14 @@
 import DeviceToken from "./DeviceToken";
 import { useState, useEffect } from "react";
 import AddDeviceToken from "./Components/AddDeviceToken";
-import './DeviceTokenListStyle.css';
+import DeviceTokenDelete from "./Components/DeviceTokenDelete";
+import UpdateDeviceToken from "./Components/UpdateDeviceToken";
+import './DeviceTokenStyle.css';
 
 function DeviceTokenList(){
     const [deviceTokenList, setDeviceTokenList] = useState([]);
     const [updateDeviceTokenList, setUpdateDeviceTokenList] = useState(true);
+    const [selectedRecord, setSelectedRecord] = useState(null);
 
     const URL = 'http://localhost:8080/api/devices-tokens';
 
@@ -27,13 +30,25 @@ function DeviceTokenList(){
             <AddDeviceToken
             setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
             />
+            {selectedRecord &&
+                (<>
+                    <DeviceTokenDelete
+                        tokenId = {selectedRecord.id}
+                        setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+                        setSelectedRecord = {setSelectedRecord}
+                    />
+                    <UpdateDeviceToken
+                        tokenId = {selectedRecord.id}
+                        setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+                        setSelectedRecord = {setSelectedRecord}
+                    />
+                    </>)}
             <table>
                 <thead>
                     <tr>
                         <th>tokenId</th>
                         <th>token</th>
                         <th>deviceTypeName</th>
-                        <th>actionButtons</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +58,7 @@ function DeviceTokenList(){
                         token = {element.token}
                         deviceTypeName = {element.deviceTypeName} 
                         setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+                        setSelectedRecord = {setSelectedRecord}
                         />
                     ))}
                 </tbody>

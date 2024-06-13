@@ -36,8 +36,10 @@ function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
     }
 
     return (
-        <> 
+        <> <td>
             <button className = "greenButton" onClick = {handleClickButton}>UPDATE</button>
+            </td>
+            <td>
             {(clicked)? 
                 <input 
                 value = {deviceTypeName} 
@@ -45,6 +47,7 @@ function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
                 onKeyDown = {handleKeyDown}>
             </input> : <></>
             } 
+            </td>
         </>
     )
 }
