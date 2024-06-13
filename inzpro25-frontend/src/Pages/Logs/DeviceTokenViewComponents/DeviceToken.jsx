@@ -1,24 +1,26 @@
 import DeviceTokenDisplay from "./Components/DeviceTokenDisplay";
-import DeviceTokenDelete from "./Components/DeviceTokenDelete";
-import UpdateDeviceToken from "./Components/UpdateDeviceToken";
+import './DeviceTokenStyle.css';
 
-function DeviceToken({tokenId, token, deviceTypeName, setUpdateDeviceTokenList}){
+function DeviceToken({tokenId, token, deviceTypeName, setSelectedRecord}){
 
-    return(<div>
-            <DeviceTokenDisplay
-                tokenId = {tokenId}
-                token = {token}
-                deviceTypeName = {deviceTypeName}
-            />
-            <DeviceTokenDelete
-                tokenId = {tokenId}
-                setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-            />
-            <UpdateDeviceToken
-                tokenId = {tokenId}
-                setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-            />
-            </div>
+    const handleClick = () =>{
+        setSelectedRecord({
+            "id": tokenId,
+            "token": token,
+            "deviceTypeName": deviceTypeName,
+        });
+    }
+
+    return(<tr className = "deviceToken"
+                onClick = {handleClick}
+            >
+                <DeviceTokenDisplay
+                    tokenId = {tokenId}
+                    token = {token}
+                    deviceTypeName = {deviceTypeName}
+                />
+                
+            </tr>
     );
 }
 

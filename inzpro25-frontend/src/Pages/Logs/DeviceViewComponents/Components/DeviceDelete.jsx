@@ -1,11 +1,11 @@
-import './DeviceTokenStyle.css';
+import './DeviceComponentStyle.css';
 
-function DeviceTokenDelete({tokenId, setUpdateDeviceTokenList, setSelectedRecord}){
-    const URL = 'http://localhost:8080/api/devices-tokens/' + tokenId;
+function DeviceDelete({deviceId, setUpdateDeviceList, setSelectedRecord}){
+    const URL = 'http://localhost:8080/api/devices/' + deviceId;
     
     const deleteDeviceToken = () => {
         fetch(URL, {method:'DELETE'})
-            .then(response => setUpdateDeviceTokenList(true))
+            .then(response => setUpdateDeviceList(true))
             .then(()=>setSelectedRecord(null))
             .catch(error=>console.error());
     }
@@ -17,4 +17,4 @@ function DeviceTokenDelete({tokenId, setUpdateDeviceTokenList, setSelectedRecord
     )
 }
 
-export default DeviceTokenDelete;
+export default DeviceDelete;

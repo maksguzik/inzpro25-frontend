@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './DeviceTokenStyle.css';
 
 function AddDeviceToken({setUpdateDeviceTokenList}){
     
@@ -23,10 +24,18 @@ function AddDeviceToken({setUpdateDeviceTokenList}){
     }
 
     return (
-        <> 
-            <input value = {deviceTypeName} onChange = {handleInputChange}></input>
-            <button onClick = {addDeviceToken}>ADD</button>
-        </>
+        <div className = "addToken"> 
+            <input 
+                className = "inputAddToken" 
+                value = {deviceTypeName} 
+                onChange = {handleInputChange}>
+            </input>
+            <button 
+                className = "greenButton" 
+                onClick = {addDeviceToken}>
+                    ADD
+            </button>
+        </div>
     )
 }
 

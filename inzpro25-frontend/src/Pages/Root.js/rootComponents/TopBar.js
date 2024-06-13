@@ -2,19 +2,15 @@ import "./Topbar.css";
 import { NavLink } from "react-router-dom";
 
 const tabValues = {
-  Home: ['General', 'Pinned'],
-  Alerts: ['All', 'Active', 'Set off', 'History'],
-  Logs: ['DeviceToken', 'DeviceType', 'DeviceLog'],
-  Raports: ['To be named','To be named','To be named'],
-  Settings: ['To be named','To be named','To be named'],
+  Home: ["General", "Pinned"],
+  Alerts: ["All", "Active", "Set off", "History"],
+  Logs: ["DeviceToken", "DeviceType", "Company", "DeviceView"],
+  Raports: ["To be named", "To be named", "To be named"],
+  Settings: ["To be named", "To be named", "To be named"],
 };
 
-
-
-
-function TopBar({activeTab}) {
+function TopBar({ activeTab }) {
   const tabButtons = tabValues[activeTab] || [];
-
 
   return (
     <>
@@ -26,9 +22,17 @@ function TopBar({activeTab}) {
         </div>
       </header>
       <header className="header-tab-bar">
-      <div>
+        <div>
           {tabButtons.map((tabValue, index) => (
-            <NavLink to={`${activeTab}/${tabValue}`} key={index} className="action-button">{tabValue}</NavLink>
+            <NavLink
+              to={`${activeTab}/${tabValue}`}
+              key={index}
+              className={({ isActive }) => {
+                return isActive ? "tab-button active" : "tab-button";
+              }}
+            >
+              {tabValue}
+            </NavLink>
           ))}
         </div>
       </header>
@@ -36,5 +40,4 @@ function TopBar({activeTab}) {
   );
 }
 
-            
 export default TopBar;

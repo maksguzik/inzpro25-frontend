@@ -1,0 +1,24 @@
+.deviceTokenListContainer {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+  .deviceToken:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .deviceToken.selected {
+    background-color: #a0a0a0 !important; 
+  }
+  table th{
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }

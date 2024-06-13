@@ -1,13 +1,22 @@
 
 function DeviceTokenDisplay({tokenId, token, deviceTypeName}){
 
+    // const [hover, setHover] = useState(false);
 
+    // const onHover = () =>{
+    //     setHover(true);
+    // }
 
-    return(<div>
-            <div>{tokenId}</div>
-            <div>{token}</div>
-            <div>{deviceTypeName}</div>
-        </div>
+    // const onLeave = () => {
+    //     setHover(false);
+    //   }
+    return(<>
+            <td>{tokenId}</td>
+            <td>
+                    {token.slice(0,20) + '...'}
+            </td>
+            <td>{deviceTypeName}</td>
+        </>
     )
 }
 
