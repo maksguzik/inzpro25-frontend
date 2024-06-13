@@ -30,6 +30,7 @@ function DeviceType() {
           buttonName="ADD"
           setUpdateDeviceTypeList={setUpdateDeviceTypeList}
         />
+        <div>
         {selectedRecord && (
           <>
             <DeleteDeviceType
@@ -37,12 +38,14 @@ function DeviceType() {
               setUpdateDeviceTypeList={setUpdateDeviceTypeList}
               setSelectedRecord = {setSelectedRecord}
             />
-            <AddDeviceType
+            {/* <AddDeviceType
               buttonName="Update"
               setUpdateDeviceTypeList={setUpdateDeviceTypeList}
-            />
+            /> */}
           </>
         )}
+        </div>
+        
       </div>
 
       <div className="table-container">

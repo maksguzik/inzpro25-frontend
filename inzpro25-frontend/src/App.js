@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import HomePage from "./Pages/Home/Home";
 import AlertsPage from "./Pages/Alerts/Alerts";
@@ -8,9 +8,9 @@ import RootLayout from "./Pages/Root.js/Root";
 import SettingsPage from "./Pages/Settings/Settings";
 import DeviceTokenPage from "./Pages/Logs/Tabs/DeviceTokenPage";
 import DeviceTypePage from "./Pages/Logs/Tabs/DeviceTypePage";
-import CompanyPage from './Pages/Logs/Tabs/CompanyPage';
-import './App.css';
-
+import CompanyPage from "./Pages/Logs/Tabs/CompanyPage";
+import "./App.css";
+import DeviceViewPage from "./Pages/Logs/Tabs/DeviceViewPage";
 
 const router = createBrowserRouter([
   {
@@ -25,8 +25,8 @@ const router = createBrowserRouter([
         children: [
           { path: "DeviceToken", element: <DeviceTokenPage /> },
           { path: "DeviceType", element: <DeviceTypePage /> },
-          { path: "Company", element: <CompanyPage />},
-          { path: "NowaStronka", element: <DeviceTokenPage />},
+          { path: "Company", element: <CompanyPage /> },
+          { path: "DeviceView", element: <DeviceViewPage /> },
         ],
       },
       { path: "Raports", element: <RaportsPage /> },
@@ -44,6 +44,3 @@ function App() {
 }
 
 export default App;
-
-
-
