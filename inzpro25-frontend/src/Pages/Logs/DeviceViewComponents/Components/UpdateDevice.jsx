@@ -1,7 +1,7 @@
 import { useState } from "react";
 import './DeviceComponentStyle.css';
 
-function UpdateDevice({deviceId, setUpdateDeviceList}){
+function UpdateDevice({deviceId, setUpdateDeviceList, setSelectedRecord}){
     
     const [updateRequestBody, setUpdateRequestBody] = useState({
         "id": deviceId,
@@ -27,6 +27,7 @@ function UpdateDevice({deviceId, setUpdateDeviceList}){
                 "deviceType" : "string",
                 "companyName": "string"
               }))
+            .then(()=>setSelectedRecord(null))
             .catch(error=>console.error());
     }
 
@@ -48,9 +49,11 @@ function UpdateDevice({deviceId, setUpdateDeviceList}){
         updateDevice();
     }
 
-    return (
-        <> 
+    return (<>
+        <td> 
             <button className = "greenButton" onClick = {handleClickButton}>UPDATE</button>
+        </td>
+            <td>
             <input 
                 value = {updateRequestBody.serialNumber} 
                 onChange = {(event)=>handleInputChange(event, "serialNumber")}
@@ -71,7 +74,8 @@ function UpdateDevice({deviceId, setUpdateDeviceList}){
                 onChange = {(event)=>handleInputChange(event, "companyName")}
                 onKeyDown = {handleKeyDown}>
             </input>
-        </>
+            </td>
+            </>
     )
 }
 

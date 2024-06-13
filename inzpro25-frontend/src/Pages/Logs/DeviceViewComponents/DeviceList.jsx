@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import Device from "./Device";
 import AddDevice from "./Components/AddDevice";
+import DeviceDelete from "./Components/DeviceDelete";
+import UpdateDevice from "./Components/UpdateDevice";
 import './DeviceStyle.css';
 
 function DeviceList(){
     const [deviceList, setDeviceList] = useState([]);
     const [updateDeviceList, setUpdateDeviceList] = useState(true);
+    const [selectedRecord, setSelectedRecord] = useState(null);
 
     const URL = 'http://localhost:8080/api/devices';
 
@@ -26,6 +29,18 @@ function DeviceList(){
             <AddDevice
             setUpdateDeviceList = {setUpdateDeviceList}
             />
+            {selectedRecord &&
+                (<><DeviceDelete
+                    deviceId = {selectedRecord.id}
+                    setUpdateDeviceList = {setUpdateDeviceList}
+                    setSelectedRecord = {setSelectedRecord}
+                />
+                <UpdateDevice
+                    deviceId = {selectedRecord.id}
+                    setUpdateDeviceList = {setUpdateDeviceList}
+                    setSelectedRecord = {setSelectedRecord}
+                />
+                </>)}
             <table>
                 <thead>
                     <tr>
@@ -34,7 +49,6 @@ function DeviceList(){
                         <th>name</th>
                         <th>deviceType</th>
                         <th>companyName</th>
-                        <th>actionButtons</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +60,7 @@ function DeviceList(){
                         deviceType = {element.deviceType}
                         deviceCompanyName = {element.companyName} 
                         setUpdateDeviceList = {setUpdateDeviceList}
+                        setSelectedRecord = {setSelectedRecord}
                         />
                     ))}
                 </tbody>

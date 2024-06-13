@@ -1,26 +1,26 @@
 import DeviceDisplay from "./Components/DeviceDisplay";
-import DeviceDelete from "./Components/DeviceDelete";
-import UpdateDevice from "./Components/UpdateDevice";
 import './DeviceStyle.css';
 
 
-function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCompanyName, setUpdateDeviceList}){
+function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCompanyName, setSelectedRecord}){
 
-    return(<tr className = "device">
+    const handleClick = () =>{
+        setSelectedRecord({
+            "id": deviceId,
+            "serialNumber": deviceSerialNumber,
+            "name": deviceName,
+            "deviceType" : deviceType,
+            "companyName": deviceCompanyName
+        });
+    }
+    return(<tr className = "device"
+                onClick = {handleClick}>
                 <DeviceDisplay
                     deviceId = {deviceId}
                     deviceSerialNumber = {deviceSerialNumber}
                     deviceName = {deviceName}
                     deviceType = {deviceType}
                     deviceCompanyName = {deviceCompanyName}
-                />
-                <DeviceDelete
-                    deviceId = {deviceId}
-                    setUpdateDeviceList = {setUpdateDeviceList}
-                />
-                <UpdateDevice
-                    deviceId = {deviceId}
-                    setUpdateDeviceList = {setUpdateDeviceList}
                 />
             </tr>
     );
