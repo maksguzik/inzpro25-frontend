@@ -1,4 +1,3 @@
-import './DeviceTypeListRecord.css';
 
 function DeviceTypeListRecord({index, deviceTypeName, idMapping, loggedAtMapping,lastSeenMapping, onClick, isSelected}) {
   return (

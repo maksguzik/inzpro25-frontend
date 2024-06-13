@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function AddDeviceType({ setUpdateDeviceTypeList }) {
+function AddDeviceType({buttonName, setUpdateDeviceTypeList }) {
   const [deviceTypeName, setDeviceTypeName] = useState("example device type");
 
   const URL = "http://localhost:8080/api/device-types";
@@ -26,7 +26,7 @@ function AddDeviceType({ setUpdateDeviceTypeList }) {
   return (
     <>
       <input value={deviceTypeName} onChange={handleInputChange}></input>
-      <button onClick={addDeviceType}>ADD</button>
+      <button onClick={addDeviceType}>{buttonName}</button>
     </>
   );
 }

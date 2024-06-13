@@ -26,12 +26,22 @@ function DeviceType() {
   return (
     <>
       <div>
-        <AddDeviceType setUpdateDeviceTypeList={setUpdateDeviceTypeList} />
+        <AddDeviceType
+          buttonName="ADD"
+          setUpdateDeviceTypeList={setUpdateDeviceTypeList}
+        />
         {selectedRecord && (
-          <DeleteDeviceType
-            name={selectedRecord.deviceTypeName}
-            setUpdateDeviceTypeList={setUpdateDeviceTypeList}
-          />
+          <>
+            <DeleteDeviceType
+              name={selectedRecord.deviceTypeName}
+              setUpdateDeviceTypeList={setUpdateDeviceTypeList}
+              setSelectedRecord = {setSelectedRecord}
+            />
+            <AddDeviceType
+              buttonName="Update"
+              setUpdateDeviceTypeList={setUpdateDeviceTypeList}
+            />
+          </>
         )}
       </div>
 
