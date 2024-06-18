@@ -7,9 +7,15 @@
 table {
     width: 100%;
     border-collapse: collapse;
+    box-shadow: 0 5px 10px gray;
     margin: 20px 0;
     font-size: 16px;
     text-align: left;
+    overflow: hidden;
+}
+
+thead{
+  box-shadow: 0 5px 10px gray;
 }
 
   .deviceLog:nth-child(even) {
@@ -22,4 +28,8 @@ table {
   table th{
     padding: 12px 15px;
     border: 1px solid #ddd;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size:20px;
+    font-weight: 900;
   }

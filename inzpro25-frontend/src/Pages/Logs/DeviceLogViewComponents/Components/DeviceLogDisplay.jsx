@@ -1,14 +1,14 @@
-
+import './DeviceLogComponentStyle.css';
 
 function DeviceLogDisplay({deviceId, deviceLogTime, deviceLastSeenTime, deviceType, deviceSerialNumber, owner}){
 
     return(<>
             <td>{deviceId}</td>
-            <td>{deviceLogTime}</td>
+            <td className = "column-blue">{deviceLogTime}</td>
             <td>{deviceLastSeenTime}</td>
-            <td>{deviceType}</td>
+            <td className = "column-blue">{deviceType}</td>
             <td>{deviceSerialNumber}</td>
-            <td>{owner}</td>
+            <td className = "column-blue">{owner}</td>
         </>
     )
 }
