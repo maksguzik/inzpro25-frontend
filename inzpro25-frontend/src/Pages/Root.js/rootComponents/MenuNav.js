@@ -1,8 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./MenuNav.css";
 
-function MenuNav( {setActiveTab}) {
-
+function MenuNav({ setActiveTab }) {
   return (
     <header className="header-menu">
       <div className="logo">
@@ -18,6 +17,7 @@ function MenuNav( {setActiveTab}) {
                 return isActive ? "active" : undefined;
               }}
             >
+              <i className="material-icons-outlined">home</i>
               Home
             </NavLink>
           </li>
@@ -29,6 +29,7 @@ function MenuNav( {setActiveTab}) {
                 return isActive ? "active" : undefined;
               }}
             >
+              <i className="material-icons-outlined">content_paste_search</i>
               Logs
             </NavLink>
           </li>
@@ -40,6 +41,7 @@ function MenuNav( {setActiveTab}) {
                 return isActive ? "active" : undefined;
               }}
             >
+              <i className="material-icons-outlined">notifications</i>
               Alerts
             </NavLink>
           </li>
@@ -51,6 +53,7 @@ function MenuNav( {setActiveTab}) {
                 return isActive ? "active" : undefined;
               }}
             >
+              <i className="material-icons-outlined">show_chart</i>
               Raports
             </NavLink>
           </li>
@@ -64,6 +67,7 @@ function MenuNav( {setActiveTab}) {
                 return isActive ? "active" : undefined;
               }}
             >
+              <i className="material-icons-outlined">settings</i>
               Settings
             </NavLink>
           </li>
@@ -74,4 +78,3 @@ function MenuNav( {setActiveTab}) {
 }
 
 export default MenuNav;
-
