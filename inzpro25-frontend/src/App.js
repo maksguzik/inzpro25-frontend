@@ -12,6 +12,7 @@ import CompanyPage from "./Pages/Logs/Tabs/CompanyPage";
 import "./App.css";
 import DeviceViewPage from "./Pages/Logs/Tabs/DeviceViewPage";
 import DeviceLogPage from "./Pages/Logs/Tabs/DeviceLogPage";
+import DeviceManagement from "./Pages/DeviceManagement/DeviceManagement";
 
 const router = createBrowserRouter([
   {
@@ -24,15 +25,21 @@ const router = createBrowserRouter([
         path: "Logs",
         element: <LogsPage />,
         children: [
-          { path: "DeviceToken", element: <DeviceTokenPage /> },
-          { path: "DeviceType", element: <DeviceTypePage /> },
-          { path: "Company", element: <CompanyPage /> },
-          { path: "DeviceView", element: <DeviceViewPage /> },
-          { path: "DeviceLog", element: <DeviceLogPage />}
+          { path: "All logs", element: <DeviceLogPage /> },
         ],
       },
       { path: "Raports", element: <RaportsPage /> },
       { path: "Settings", element: <SettingsPage /> },
+      {
+        path: "DeviceManagement",
+        element: <DeviceManagement />,
+        children: [
+          { path: "Token", element: <DeviceTokenPage /> },
+          { path: "Json template", element: <DeviceTypePage /> },
+          { path: "Owner", element: <CompanyPage /> },
+          { path: "Device", element: <DeviceViewPage /> },
+        ],
+      },
     ],
   },
 ]);

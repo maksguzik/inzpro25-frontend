@@ -1,21 +1,28 @@
 import { Outlet } from "react-router-dom";
 import MenuNav from "./rootComponents/MenuNav";
 import TopBar from "./rootComponents/TopBar";
-import './Root.css';
+import "./Root.css";
 import { useState } from "react";
-
+import TabBar from "./rootComponents/TabBar";
 
 function RootLayout() {
-  const [activeTab, setActiveTab] = useState('/');
+  const [activeTab, setActiveTab] = useState("/");
+  const [isMenuMinimized, setIsMenuMinimized] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuMinimized((prevState) => !prevState);
+  };
+
   return (
-    <div className = "container">
-      <div className = "menu">
-        <MenuNav setActiveTab={setActiveTab} />
-      </div>
-      <div className = "content">
-        <div className = "row">
-        <TopBar activeTab={activeTab}/>
-        <Outlet />
+    <div className="root-layout">
+      <TopBar />
+      <div className="container">
+        <div className={`${isMenuMinimized ? 'menu-minimized' : 'menu'}`}>
+          <MenuNav setActiveTab={setActiveTab} toggleMenuRoot={toggleMenu} />
+        </div>
+        <div className="content">
+          <TabBar activeTab={activeTab}/>
+          <Outlet />
         </div>
       </div>
     </div>
@@ -23,4 +30,3 @@ function RootLayout() {
 }
 
 export default RootLayout;
-
