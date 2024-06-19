@@ -4,7 +4,8 @@ import './DeviceTokenStyle.css';
 function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
     
     const [deviceTypeName, setDeviceTypeName] = useState("");
-    const [clicked, setClicked] = useState(false);
+    // const [clicked, setClicked] = useState(false);
+    const [popup, setPopup] = useState(false);
 
     const URL = 'http://localhost:8080/api/devices-tokens/' + tokenId;
     
@@ -16,7 +17,7 @@ function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
                     })
             .then(response => setUpdateDeviceTokenList(true))
             .then(()=>setDeviceTypeName(""))
-            .then(()=>setClicked(false))
+            .then(()=>setPopup(false))
             .catch(error=>console.error());
     }
 
@@ -31,23 +32,35 @@ function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
         }
     }
 
-    const handleClickButton = () =>{
-        setClicked(true);
+    // const handleClickButton = () =>{
+    //     setClicked(true);
+    // }
+
+    const togglePopup = () =>{
+        setPopup(!popup);
     }
 
     return (
-        <> <td>
-            <button className = "greenButton" onClick = {handleClickButton}>UPDATE</button>
-            </td>
-            <td>
-            {(clicked)? 
-                <input 
-                value = {deviceTypeName} 
-                onChange = {handleInputChange}
-                onKeyDown = {handleKeyDown}>
-            </input> : <></>
-            } 
-            </td>
+        <> 
+            <button className = "greenButton" onClick = {togglePopup}>UPDATE</button>
+            {popup && (
+                <div className="popup">
+                <div className="overlay"
+                    onClick = {togglePopup}></div>
+                <div className="popup-content">
+                    <>bigos</>
+                    <input 
+                        value = {deviceTypeName} 
+                        onChange = {handleInputChange}
+                        onKeyDown = {handleKeyDown}>
+                    </input>
+                    <button className = "greenButton"
+                    onClick = {updateDeviceToken}>SAVE</button>
+                </div>
+            </div>
+            )}
+            
+            
         </>
     )
 }

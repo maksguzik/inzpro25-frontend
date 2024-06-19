@@ -11,6 +11,7 @@ function DeviceTokenDisplay({tokenId, token, deviceTypeName}){
     //     setHover(false);
     //   }
     return(<>
+    <td></td>
             <td>{tokenId}</td>
             <td>
                     {token.slice(0,20) + '...'}
