@@ -1,39 +1,17 @@
 import "./Topbar.css";
-import { NavLink } from "react-router-dom";
 
-const tabValues = {
-  Home: ["General", "Pinned"],
-  Alerts: ["All", "Active", "Set off", "History"],
-  Logs: ["DeviceToken", "DeviceType", "Company", "DeviceView", "DeviceLog"],
-  Raports: ["To be named", "To be named", "To be named"],
-  Settings: ["To be named", "To be named", "To be named"],
-};
-
-function TopBar({ activeTab }) {
-  const tabButtons = tabValues[activeTab] || [];
+function TopBar() {
 
   return (
     <>
       <header className="header-top-bar">
-        <div>
+        <div className="left-section">
+          <div>Logo i nazwa</div>
+        </div>
+        <div className="right-section">
           <button className="action-button">Notifications</button>
           <button className="action-button">Triggered alarms</button>
           <button className="action-button">Account Settings</button>
-        </div>
-      </header>
-      <header className="header-tab-bar">
-        <div>
-          {tabButtons.map((tabValue, index) => (
-            <NavLink
-              to={`${activeTab}/${tabValue}`}
-              key={index}
-              className={({ isActive }) => {
-                return isActive ? "tab-button active" : "tab-button";
-              }}
-            >
-              {tabValue}
-            </NavLink>
-          ))}
         </div>
       </header>
     </>
