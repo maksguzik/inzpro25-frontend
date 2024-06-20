@@ -36,7 +36,8 @@ function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
     //     setClicked(true);
     // }
 
-    const togglePopup = () =>{
+    const togglePopup = (event) =>{
+        event.stopPropagation(); 
         setPopup(!popup);
     }
 
@@ -47,7 +48,7 @@ function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
                 <div className="popup">
                 <div className="overlay"
                     onClick = {togglePopup}></div>
-                <div className="popup-content">
+                <div className="popup-content"  onClick={(event) => event.stopPropagation()}>
                     <>bigos</>
                     <input 
                         value = {deviceTypeName} 

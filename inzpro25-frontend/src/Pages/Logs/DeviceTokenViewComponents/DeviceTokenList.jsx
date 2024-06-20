@@ -62,8 +62,10 @@ function DeviceTokenList(){
                     </tr>
                 </thead>
                 <tbody>
-                    {deviceTokenList.map((element) => (
+                    {deviceTokenList.map((element, index) => (
                         <DeviceToken
+                        key = {element.id}
+                        index = {index}
                         tokenId = {element.id} 
                         token = {element.token}
                         deviceTypeName = {element.deviceTypeName} 
