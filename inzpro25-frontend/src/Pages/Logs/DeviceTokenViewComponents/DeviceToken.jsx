@@ -52,7 +52,7 @@ function DeviceToken({index, tokenId, token, deviceTypeName, setUpdateDeviceToke
                 onClick = { () => {handleClick();}}
                 ref = {rowRef}
             >   
-            <td>{index}</td> {/* TYLKO DO DEBUGU*/}
+            { /*<td>{index}</td>  TYLKO DO DEBUGU*/}
                 <DeviceTokenDisplay
                     tokenId = {tokenId}
                     token = {token}
