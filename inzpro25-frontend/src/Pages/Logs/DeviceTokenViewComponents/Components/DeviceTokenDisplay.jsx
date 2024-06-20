@@ -48,7 +48,9 @@ function DeviceTokenDisplay({ tokenId, token, deviceTypeName }) {
         ) : (
           <div
             className="icon-only-button"
-            />
+            >
+            <i className="material-icons-outlined">none</i>
+            </div>
         )}
       </td>
       <td>{deviceTypeName}</td>
