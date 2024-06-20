@@ -15,7 +15,7 @@ function DeviceTokenDeleteAll({tokenIdDeleteList, setUpdateDeviceTokenList, setS
     return (
         <> 
         <div className="deleteToken">
-            <button className = "redButton" onClick={deleteDeviceToken}>DELETE</button>
+            <button className = "crudButton redButton" onClick={deleteDeviceToken}>DELETE</button>
         </div>
         </>
     )

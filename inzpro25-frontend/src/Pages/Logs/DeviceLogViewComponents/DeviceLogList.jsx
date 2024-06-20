@@ -11,7 +11,7 @@ function DeviceLogList(){
     const getDeviceLogList = () =>{
         fetch(URL)
         .then(response => response.json())
-        .then(json => setDeviceLogList(json))
+        .then(json => setDeviceLogList(json.reverse()))
         .catch(error => console.error(error));
     }
 

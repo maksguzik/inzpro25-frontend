@@ -1,34 +1,3 @@
-.truncatedText{ 
-    width: 50px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-button{
-  color: white;
-  padding: 8px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: #ccc;
-}
-
-.greenButton{
-  background-color:rgb(0, 155, 0);
-}
-
-.greenButton:hover{
-  background-color: rgb(0, 105, 0);
-}
-
-.redButton{
-  background-color: red;
-}
-
-.redButton:hover{
-  background-color: rgb(155, 0, 0);
-}
 
 .inputAddDevice{
   width: 300px;
@@ -39,11 +8,35 @@ button{
 }
 
 
+.truncatedText{ 
+  width: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inputAddDeviceToken{
+width: 300px;
+padding: 8px;
+border-radius: 4px;
+border: 1px solid #ccc;
+outline: none;
+}
+
+
 table th, table td {
-  padding: 12px 15px;
-  border: 1px solid #ddd;
+padding: 12px 15px;
+border: 1px solid #ddd;
 }
 
 table th {
-  background-color: #f4f4f4;
+background-color: #f4f4f4;
+}
+
+.popup-content.deviceAdd{
+  min-height: 800px;
+}
+
+.popup-content.deviceUpdate{
+  min-height: 650px;
 }

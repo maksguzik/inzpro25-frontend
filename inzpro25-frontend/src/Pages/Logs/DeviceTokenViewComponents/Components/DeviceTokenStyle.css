@@ -5,31 +5,6 @@
     text-overflow: ellipsis;
 }
 
-button{
-  color: white;
-  padding: 8px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: #ccc;
-}
-
-.greenButton{
-  background-color:rgb(0, 155, 0);
-}
-
-.greenButton:hover{
-  background-color: rgb(0, 105, 0);
-}
-
-.redButton{
-  background-color: red;
-}
-
-.redButton:hover{
-  background-color: rgb(155, 0, 0);
-}
-
 .inputAddDeviceToken{
   width: 300px;
   padding: 8px;
@@ -72,6 +47,7 @@ table th {
   border-radius: 3px;
   max-width: 600px;
   min-width: 300px;
+  min-height: 200px;
 }
 .addToken{
   padding: 20px 20px 0px 20px;
@@ -80,13 +56,59 @@ table th {
   align-items: center;
 }
 
-.addButton{
-  background-color:rgb(0, 153, 46);
-}
 
 .deleteToken{
   padding: 20px 20px 0px 20px;
   display: flex;
   justify-content: right;
   align-items: center;
+}
+
+.crudButton.saveButton{
+  width: 80px;
+  height: 40px;
+  position: absolute;
+  right: 40%;
+  left: 40%;
+  bottom: 0;
+  margin-bottom:10px;
+}
+.crudButton.closeButton{
+  width: 50px;
+  height: 25px;
+  font-size: 8px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 5px;
+  margin-right: 5px;
+  color: grey;
+  box-shadow: none;
+}
+
+.popup-label{
+  position: absolute;
+  left: 12%;
+  padding: 5px;
+  margin-top: 65px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color:rgb(0, 100, 200);
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
+.inputDeviceToken{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25%;
+    width: fit-content;
+    width: 300px;
+    height: 50px;
+    font-size: 30px;
+    line-height: 30px;
+    border-radius: 10px;
+    border: solid rgb(0, 100, 200);
+    background-color: transparent;
 }

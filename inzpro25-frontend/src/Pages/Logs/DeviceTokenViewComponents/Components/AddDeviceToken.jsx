@@ -29,26 +29,35 @@ function AddDeviceToken({setUpdateDeviceTokenList}){
         setPopup(!popup);
     }
 
+    const handleKeyDown = (event) =>{
+        if(event.key === 'Enter'){
+            addDeviceToken();
+        }
+    }
+
     return (<>
             {popup && (
                 <div className="popup">
                 <div className="overlay"
                     onClick = {togglePopup}></div>
                 <div className="popup-content">
-                    <>bigos</>
+                    <div className="popup-label">New Device Type</div>
                     <input 
-                        className = "inputAddToken" 
+                        className = "inputDeviceToken" 
                         value = {deviceTypeName} 
-                        onChange = {handleInputChange}>
+                        onChange = {handleInputChange}
+                        onKeyDown = {handleKeyDown}>
                      </input>
-                    <button className = "greenButton"
+                     <button className = "crudButton blueButton saveButton"
                     onClick = {addDeviceToken}>SAVE</button>
+                    <button className = "closeButton crudButton"
+                    onClick = {togglePopup}>Close</button>
                 </div>
             </div>
             )}
             <div className = "addToken">
                 <button 
-                    className = "addButton" 
+                    className = "crudButton greenButton" 
                     onClick = {togglePopup}>
                         ADD
                 </button>
