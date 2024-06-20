@@ -44,13 +44,13 @@ nav {
 }
 
 .menu-top li a:hover {
-  background-color: lightblue;
+  background-color: rgb(131, 131, 131);
   color: black;
 }
 
 .menu-top li a.active {
-  background-color: rgb(5, 149, 197);
-  color: black;
+  background-color: rgb(48, 48, 48);
+  color: white;
   font-weight: bold;
   border-radius: 5px;
 }
@@ -83,13 +83,13 @@ nav {
 }
 
 .menu-top-shrinked li a:hover{
-  background-color: lightblue;
+  background-color: rgb(131, 131, 131);
   color: black;
 }
 
 .menu-top-shrinked li a.active {
-  background-color: rgb(5, 149, 197);
-  color: black;
+  background-color: rgb(48, 48, 48);
+  color: white;
   font-weight: bold;
   border-radius: 5px;
 }
@@ -123,8 +123,8 @@ nav {
 }
 
 .icon-only-button:hover {
-  background-color: lightblue;
-  color: black;
+  background-color: rgb(48, 48, 48);
+  color: white;
 }
 .icon-only-button .material-icons-outlined {
   margin-right: 0px;
