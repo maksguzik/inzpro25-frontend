@@ -1,7 +1,7 @@
 import DeviceToken from "./DeviceToken";
 import { useState, useEffect } from "react";
 import AddDeviceToken from "./Components/AddDeviceToken";
-import DeviceTokenDelete from "./Components/DeviceTokenDelete";
+import DeviceTokenDeleteAll from "./Components/DeviceTokenDeleteAll";
 import './DeviceTokenStyle.css';
 
 function DeviceTokenList(){
@@ -28,9 +28,16 @@ function DeviceTokenList(){
 
     return(
         <div  className = "deviceTokenListContainer">
-            <AddDeviceToken
-            setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-            />
+            
+            <div className = "deleteAddContainer">
+                <AddDeviceToken
+                setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+                />
+                <DeviceTokenDeleteAll
+                            tokenIdDeleteList = {tokenIdDeleteList}
+                            setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+                />
+            </div>
             {/* {selectedRecord &&
                 (<>
                     <DeviceTokenDelete
@@ -48,9 +55,9 @@ function DeviceTokenList(){
                 <thead>
                     <tr>
                     <th></th>
-                        <th>tokenId</th>
+                        <th>token Id</th>
                         <th>token</th>
-                        <th>deviceTypeName</th>
+                        <th>device Type</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -66,12 +73,6 @@ function DeviceTokenList(){
                     ))}
                 </tbody>
             </table>
-            <div className = "deleteButtonContainer">
-            <DeviceTokenDelete
-                        tokenIdDeleteList = {tokenIdDeleteList}
-                        setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-            />
-            </div>
         </div>
     );
 }

@@ -48,7 +48,7 @@ function AddDeviceToken({setUpdateDeviceTokenList}){
             )}
             <div className = "addToken">
                 <button 
-                    className = "greenButton" 
+                    className = "addButton" 
                     onClick = {togglePopup}>
                         ADD
                 </button>
