@@ -1,0 +1,64 @@
+.crudButton{
+    height: 50px;
+    width: 100px;
+    font-weight: 900;
+    color: white;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ccc;
+    text-decoration: none;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px grey;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: box-shadow, transform;
+    transition-property: box-shadow, transform;
+  }
+  
+  .crudButton:hover, .crudButton:active{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    overflow: hidden;
+  }
+  
+  /* button:focus{
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+    outline: none;
+    box-shadow: none;
+  } */
+  
+  .crudButton:active {
+    box-shadow: 0 0 10px grey;
+    transform: scale(1.0);
+    overflow: hidden;
+  }
+  
+  .blueButton{
+    background-color:rgb(0, 100, 200);
+  }
+  
+  .blueButton:hover{
+    background-color: rgb(0, 100, 200);
+  }
+  
+  .redButton{
+    background-color: red;
+  }
+  
+  .redButton:hover{
+    /* background-color: rgb(155, 0, 0); */
+    background-color: red;
+  }
+
+  .greenButton{
+    background-color: rgb(4, 131, 0);
+  }
+  
+  .greenButton:hover{
+    /* background-color: rgb(155, 0, 0); */
+    background-color: rgb(4, 131, 0);
+  }

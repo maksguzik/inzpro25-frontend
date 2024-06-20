@@ -5,12 +5,12 @@ function AddDevice({setUpdateDeviceList}){
     
     const [updateRequestBody, setUpdateRequestBody] = useState({
         "id": 0,
-        "serialNumber": "string",
-        "name": "string",
-        "deviceType" : "string",
-        "companyName": "string"
-      });
-
+        "serialNumber": "",
+        "name": "",
+        "deviceType" : "",
+        "companyName": ""
+    });
+    const [popup, setPopup] = useState(false);
     const URL = 'http://localhost:8080/api/devices';
     
     const addDevice = () => {
@@ -26,90 +26,84 @@ function AddDevice({setUpdateDeviceList}){
                     })    
                     })
             .then(response => setUpdateDeviceList(true))
+            .then(()=>setPopup(false))
             .then(()=>setUpdateRequestBody({
                 "id": 0,
-                "serialNumber": "string",
-                "name": "string",
-                "deviceType" : "string",
-                "companyName": "string"
+                "serialNumber": "",
+                "name": "",
+                "deviceType" : "",
+                "companyName": ""
               }))
             .catch(error=>console.error());
     }
 
-    const handleIdChange = (event) =>{
-        event.preventDefault();
+    const handleInputChange = (event, key) =>{
         setUpdateRequestBody({
             ...updateRequestBody,
-            "id" : event.target.value            
+            [key]: event.target.value
         });
     }
+    
 
-    const handleSerialNumberChange = (event) =>{
-        event.preventDefault();
-        setUpdateRequestBody({
-            ...updateRequestBody,
-            "serialNumber" : event.target.value            
-        });
+    const handleKeyDown = (event) =>{
+        if(event.key === 'Enter'){
+            addDevice();
+        }
     }
 
-    const handleNameChange = (event) =>{
-        event.preventDefault();
-        setUpdateRequestBody({
-            ...updateRequestBody,
-            "name" : event.target.value            
-        });
-    }
-
-    const handleDeviceTypeChange = (event) =>{
-        event.preventDefault();
-        setUpdateRequestBody({
-            ...updateRequestBody,
-            "deviceType" : event.target.value            
-        });
-    }
-
-    const handleCompanyNameChange = (event) =>{
-        event.preventDefault();
-        setUpdateRequestBody({
-            ...updateRequestBody,
-            "companyName" : event.target.value            
-        });
+    const togglePopup = (event) =>{
+        event.stopPropagation(); 
+        setPopup(!popup);
     }
 
 
     return (
-        <div className = "addDevice"> 
-            <input 
-                className = "inputAddDevice" 
-                value = {updateRequestBody.id} 
-                onChange = {handleIdChange}>
-            </input>
-            <input 
-                className = "inputAddDevice" 
-                value = {updateRequestBody.serialNumber} 
-                onChange = {handleSerialNumberChange}>
-            </input>
-            <input 
-                className = "inputAddDevice" 
-                value = {updateRequestBody.name} 
-                onChange = {handleNameChange}>
-            </input>
-            <input 
-                className = "inputAddDevice" 
-                value = {updateRequestBody.deviceType} 
-                onChange = {handleDeviceTypeChange}>
-            </input>
-            <input 
-                className = "inputAddDevice" 
-                value = {updateRequestBody.companyName} 
-                onChange = {handleCompanyNameChange}>
-            </input>
-            <button 
-                className = "greenButton" 
-                onClick = {addDevice}>
-                    ADD
-            </button>
-        </div>
+        <> 
+                <div className="addToken">
+                <button className = "crudButton greenButton" onClick = {togglePopup}>ADD</button>
+                </div>
+                
+                {popup && (
+                    <div className="popup">
+                    <div className="overlay"
+                        onClick = {togglePopup}></div>
+                    <div className="popup-content deviceUpdate"  onClick={(event) => event.stopPropagation()}>
+                        <div className="popup-label">New Serial Number</div>
+                        <input
+                            className = "inputDeviceToken"  
+                            value = {updateRequestBody.serialNumber} 
+                            onChange = {(event)=>handleInputChange(event, "serialNumber")}
+                            onKeyDown = {handleKeyDown}>
+                        </input>
+                        <div className="popup-label">New Name</div>
+                        <input
+                            className = "inputDeviceToken"  
+                            value = {updateRequestBody.name} 
+                            onChange = {(event)=>handleInputChange(event, "name")}
+                            onKeyDown = {handleKeyDown}>
+                        </input>
+                        <div className="popup-label">New Device Type</div>
+                        <input
+                            className = "inputDeviceToken"  
+                            value = {updateRequestBody.deviceType} 
+                            onChange = {(event)=>handleInputChange(event, "deviceType")}
+                            onKeyDown = {handleKeyDown}>
+                        </input>
+                        <div className="popup-label">New Company Name</div>
+                        <input
+                            className = "inputDeviceToken"  
+                            value = {updateRequestBody.companyName} 
+                            onChange = {(event)=>handleInputChange(event, "companyName")}
+                            onKeyDown = {handleKeyDown}>
+                        </input>
+                        <button className = "crudButton blueButton saveButton"
+                        onClick = {addDevice}>SAVE</button>
+                        <button className = "closeButton crudButton"
+                        onClick = {togglePopup}>Close</button>
+                    </div>
+                </div>
+                )}
+            </>
     )
 }
 

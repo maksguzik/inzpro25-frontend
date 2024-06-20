@@ -1,18 +1,17 @@
 import './DeviceComponentStyle.css';
 
-function DeviceDelete({deviceId, setUpdateDeviceList, setSelectedRecord}){
+function DeviceDelete({deviceId, setUpdateDeviceList}){
     const URL = 'http://localhost:8080/api/devices/' + deviceId;
     
-    const deleteDeviceToken = () => {
+    const deleteDevice = () => {
         fetch(URL, {method:'DELETE'})
             .then(response => setUpdateDeviceList(true))
-            .then(()=>setSelectedRecord(null))
             .catch(error=>console.error());
     }
 
     return (
         <> 
-            <button className = "redButton" onClick={deleteDeviceToken}>DELETE</button>
+            <button className = "crudButton redButton" onClick={deleteDevice}>DELETE</button>
         </>
     )
 }

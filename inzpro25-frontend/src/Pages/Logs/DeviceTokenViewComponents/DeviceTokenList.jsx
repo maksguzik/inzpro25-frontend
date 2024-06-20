@@ -3,12 +3,13 @@ import { useState, useEffect } from "react";
 import AddDeviceToken from "./Components/AddDeviceToken";
 import DeviceTokenDeleteAll from "./Components/DeviceTokenDeleteAll";
 import './DeviceTokenStyle.css';
+import '../LogUniversalViewStyle.css';
 
 function DeviceTokenList(){
     const [deviceTokenList, setDeviceTokenList] = useState([]);
     const [updateDeviceTokenList, setUpdateDeviceTokenList] = useState(true);
     // const [selectedRecord, setSelectedRecord] = useState(null);
-    const [tokenIdDeleteList, setTokenIdDeleteList] = useState([1,2,3]);
+    const [tokenIdDeleteList, setTokenIdDeleteList] = useState([]);
 
 
     const URL = 'http://localhost:8080/api/devices-tokens';
@@ -22,7 +23,6 @@ function DeviceTokenList(){
     }
 
     useEffect(() => {
-        // (updateDeviceTokenList)? getDeviceTokenList() : null
         if (updateDeviceTokenList) getDeviceTokenList();
     });
 
@@ -38,19 +38,6 @@ function DeviceTokenList(){
                             setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                 />
             </div>
-            {/* {selectedRecord &&
-                (<>
-                    <DeviceTokenDelete
-                        tokenId = {selectedRecord.id}
-                        setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-                        setSelectedRecord = {setSelectedRecord}
-                    />
-                    <UpdateDeviceToken
-                        tokenId = {selectedRecord.id}
-                        setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-                        setSelectedRecord = {setSelectedRecord}
-                    />
-                    </>)} */}
             <table>
                 <thead>
                     <tr>

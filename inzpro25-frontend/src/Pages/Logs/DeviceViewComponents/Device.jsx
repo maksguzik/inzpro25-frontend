@@ -1,20 +1,53 @@
 import DeviceDisplay from "./Components/DeviceDisplay";
 import './DeviceStyle.css';
+import UpdateDevice from "./Components/UpdateDevice";
+import DeviceDelete from "./Components/DeviceDelete";
+import { useEffect, useRef, useState } from "react";
 
+function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCompanyName, setUpdateDeviceList, setDeviceIdDeleteList}){
 
-function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCompanyName, setSelectedRecord}){
+    const [selected, setSelected] = useState(false);
+    const [hover, setHover] = useState(false);
+    const rowRef = useRef(null);
 
     const handleClick = () =>{
-        setSelectedRecord({
-            "id": deviceId,
-            "serialNumber": deviceSerialNumber,
-            "name": deviceName,
-            "deviceType" : deviceType,
-            "companyName": deviceCompanyName
+        setSelected((prevSelected) => {
+            const newSelected = !prevSelected;
+    
+            if (newSelected) {
+                setDeviceIdDeleteList((prevList) => [...prevList, deviceId]);
+            } else {
+                setDeviceIdDeleteList((prevList) =>
+                    prevList.filter((element) => element !== deviceId)
+                );
+            }
+    
+            return newSelected;
         });
     }
-    return(<tr className = "device"
-                onClick = {handleClick}>
+
+    const handleMouseEnter = () => setHover(true);
+    const handleMouseLeave = () => setHover(false);
+
+    useEffect(() => {
+        const row = rowRef.current;
+        if (row) {
+            row.addEventListener('mouseenter', handleMouseEnter);
+            row.addEventListener('mouseleave', handleMouseLeave);
+        }
+        return () => {
+            if (row) {
+                row.removeEventListener('mouseenter', handleMouseEnter);
+                row.removeEventListener('mouseleave', handleMouseLeave);
+            }
+        };
+    }, [rowRef]);
+
+    return(<tr className = {(selected)? "deviceToken selected":"deviceToken"}
+                onClick = { () => {handleClick();}}
+                ref = {rowRef}
+            >   
+            { /*<td>{index}</td>  TYLKO DO DEBUGU*/}
                 <DeviceDisplay
                     deviceId = {deviceId}
                     deviceSerialNumber = {deviceSerialNumber}
@@ -22,6 +55,23 @@ function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCom
                     deviceType = {deviceType}
                     deviceCompanyName = {deviceCompanyName}
                 />
+                {(hover)?(
+                    <td>
+                    <DeviceDelete
+                        deviceId = {deviceId}
+                        setUpdateDeviceList = {setUpdateDeviceList}
+                    />
+                    <UpdateDevice
+                        deviceId = {deviceId}
+                        deviceSerialNumber = {deviceSerialNumber}
+                        deviceName = {deviceName}
+                        deviceType = {deviceType}
+                        deviceCompanyName = {deviceCompanyName}
+                        setUpdateDeviceList = {setUpdateDeviceList}
+                        // setSelectedRecord = {setSelectedRecord}
+                    />
+                    </td>
+                ):<div className = "noHoverDeleteToken"></div>}
             </tr>
     );
 }

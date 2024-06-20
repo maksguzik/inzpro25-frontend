@@ -1,15 +1,16 @@
 import { useState } from "react";
 import './DeviceComponentStyle.css';
 
-function UpdateDevice({deviceId, setUpdateDeviceList, setSelectedRecord}){
+function UpdateDevice({deviceId, setUpdateDeviceList}){
     
     const [updateRequestBody, setUpdateRequestBody] = useState({
         "id": deviceId,
-        "serialNumber": "string",
-        "name": "string",
-        "deviceType" : "string",
-        "companyName": "string"
-      });
+        "serialNumber": "",
+        "name": "",
+        "deviceType" : "",
+        "companyName": ""
+    });
+    const [popup, setPopup] = useState(false);
 
     const URL = 'http://localhost:8080/api/devices';
     
@@ -22,12 +23,12 @@ function UpdateDevice({deviceId, setUpdateDeviceList, setSelectedRecord}){
             .then(response => setUpdateDeviceList(true))
             .then(()=>setUpdateRequestBody({
                 "id": deviceId,
-                "serialNumber": "string",
-                "name": "string",
-                "deviceType" : "string",
-                "companyName": "string"
+                "serialNumber": "",
+                "name": "",
+                "deviceType" : "",
+                "companyName": ""
               }))
-            .then(()=>setSelectedRecord(null))
+            .then(()=>setPopup(false))
             .catch(error=>console.error());
     }
 
@@ -45,36 +46,53 @@ function UpdateDevice({deviceId, setUpdateDeviceList, setSelectedRecord}){
         }
     }
 
-    const handleClickButton = () =>{
-        updateDevice();
+    const togglePopup = (event) =>{
+        event.stopPropagation(); 
+        setPopup(!popup);
     }
 
-    return (<>
-        <td> 
-            <button className = "greenButton" onClick = {handleClickButton}>UPDATE</button>
-        </td>
-            <td>
-            <input 
-                value = {updateRequestBody.serialNumber} 
-                onChange = {(event)=>handleInputChange(event, "serialNumber")}
-                onKeyDown = {handleKeyDown}>
-            </input>
-            <input 
-                value = {updateRequestBody.name} 
-                onChange = {(event)=>handleInputChange(event, "name")}
-                onKeyDown = {handleKeyDown}>
-            </input>
-            <input 
-                value = {updateRequestBody.deviceType} 
-                onChange = {(event)=>handleInputChange(event, "deviceType")}
-                onKeyDown = {handleKeyDown}>
-            </input>
-            <input 
-                value = {updateRequestBody.companyName} 
-                onChange = {(event)=>handleInputChange(event, "companyName")}
-                onKeyDown = {handleKeyDown}>
-            </input>
-            </td>
+    return (<> 
+                <button className = "crudButton blueButton" onClick = {togglePopup}>Edit</button>
+                {popup && (
+                    <div className="popup">
+                    <div className="overlay"
+                        onClick = {togglePopup}></div>
+                    <div className="popup-content deviceUpdate"  onClick={(event) => event.stopPropagation()}>
+                        <div className="popup-label">New Serial Number</div>
+                        <input
+                            className = "inputDeviceToken"  
+                            value = {updateRequestBody.serialNumber} 
+                            onChange = {(event)=>handleInputChange(event, "serialNumber")}
+                            onKeyDown = {handleKeyDown}>
+                        </input>
+                        <div className="popup-label">New Name</div>
+                        <input
+                            className = "inputDeviceToken"  
+                            value = {updateRequestBody.name} 
+                            onChange = {(event)=>handleInputChange(event, "name")}
+                            onKeyDown = {handleKeyDown}>
+                        </input>
+                        <div className="popup-label">New Device Type</div>
+                        <input
+                            className = "inputDeviceToken"  
+                            value = {updateRequestBody.deviceType} 
+                            onChange = {(event)=>handleInputChange(event, "deviceType")}
+                            onKeyDown = {handleKeyDown}>
+                        </input>
+                        <div className="popup-label">New Company Name</div>
+                        <input
+                            className = "inputDeviceToken"  
+                            value = {updateRequestBody.companyName} 
+                            onChange = {(event)=>handleInputChange(event, "companyName")}
+                            onKeyDown = {handleKeyDown}>
+                        </input>
+                        <button className = "crudButton blueButton saveButton"
+                        onClick = {updateDevice}>UPDATE</button>
+                        <button className = "closeButton crudButton"
+                        onClick = {togglePopup}>Close</button>
+                    </div>
+                </div>
+                )}
             </>
     )
 }
