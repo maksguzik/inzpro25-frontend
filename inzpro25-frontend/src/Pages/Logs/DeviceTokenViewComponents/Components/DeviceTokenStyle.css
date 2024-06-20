@@ -112,3 +112,7 @@ table th {
     border: solid rgb(0, 100, 200);
     background-color: transparent;
 }
+
+.margin{
+  margin-right: 10px;
+}

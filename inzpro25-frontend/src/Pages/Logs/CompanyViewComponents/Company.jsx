@@ -54,13 +54,13 @@ function Company({companyId, companyName, setUpdateCompanyList, setCompanyIdDele
                 />
                 {(hover)?(
                     <td>
-                    <CompanyDelete
-                        companyId = {companyId}
-                        setUpdateCompanyList = {setUpdateCompanyList}
-                    />
                     <UpdateCompany
                         companyId = {companyId}
                         companyName = {companyName}
+                        setUpdateCompanyList = {setUpdateCompanyList}
+                    />
+                    <CompanyDelete
+                        companyId = {companyId}
                         setUpdateCompanyList = {setUpdateCompanyList}
                     />
                     </td>

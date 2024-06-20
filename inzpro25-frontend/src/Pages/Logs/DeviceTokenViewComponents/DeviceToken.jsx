@@ -73,13 +73,13 @@ function DeviceToken({index, tokenId, token, deviceTypeName, setUpdateDeviceToke
                     </td>
                 )} */}
                 {(hover)?(
-                    <td>
-                    <DeviceTokenDelete
+                    <td className = "editDeleteSpaceBetween">
+                    <UpdateDeviceToken
                         tokenId = {tokenId}
                         setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                         // setSelectedRecord = {setSelectedRecord}
                     />
-                    <UpdateDeviceToken
+                    <DeviceTokenDelete
                         tokenId = {tokenId}
                         setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                         // setSelectedRecord = {setSelectedRecord}

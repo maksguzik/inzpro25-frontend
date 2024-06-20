@@ -57,10 +57,6 @@ function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCom
                 />
                 {(hover)?(
                     <td>
-                    <DeviceDelete
-                        deviceId = {deviceId}
-                        setUpdateDeviceList = {setUpdateDeviceList}
-                    />
                     <UpdateDevice
                         deviceId = {deviceId}
                         deviceSerialNumber = {deviceSerialNumber}
@@ -69,6 +65,10 @@ function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCom
                         deviceCompanyName = {deviceCompanyName}
                         setUpdateDeviceList = {setUpdateDeviceList}
                         // setSelectedRecord = {setSelectedRecord}
+                    />
+                    <DeviceDelete
+                        deviceId = {deviceId}
+                        setUpdateDeviceList = {setUpdateDeviceList}
                     />
                     </td>
                 ):<div className = "noHoverDeleteToken"></div>}
