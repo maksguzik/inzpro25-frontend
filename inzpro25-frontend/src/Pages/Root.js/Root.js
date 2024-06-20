@@ -17,12 +17,14 @@ function RootLayout() {
     <div className="root-layout">
       <TopBar />
       <div className="container">
-        <div className={`${isMenuMinimized ? 'menu-minimized' : 'menu'}`}>
+        <div className={`${isMenuMinimized ? "menu-minimized" : "menu"}`}>
           <MenuNav setActiveTab={setActiveTab} toggleMenuRoot={toggleMenu} />
         </div>
         <div className="content">
-          <TabBar activeTab={activeTab}/>
-          <Outlet />
+          <TabBar activeTab={activeTab} />
+          <div className="outlet-content">
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>
