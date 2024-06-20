@@ -1,14 +1,15 @@
 import DeviceToken from "./DeviceToken";
 import { useState, useEffect } from "react";
 import AddDeviceToken from "./Components/AddDeviceToken";
-import DeviceTokenDelete from "./Components/DeviceTokenDelete";
-import UpdateDeviceToken from "./Components/UpdateDeviceToken";
+import DeviceTokenDeleteAll from "./Components/DeviceTokenDeleteAll";
 import './DeviceTokenStyle.css';
 
 function DeviceTokenList(){
     const [deviceTokenList, setDeviceTokenList] = useState([]);
     const [updateDeviceTokenList, setUpdateDeviceTokenList] = useState(true);
-    const [selectedRecord, setSelectedRecord] = useState(null);
+    // const [selectedRecord, setSelectedRecord] = useState(null);
+    const [tokenIdDeleteList, setTokenIdDeleteList] = useState([1,2,3]);
+
 
     const URL = 'http://localhost:8080/api/devices-tokens';
 
@@ -27,10 +28,17 @@ function DeviceTokenList(){
 
     return(
         <div  className = "deviceTokenListContainer">
-            <AddDeviceToken
-            setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-            />
-            {selectedRecord &&
+            
+            <div className = "deleteAddContainer">
+                <AddDeviceToken
+                setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+                />
+                <DeviceTokenDeleteAll
+                            tokenIdDeleteList = {tokenIdDeleteList}
+                            setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
+                />
+            </div>
+            {/* {selectedRecord &&
                 (<>
                     <DeviceTokenDelete
                         tokenId = {selectedRecord.id}
@@ -42,23 +50,27 @@ function DeviceTokenList(){
                         setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                         setSelectedRecord = {setSelectedRecord}
                     />
-                    </>)}
+                    </>)} */}
             <table>
                 <thead>
                     <tr>
-                        <th>tokenId</th>
+                    <th></th>
+                        <th>token Id</th>
                         <th>token</th>
-                        <th>deviceTypeName</th>
+                        <th>device Type</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {deviceTokenList.map((element) => (
+                    {deviceTokenList.map((element, index) => (
                         <DeviceToken
+                        key = {element.id}
+                        index = {index}
                         tokenId = {element.id} 
                         token = {element.token}
                         deviceTypeName = {element.deviceTypeName} 
                         setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-                        setSelectedRecord = {setSelectedRecord}
+                        setTokenIdDeleteList = {setTokenIdDeleteList}
                         />
                     ))}
                 </tbody>
