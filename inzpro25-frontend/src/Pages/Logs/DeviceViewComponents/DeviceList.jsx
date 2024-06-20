@@ -35,7 +35,7 @@ function DeviceList(){
                             deviceIdDeleteList = {deviceIdDeleteList}
                             setUpdateDeviceList = {setUpdateDeviceList}
                 />
-        </div>
+            </div>
             <table>
                 <thead>
                     <tr>

@@ -1,14 +1,14 @@
 import Company from "./Company";
 import { useState, useEffect } from "react";
 import AddCompany from "./Components/AddCompany";
-import CompanyDelete from "./Components/CompanyDelete";
-import UpdateCompany from "./Components/UpdateCompany";
+import CompanyDeleteAll from "./Components/CompanyDeleteAll";
 import './CompanyStyle.css';
+import '../LogUniversalViewStyle.css';
 
 function CompanyList(){
     const [companyList, setCompanyList] = useState([]);
     const [updateCompanyList, setUpdateCompanyList] = useState(true);
-    const [selectedRecord, setSelectedRecord] = useState(null);
+    const [companyIdDeleteList, setCompanyIdDeleteList] = useState([]);
 
     const URL = 'http://localhost:8080/api/companies';
 
@@ -26,35 +26,33 @@ function CompanyList(){
 
     return(
         <div  className = "companyListContainer">
-            <AddCompany
-            setUpdateCompanyList = {setUpdateCompanyList}
-            />
-            {selectedRecord && 
-                (<>
-                <CompanyDelete
-                    companyId = {selectedRecord.id}
-                    setUpdateCompanyList = {setUpdateCompanyList}
-                    setSelectedRecord = {setSelectedRecord}
-                    />
-                <UpdateCompany
-                    companyId = {selectedRecord.id}
-                    setUpdateCompanyList = {setUpdateCompanyList}
-                    setSelectedRecord = {setSelectedRecord}
-                /></>
-                )}
+            <div className = "deleteAddContainer">
+                <AddCompany
+                setUpdateCompanyList = {setUpdateCompanyList}
+                />
+                <CompanyDeleteAll
+                            companyIdDeleteList = {companyIdDeleteList}
+                            setUpdateCompanyList = {setUpdateCompanyList}
+                />
+            </div>
             <table>
                 <thead>
                     <tr>
+                        <th></th>
                         <th>CompanyId</th>
                         <th>name</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {companyList.map((element) => (
+                    {companyList.map((element, index) => (
                         <Company
+                        key = {element.id}
+                        index = {index}
                         companyId = {element.id} 
                         companyName = {element.name}
-                        setSelectedRecord = {setSelectedRecord}
+                        setUpdateCompanyList = {setUpdateCompanyList}
+                        setCompanyIdDeleteList = {setCompanyIdDeleteList}
                         />
                     ))}
                 </tbody>
