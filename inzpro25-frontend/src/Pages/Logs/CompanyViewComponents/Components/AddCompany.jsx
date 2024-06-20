@@ -1,11 +1,11 @@
 import { useState } from "react";
 import './CompanyComponentStyle.css';
 
-function AddCompany({setUpdateCompanyList}){
+function AddCompany({companyId, setUpdateCompanyList}){
     
-    const [companyName, setCompanyName] = useState("company");
-    const [companyId, setCompanyId] = useState(0);
- 
+    const [companyName, setCompanyName] = useState("");
+    // const [companyId, setCompanyId] = useState(0);
+    const [popup, setPopup] = useState(false);
     const URL = 'http://localhost:8080/api/companies';
     
     const addCompany = () => {
@@ -18,14 +18,9 @@ function AddCompany({setUpdateCompanyList}){
                     })    
                     })
             .then(response => setUpdateCompanyList(true))
-            .then(()=>setCompanyName("company"))
-            .then(()=>setCompanyId(0))
+            .then(()=>setPopup(false))
+            .then(()=>setCompanyName(""))
             .catch(error=>console.error());
-    }
-
-    const handleCompanyIdChange = (event) =>{
-        event.preventDefault();
-        setCompanyId(event.target.value);
     }
 
     const handleCompanyNameChange = (event) =>{
@@ -33,24 +28,43 @@ function AddCompany({setUpdateCompanyList}){
         setCompanyName(event.target.value);
     }
 
+    const handleKeyDown = (event) =>{
+        if(event.key === 'Enter'){
+            addCompany();
+        }
+    }
+
+    const togglePopup = (event) =>{
+        event.stopPropagation(); 
+        setPopup(!popup);
+    }
+
     return (
-        <div className = "addCompany"> 
-            <input 
-                className = "inputAddCompany" 
-                value = {companyId} 
-                onChange = {handleCompanyIdChange}>
-            </input>
-            <input 
-                className = "inputAddCompany" 
-                value = {companyName} 
-                onChange = {handleCompanyNameChange}>
-            </input>
-            <button 
-                className = "greenButton" 
-                onClick = {addCompany}>
-                    ADD
-            </button>
-        </div>
+        <> 
+                <div className="addToken">
+                <button className = "crudButton greenButton" onClick = {togglePopup}>ADD</button>
+                </div>
+                
+                {popup && (
+                    <div className="popup">
+                    <div className="overlay"
+                        onClick = {togglePopup}></div>
+                    <div className="popup-content"  onClick={(event) => event.stopPropagation()}>
+                        <div className="popup-label">New Company Name</div>
+                        <input
+                            className = "inputDeviceToken"  
+                            value = {companyName} 
+                            onChange = {handleCompanyNameChange}
+                            onKeyDown = {handleKeyDown}>
+                        </input>
+                        <button className = "crudButton blueButton saveButton"
+                        onClick = {addCompany}>SAVE</button>
+                        <button className = "closeButton crudButton"
+                        onClick = {togglePopup}>Close</button>
+                    </div>
+                </div>
+                )}
+            </>
     )
 }
 
