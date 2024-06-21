@@ -1,5 +1,5 @@
 function SettingsPage(){
- return <div>Settings</div>
+ return <div></div>
 }
 
 export default SettingsPage;

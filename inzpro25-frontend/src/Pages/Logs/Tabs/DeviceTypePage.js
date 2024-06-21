@@ -1,9 +1,9 @@
-import DeviceType from "../DeviceTypeViewComponents/DeviceType";
+import JsonTemplate from "../JsonTemplateComponents/JsonTemplateList";
 
 function DeviceTypePage() {
   return (
     <>
-      <DeviceType></DeviceType>
+      <JsonTemplate />
     </>
   );
 }
