@@ -3,7 +3,7 @@ import './DeviceTokenStyle.css';
 
 function AddDeviceToken({setUpdateDeviceTokenList}){
     
-    const [deviceTypeName, setDeviceTypeName] = useState("sensor");
+    const [deviceTypeName, setDeviceTypeName] = useState("");
     const [popup, setPopup] = useState(false);
 
     const URL = 'http://localhost:8080/api/devices-tokens';

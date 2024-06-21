@@ -24,23 +24,24 @@ function CompanyList(){
         if (updateCompanyList) getCompanyList();
     });
 
-    return(
+    return(<>
+        <div className = "deleteAddContainer">
+            <AddCompany
+            setUpdateCompanyList = {setUpdateCompanyList}
+            />
+            <CompanyDeleteAll
+                        companyIdDeleteList = {companyIdDeleteList}
+                        setUpdateCompanyList = {setUpdateCompanyList}
+            />
+        </div>
         <div  className = "companyListContainer">
-            <div className = "deleteAddContainer">
-                <AddCompany
-                setUpdateCompanyList = {setUpdateCompanyList}
-                />
-                <CompanyDeleteAll
-                            companyIdDeleteList = {companyIdDeleteList}
-                            setUpdateCompanyList = {setUpdateCompanyList}
-                />
-            </div>
+            
             <table>
                 <thead>
                     <tr>
                         <th></th>
-                        <th>CompanyId</th>
-                        <th>name</th>
+                        <th>Id</th>
+                        <th>Company name</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -58,6 +59,7 @@ function CompanyList(){
                 </tbody>
             </table>
         </div>
+        </>
     );
 }
 
