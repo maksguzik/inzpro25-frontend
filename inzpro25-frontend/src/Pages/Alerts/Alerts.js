@@ -1,5 +1,5 @@
 function AlertsPage() {
-  return <div>Alerts</div>;
+  return <div></div>;
 }
 
 export default AlertsPage;

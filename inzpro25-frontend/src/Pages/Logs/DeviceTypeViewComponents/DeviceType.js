@@ -56,6 +56,7 @@ function DeviceType() {
               <th>ID Mapping</th>
               <th>Logged At Mapping</th>
               <th>Last Seen Mapping</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>

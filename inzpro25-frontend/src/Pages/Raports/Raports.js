@@ -1,5 +1,5 @@
 function RaportsPage() {
-  return <div>Raports</div>;
+  return <div></div>;
 }
 
 export default RaportsPage;
