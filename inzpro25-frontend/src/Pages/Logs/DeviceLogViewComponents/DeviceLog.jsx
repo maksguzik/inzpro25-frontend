@@ -3,7 +3,7 @@ import './DeviceLogStyle.css';
 
 function DeviceLog({deviceId, deviceLogTime, deviceLastSeenTime, deviceType, deviceSerialNumber, owner}){
 
-    return(<tr className = "deviceLog">
+    return(<tr className = "deviceToken">
                 <DeviceLogDisplay
                     deviceId = {deviceId}
                     deviceLogTime = {deviceLogTime}

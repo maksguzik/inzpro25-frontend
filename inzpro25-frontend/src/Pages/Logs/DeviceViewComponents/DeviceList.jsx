@@ -25,9 +25,8 @@ function DeviceList(){
         if (updateDeviceList) getDeviceList();
     });
 
-    return(
-        <div  className = "deviceListContainer">
-            <div className = "deleteAddContainer">
+    return(<>
+        <div className = "deleteAddContainer">
                 <AddDevice
                 setUpdateDeviceList = {setUpdateDeviceList}
                 />
@@ -36,15 +35,17 @@ function DeviceList(){
                             setUpdateDeviceList = {setUpdateDeviceList}
                 />
             </div>
+        <div  className = "deviceListContainer">
+            
             <table>
                 <thead>
                     <tr>
                         <th></th>
-                        <th>deviceId</th>
-                        <th>serialNumber</th>
+                        <th>Id</th>
+                        <th>serial Number</th>
                         <th>name</th>
-                        <th>deviceType</th>
-                        <th>companyName</th>
+                        <th>device Type</th>
+                        <th>owner</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -65,6 +66,7 @@ function DeviceList(){
                 </tbody>
             </table>
         </div>
+        </>
     );
 }
 

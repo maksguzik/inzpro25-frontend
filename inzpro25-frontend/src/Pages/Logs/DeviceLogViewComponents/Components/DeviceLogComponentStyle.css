@@ -21,7 +21,26 @@ table td{
   font-weight: 900;
 }
 
-.column-blue{
-  background-color:rgb(0, 100, 200);
-  color: white;
+.searchLogs{
+  margin-left: 30%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.inputDatePicker{
+  width: 220px;
+  height: 60px;
+  border-radius: 5px;
+  border: 3px solid rgb(48, 48, 48);
+  margin: 10px;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.searchButton{
+  background-color: rgb(48, 48, 48);
+}
+
+.searchButton:hover{
+  background-color: rgb(48, 48, 48);
 }

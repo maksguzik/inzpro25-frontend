@@ -3,12 +3,13 @@ import './DeviceLogComponentStyle.css';
 function DeviceLogDisplay({deviceId, deviceLogTime, deviceLastSeenTime, deviceType, deviceSerialNumber, owner}){
 
     return(<>
+            <td></td>
             <td>{deviceId}</td>
-            <td className = "column-blue">{deviceLogTime}</td>
+            <td>{deviceLogTime}</td>
             <td>{deviceLastSeenTime}</td>
-            <td className = "column-blue">{deviceType}</td>
+            <td>{deviceType}</td>
             <td>{deviceSerialNumber}</td>
-            <td className = "column-blue">{owner}</td>
+            <td>{owner}</td>
         </>
     )
 }

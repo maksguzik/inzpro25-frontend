@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import DeviceLog from "./DeviceLog";
 import DeviceLogFilter from "./Components/DeviceLogFilter";
 import './DeviceLogStyle.css';
+import '../LogUniversalViewStyle.css';
 
 function DeviceLogList(){
     const [deviceLogList, setDeviceLogList] = useState([]);
@@ -17,21 +18,22 @@ function DeviceLogList(){
 
     useEffect(() => {
        getDeviceLogList();
-    });
+    },[]);
 
-    return(
-        <div  className = "deviceLogListContainer">
-            <DeviceLogFilter
+    return(<>
+        <DeviceLogFilter
                     setDeviceLogList = {setDeviceLogList}
                 />
+        <div  className = "deviceLogListContainer">
             <table>
                 <thead>
                     <tr>
-                        <th>deviceId</th>
-                        <th>logTime</th>
-                        <th>lastSeenTime</th>
-                        <th>deviceType</th>
-                        <th>deviceSerialNumber</th>
+                        <th></th>
+                        <th>Id</th>
+                        <th>log Time</th>
+                        <th>last Seen</th>
+                        <th>device Type</th>
+                        <th>device Serial Number</th>
                         <th>owner</th>
                     </tr>
                 </thead>
@@ -48,8 +50,8 @@ function DeviceLogList(){
                     ))}
                 </tbody>
             </table>
-            
         </div>
+        </>
     );
 }
 

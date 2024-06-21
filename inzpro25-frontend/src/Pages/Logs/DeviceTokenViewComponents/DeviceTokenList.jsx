@@ -26,10 +26,8 @@ function DeviceTokenList(){
         if (updateDeviceTokenList) getDeviceTokenList();
     });
 
-    return(
-        <div  className = "deviceTokenListContainer">
-            
-            <div className = "deleteAddContainer">
+    return(<>
+    <div className = "deleteAddContainer">
                 <AddDeviceToken
                 setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                 />
@@ -38,17 +36,20 @@ function DeviceTokenList(){
                             setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                 />
             </div>
+        <div  className = "deviceTokenListContainer">
+            
+            
             <table>
                 <thead>
                     <tr>
                     <th></th>
-                        <th>token Id</th>
+                        <th>Id</th>
                         <th>token</th>
                         <th>device Type</th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className = "kielba">
                     {deviceTokenList.map((element, index) => (
                         <DeviceToken
                         key = {element.id}
@@ -63,6 +64,7 @@ function DeviceTokenList(){
                 </tbody>
             </table>
         </div>
+        </>
     );
 }
 

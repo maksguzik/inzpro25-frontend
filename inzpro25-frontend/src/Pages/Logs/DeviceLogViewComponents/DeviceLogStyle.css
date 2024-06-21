@@ -1,6 +1,8 @@
 
 .deviceLogListContainer {
     width: 100%;
+    max-height: 80vh; 
+    overflow-y: auto;
     overflow-x: auto;
 }
 
@@ -18,13 +20,6 @@ thead{
   box-shadow: 0 5px 10px gray;
 }
 
-  .deviceLog:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-
-  .deviceLog.selected {
-    background-color: #a0a0a0 !important; 
-  }
   table th{
     padding: 12px 15px;
     border: 1px solid #ddd;
@@ -33,3 +28,5 @@ thead{
     font-size:20px;
     font-weight: 900;
   }
+
+  
