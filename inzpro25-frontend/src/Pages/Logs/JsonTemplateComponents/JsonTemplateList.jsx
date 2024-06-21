@@ -24,9 +24,8 @@ function JsonTemplateList(){
         if (updateDeviceList) getDeviceList();
     });
 
-    return(
-        <div  className = "deviceListContainer">
-            <div className = "deleteAddContainer">
+    return(<>
+        <div className = "deleteAddContainer">
                 <AddJsonTemplate
                 setUpdateDeviceList = {setUpdateDeviceList}
                 />
@@ -35,6 +34,8 @@ function JsonTemplateList(){
                             setUpdateDeviceList = {setUpdateDeviceList}
                 />
         </div>
+        <div  className = "deviceListContainer">
+            
             <table>
                 <thead>
                     <tr>
@@ -62,6 +63,7 @@ function JsonTemplateList(){
                 </tbody>
             </table>
         </div>
+        </>
     );
 }
 

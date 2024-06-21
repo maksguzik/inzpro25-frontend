@@ -50,7 +50,7 @@ function UpdateJsonTemplate({deviceTypeName, setUpdateDeviceList}){
     }
 
     return (<> 
-                <button className = "crudButton blueButton" onClick = {togglePopup}>Edit</button>
+                <button className = "crudButton blueButton margin" onClick = {togglePopup}>Edit</button>
                 {popup && (
                     <div className="popup">
                     <div className="overlay"
