@@ -7,7 +7,7 @@ import RaportsPage from "./Pages/Raports/Raports";
 import RootLayout from "./Pages/Root.js/Root";
 import SettingsPage from "./Pages/Settings/Settings";
 import DeviceTokenPage from "./Pages/Logs/Tabs/DeviceTokenPage";
-import DeviceTypePage from "./Pages/Logs/Tabs/DeviceTypePage";
+import JsonTemplatePage from "./Pages/Logs/Tabs/JsonTemplatePage";
 import CompanyPage from "./Pages/Logs/Tabs/CompanyPage";
 import "./App.css";
 import DeviceViewPage from "./Pages/Logs/Tabs/DeviceViewPage";
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
         element: <DeviceManagement />,
         children: [
           { path: "Token", element: <DeviceTokenPage /> },
-          { path: "Json template", element: <DeviceTypePage /> },
+          { path: "Json template", element: <JsonTemplatePage /> },
           { path: "Owner", element: <CompanyPage /> },
           { path: "Device", element: <DeviceViewPage /> },
         ],
