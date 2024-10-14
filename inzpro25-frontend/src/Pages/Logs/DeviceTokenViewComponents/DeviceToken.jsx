@@ -80,7 +80,7 @@ function DeviceToken({index, tokenId, token, deviceTypeName, setUpdateDeviceToke
                         // setSelectedRecord = {setSelectedRecord}
                     />
                     <DeviceTokenDelete
-                        tokenId = {tokenId}
+                        tokenIdDeleteList = {[tokenId]}
                         setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                         // setSelectedRecord = {setSelectedRecord}
                     />

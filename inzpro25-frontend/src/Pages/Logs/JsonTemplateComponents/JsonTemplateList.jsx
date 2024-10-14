@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import JsonTemplate from "./JsonTemplate";
 import AddJsonTemplate from "./Components/AddJsonTemplate";
-import JsonTemplateDeleteAll from "./Components/JsonTemplateDeleteAll";
+import JsonTemplateDelete from "./Components/JsonTemplateDelete";
 import '../LogUniversalViewStyle.css';
 
 function JsonTemplateList(){
@@ -29,10 +29,12 @@ function JsonTemplateList(){
                 <AddJsonTemplate
                 setUpdateDeviceList = {setUpdateDeviceList}
                 />
-                <JsonTemplateDeleteAll
+                <div className="deleteToken">
+                    <JsonTemplateDelete
                             deviceIdDeleteList = {deviceIdDeleteList}
                             setUpdateDeviceList = {setUpdateDeviceList}
-                />
+                    />
+                </div>
         </div>
         <div  className = "deviceListContainer">
             

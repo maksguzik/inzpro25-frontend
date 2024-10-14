@@ -63,7 +63,7 @@ function JsonTemplate({deviceTypeName, idMapping, loggedAtMapping, lastSeenMappi
                         setUpdateDeviceList = {setUpdateDeviceList}
                     />
                     <JsonTemplateDelete
-                        deviceTypeName  = {deviceTypeName}
+                        deviceIdDeleteList = {[deviceTypeName]}
                         setUpdateDeviceList = {setUpdateDeviceList}
                     />
                     </td>

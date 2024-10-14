@@ -1,7 +1,7 @@
 import Company from "./Company";
 import { useState, useEffect } from "react";
 import AddCompany from "./Components/AddCompany";
-import CompanyDeleteAll from "./Components/CompanyDeleteAll";
+import CompanyDelete from "./Components/CompanyDelete";
 import './CompanyStyle.css';
 import '../LogUniversalViewStyle.css';
 
@@ -29,10 +29,12 @@ function CompanyList(){
             <AddCompany
             setUpdateCompanyList = {setUpdateCompanyList}
             />
-            <CompanyDeleteAll
+            <div className="deleteToken">
+                <CompanyDelete
                         companyIdDeleteList = {companyIdDeleteList}
                         setUpdateCompanyList = {setUpdateCompanyList}
-            />
+                />
+            </div> 
         </div>
         <div  className = "companyListContainer">
             
