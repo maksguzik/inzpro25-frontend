@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Device from "./Device";
 import AddDevice from "./Components/AddDevice";
-import DeviceDeleteAll from "./Components/DeviceDeleteAll";
+import DeviceDelete from "./Components/DeviceDelete";
 import './DeviceStyle.css';
 import '../LogUniversalViewStyle.css';
 
@@ -30,10 +30,12 @@ function DeviceList(){
                 <AddDevice
                 setUpdateDeviceList = {setUpdateDeviceList}
                 />
-                <DeviceDeleteAll
+                <div className="deleteToken">
+                    <DeviceDelete
                             deviceIdDeleteList = {deviceIdDeleteList}
                             setUpdateDeviceList = {setUpdateDeviceList}
-                />
+                    />
+                </div>
             </div>
         <div  className = "deviceListContainer">
             

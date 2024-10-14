@@ -1,17 +1,19 @@
 import './DeviceComponentStyle.css';
 
-function JsonTemplateDelete({deviceTypeName, setUpdateDeviceList}){
-    const URL = `http://localhost:8080/api/device-types/${deviceTypeName}`;
+function JsonTemplateDelete({deviceIdDeleteList, setUpdateDeviceList}){
+    const URL = 'http://localhost:8080/api/device-types/';
     
     const deleteDevice = () => {
-        fetch(URL, {method:'DELETE'})
-            .then(response => setUpdateDeviceList(true))
-            .catch(error=>console.error());
+        for(const deviceTypeName of deviceIdDeleteList){
+            fetch(URL + deviceTypeName, {method:'DELETE'})
+                .then(response => setUpdateDeviceList(true))
+                .catch(error=>console.error());
+        } 
     }
 
     return (
         <> 
-            <button className = "crudButton redButton" onClick={deleteDevice}>DELETE</button>
+            <button className = "crudButton redButton" onClick={deleteDevice}>DELETED</button>
         </>
     )
 }
