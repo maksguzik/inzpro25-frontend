@@ -1,7 +1,7 @@
 import DeviceToken from "./DeviceToken";
 import { useState, useEffect } from "react";
 import AddDeviceToken from "./Components/AddDeviceToken";
-import DeviceTokenDeleteAll from "./Components/DeviceTokenDeleteAll";
+import DeviceTokenDelete from "./Components/DeviceTokenDelete";
 import './DeviceTokenStyle.css';
 import '../LogUniversalViewStyle.css';
 
@@ -31,10 +31,12 @@ function DeviceTokenList(){
                 <AddDeviceToken
                 setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                 />
-                <DeviceTokenDeleteAll
+                <div className="deleteToken">
+                <DeviceTokenDelete
                             tokenIdDeleteList = {tokenIdDeleteList}
                             setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                 />
+                </div>
             </div>
         <div  className = "deviceTokenListContainer">
             

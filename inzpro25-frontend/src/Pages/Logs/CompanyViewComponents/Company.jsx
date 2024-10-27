@@ -60,7 +60,7 @@ function Company({companyId, companyName, setUpdateCompanyList, setCompanyIdDele
                         setUpdateCompanyList = {setUpdateCompanyList}
                     />
                     <CompanyDelete
-                        companyId = {companyId}
+                        companyIdDeleteList = {[companyId]}
                         setUpdateCompanyList = {setUpdateCompanyList}
                     />
                     </td>

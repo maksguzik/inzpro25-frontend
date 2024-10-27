@@ -67,7 +67,7 @@ function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCom
                         // setSelectedRecord = {setSelectedRecord}
                     />
                     <DeviceDelete
-                        deviceId = {deviceId}
+                        deviceIdDeleteList = {[deviceId]}
                         setUpdateDeviceList = {setUpdateDeviceList}
                     />
                     </td>
