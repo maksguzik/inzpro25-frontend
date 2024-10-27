@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const tabValues = {
   Home: ["Not working yet"],
-  Alerts: ["Not working yet"],
+  Alerts: ["All alerts", "Create new alarm"],
   Logs: ["All logs"],
   Raports: ["Not working yet"],
   Settings: ["Not working yet"],
