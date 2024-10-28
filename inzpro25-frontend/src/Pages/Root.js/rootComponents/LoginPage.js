@@ -1,76 +1,47 @@
 import React, { useState } from "react";
+import "./LoginPage.css";
 
-function LoginPage() {
+function LoginPage({setIsLoggedIn}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Add login logic here (e.g., send data to an API)
-    alert(`Logging in with Username: ${username} and Password: ${password}`);
-  };
+    setIsLoggedIn(true);
+  }
+
+  const handleUsernameChange = (e) =>{
+    setUsername(e.target.value);
+  }
+
+  const handlePasswordChange = (e) =>{
+    setPassword(e.target.value);
+  }
 
   return (
-    <div style={styles.container}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin} style={styles.form}>
+    <div className="loginContainer">
+      <h2>Log In</h2>
+      <form onSubmit={handleLogin} className="form">
         <input
           type="text"
           placeholder="Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          style={styles.input}
+          onChange={handleUsernameChange}
+          className="input"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={styles.input}
+          onChange={handlePasswordChange}
+          className="input"
         />
-        <button type="submit" style={styles.button}>
+        <button type="submit" className="button">
           Login
         </button>
       </form>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-    backgroundColor: "#f0f2f5",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    width: "300px",
-    padding: "20px",
-    backgroundColor: "#fff",
-    borderRadius: "8px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  },
-  input: {
-    padding: "10px",
-    margin: "10px 0",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    fontSize: "16px",
-  },
-  button: {
-    padding: "10px",
-    marginTop: "10px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
-    fontSize: "16px",
-    cursor: "pointer",
-  },
-};
 
 export default LoginPage;
