@@ -13,34 +13,39 @@ import "./App.css";
 import DeviceViewPage from "./Pages/Logs/Tabs/DeviceViewPage";
 import DeviceLogPage from "./Pages/Logs/Tabs/DeviceLogPage";
 import DeviceManagement from "./Pages/DeviceManagement/DeviceManagement";
+import LoginPage from "./Pages/Root.js/rootComponents/LoginPage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      { index: true, element: <HomePage /> },
-      { path: "Alerts", element: <AlertsPage /> },
-      {
-        path: "Logs",
-        element: <LogsPage />,
+        path: "/app",
+        element: <RootLayout />,
         children: [
-          { path: "All logs", element: <DeviceLogPage /> },
+          { index: true, element: <HomePage /> },
+          { path: "Alerts", element: <AlertsPage /> },
+          {
+            path: "Logs",
+            element: <LogsPage />,
+            children: [
+              { path: "All logs", element: <DeviceLogPage /> },
+            ],
+          },
+          { path: "Raports", element: <RaportsPage /> },
+          { path: "Settings", element: <SettingsPage /> },
+          {
+            path: "DeviceManagement",
+            element: <DeviceManagement />,
+            children: [
+              { path: "Token", element: <DeviceTokenPage /> },
+              { path: "Json template", element: <JsonTemplatePage /> },
+              { path: "Owner", element: <CompanyPage /> },
+              { path: "Device", element: <DeviceViewPage /> },
+            ],
+          },
         ],
-      },
-      { path: "Raports", element: <RaportsPage /> },
-      { path: "Settings", element: <SettingsPage /> },
-      {
-        path: "DeviceManagement",
-        element: <DeviceManagement />,
-        children: [
-          { path: "Token", element: <DeviceTokenPage /> },
-          { path: "Json template", element: <JsonTemplatePage /> },
-          { path: "Owner", element: <CompanyPage /> },
-          { path: "Device", element: <DeviceViewPage /> },
-        ],
-      },
-    ],
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 
