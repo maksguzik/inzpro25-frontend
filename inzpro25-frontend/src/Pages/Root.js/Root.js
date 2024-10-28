@@ -29,8 +29,12 @@ function RootLayout() {
           </div>
         </div>
       </div>
-    </div>) : (
-      <LoginPage/>
+    </div>) : (<div className="root-layout">
+      <LoginPage
+        setIsLoggedIn = {setIsLoggedIn}
+      />
+    </div>
+      
     )
   );
 }
