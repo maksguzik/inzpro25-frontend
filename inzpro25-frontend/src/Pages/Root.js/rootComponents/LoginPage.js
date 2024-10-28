@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
-function LoginPage({setIsLoggedIn}) {
+function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const URL = "localhost:3000/";
+
+  useEffect(() => {
+    if(isLoggedIn){
+      handleRedirect();
+    }
+  });
+
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate('/app');
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
