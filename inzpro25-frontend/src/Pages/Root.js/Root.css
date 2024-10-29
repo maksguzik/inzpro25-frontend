@@ -2,11 +2,14 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    /* overflow-y: auto; */
   }
   
   .container {
     display: flex;
     flex: 1;
+    /* height: 100vh;
+    overflow-y: auto; */
   }
   
   .menu {
@@ -27,7 +30,7 @@
     height: 100%;
   }
 
-  .outlet-content {
+  /* .outlet-content {
     flex: 1;
     background-color: white;
     display: flex;
@@ -37,5 +40,17 @@
     width: 100%;
     margin: 0 auto;
 
+} */
+
+.outlet-content {
+  flex: 1;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 80vw;
+  width: 100%;
+  margin: 0 auto;
+  
 }
   
