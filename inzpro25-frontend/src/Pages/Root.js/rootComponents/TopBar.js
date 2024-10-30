@@ -1,6 +1,7 @@
 import "./Topbar.css";
+import AccountSettings from "./TopBarComponents/AccountSettings";
 
-function TopBar() {
+function TopBar({isLoggedIn, setIsLoggedIn}) {
 
   return (
     <>
@@ -11,7 +12,10 @@ function TopBar() {
         <div className="right-section">
           <button className="action-button">Notifications</button>
           <button className="action-button">Triggered alarms</button>
-          <button className="action-button">Account Settings</button>
+          <AccountSettings
+            isLoggedIn = {setIsLoggedIn}
+            setIsLoggedIn = {setIsLoggedIn}
+          />
         </div>
       </header>
     </>
