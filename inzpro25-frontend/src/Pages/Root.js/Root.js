@@ -5,7 +5,7 @@ import "./Root.css";
 import { useState } from "react";
 import TabBar from "./rootComponents/TabBar";
 
-function RootLayout() {
+function RootLayout({isLoggedIn, setIsLoggedIn}) {
   const [activeTab, setActiveTab] = useState("/");
   const [isMenuMinimized, setIsMenuMinimized] = useState(false);
  
@@ -15,7 +15,10 @@ function RootLayout() {
 
   return (
     <div className="root-layout">
-      <TopBar />
+      <TopBar 
+        isLoggedIn = {isLoggedIn}
+        setIsLoggedIn = {setIsLoggedIn}
+      />
       <div className="container">
         <div className={`${isMenuMinimized ? "menu-minimized" : "menu"}`}>
           <MenuNav setActiveTab={setActiveTab} toggleMenuRoot={toggleMenu} />

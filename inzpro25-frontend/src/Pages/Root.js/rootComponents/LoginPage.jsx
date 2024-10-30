@@ -5,9 +5,6 @@ import "./LoginPage.css";
 function LoginPage({isLoggedIn, setIsLoggedIn}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const URL = "localhost:3000/";
 
   useEffect(() => {
     if(isLoggedIn){

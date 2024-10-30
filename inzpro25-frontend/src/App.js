@@ -31,7 +31,10 @@ function App() {
     },
     {
           path: "/",
-          element: isLoggedIn ? <RootLayout /> : <Navigate to="/login" replace />,
+          element: isLoggedIn ? <RootLayout 
+                                  isLoggedIn = {isLoggedIn}
+                                  setIsLoggedIn = {setIsLoggedIn}
+                                /> : <Navigate to="/login" replace />,
           children: [
             { index: true, element: <HomePage /> },
             { path: "Alerts", element: <AlertsPage /> },
