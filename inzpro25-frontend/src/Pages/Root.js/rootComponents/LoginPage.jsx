@@ -33,7 +33,15 @@ function LoginPage({isLoggedIn, setIsLoggedIn}) {
 
   return (
     <div className="loginContainer">
-      <h2>Log In</h2>
+      <div>
+      <svg viewBox="0 0 720 1440" class="waveLeft">
+        <path fill="#ffffff" d="M0,0 C360,360 360,1080 0,1440 L0,1440 L360,1440 C720,1080 720,360 360,0 Z"></path>
+    </svg>
+    <svg viewBox="0 0 720 1440" class="waveRight">
+        <path fill="#ffffff" d="M720,0 C360,360 360,1080 720,1440 L720,1440 L360,1440 C0,1080 0,360 360,0 Z"></path>
+    </svg>
+      </div>
+      <h2 className = "LoginText">Login</h2>
       <form onSubmit={handleLogin} className="form">
         <input
           type="text"
@@ -49,9 +57,10 @@ function LoginPage({isLoggedIn, setIsLoggedIn}) {
           onChange={handlePasswordChange}
           className="input"
         />
-        <button type="submit" className="button">
+        <button type="submit" className="LoginButton">
           Login
         </button>
+        
       </form>
     </div>
   );

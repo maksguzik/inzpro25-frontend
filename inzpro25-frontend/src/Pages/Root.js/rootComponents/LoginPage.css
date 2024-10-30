@@ -3,11 +3,33 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
+    width: 100%;
     height: 100vh;
-    background-color: #f0f2f5;
+    background-color: white; /* Kolor prawej strony */
+    overflow: hidden;
   }
   
+  .waveLeft {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 50%; /* SVG zajmuje teraz połowę szerokości ekranu */
+    height: 100%;
+}
+
+.waveRight{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  width: 50%; /* SVG zajmuje teraz połowę szerokości ekranu */
+  height: 100%;
+}
+
   .form {
+    z-index: 2;
     display: flex;
     flex-direction: column;
     width: 300px;
@@ -25,14 +47,37 @@
     font-size: 16px;
   }
   
-  .button {
+  /* .LoginButton {
+    border: 1px solid #ddd;
+    font-weight: bold;
     padding: 10px;
     margin-top: 10px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: white;
+    color: #333;
     border: none;
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
-  }
-  
+  } */
+
+  .LoginButton {
+    font-weight: bold;
+    border: 1px solid #ddd;
+    background-color: white;
+    color: #333;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.LoginButton:hover {
+    background-color: #333; /* Tło zmienia się na #333 */
+    color: #fff; /* Tekst zmienia się na biały */
+}
+
+.LoginText{
+  font-size: 40px;
+  color: #333;
+}
