@@ -1,5 +1,6 @@
 import React from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
+import { useState } from "react";
 import HomePage from "./Pages/Home/Home";
 import AlertsPage from "./Pages/Alerts/Alerts";
 import LogsPage from "./Pages/Logs/Logs";
@@ -57,7 +58,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-function App() {
   return (
     <>
       <RouterProvider router={router} />
