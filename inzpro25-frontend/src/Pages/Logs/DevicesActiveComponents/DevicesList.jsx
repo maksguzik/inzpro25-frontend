@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./DevicesState.css";
 
 const smartboxesData = [
   {
@@ -28,6 +29,26 @@ const smartboxesData = [
       { id: "device-3-4", name: "Device 3-4", status: "inactive" },
     ],
   },
+  {
+    name: "Smartbox 4",
+    devices: [
+      { id: "device-3-1", name: "Device 3-1", status: "active" },
+      { id: "device-3-2", name: "Device 3-2", status: "inactive" },
+      { id: "device-3-3", name: "Device 3-3", status: "active" },
+      { id: "device-3-4", name: "Device 3-4", status: "inactive" },
+    ],
+  },
+  {
+    name: "Smartbox 4",
+    devices: [
+      { id: "device-3-1", name: "Device 3-1", status: "active" },
+      { id: "device-3-2", name: "Device 3-2", status: "inactive" },
+      { id: "device-3-3", name: "Device 3-3", status: "active" },
+      { id: "device-3-4", name: "Device 3-4", status: "inactive" },
+    ],
+  },
+  
+  
 ];
 
 const initialAlertSettings = {
@@ -174,6 +195,7 @@ function DevicesList() {
         </button>
       </div>
 
+      <div className = "smartboxes-container" >
       {filteredSmartboxes.map((smartbox, index) => (
         <Smartbox
           key={index}
@@ -185,6 +207,7 @@ function DevicesList() {
       {filteredSmartboxes.length === 0 && (
         <p style={styles.noResults}>No Smartboxes found.</p>
       )}
+      </div>
 
       {showAlertPopup && (
         <div style={styles.popupOverlay}>
@@ -326,11 +349,9 @@ function DevicesList() {
 const styles = {
     appContainer: {
         padding: "20px",
-        display: "flex",
         flexDirection: "column",
         gap: "10px",
-        flex: 1,
-        height: "100vh",
+        height: "1090px",
       },
   searchContainer: {
     display: "flex",
@@ -357,12 +378,13 @@ const styles = {
     border: "1px solid #ccc",
     borderRadius: "8px",
     overflow: "hidden",
+    marginBottom: "5px",
   },
   smartboxHeader: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "10px 20px",
+    padding: "0px 10px",
     cursor: "pointer",
     backgroundColor: "#f5f5f5",
   },

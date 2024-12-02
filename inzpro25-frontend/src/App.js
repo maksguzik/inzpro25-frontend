@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         element: <LogsPage />,
         children: [
           { path: "All logs", element: <DeviceLogPage /> },
-          { path: "Devices", element: <DevicesPage />},
+          { path: "Devices state", element: <DevicesPage />},
         ],
       },
       { path: "Raports", element: <RaportsPage /> },
