@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
 import { useState } from "react";
 import HomePage from "./Pages/Home/Home";
@@ -15,23 +15,36 @@ import DeviceViewPage from "./Pages/Logs/Tabs/DeviceViewPage";
 import DeviceLogPage from "./Pages/Logs/Tabs/DeviceLogPage";
 import DeviceManagement from "./Pages/DeviceManagement/DeviceManagement";
 import LoginPage from "./Pages/Root.js/rootComponents/LoginPage";
+import LoginButton from "./Pages/Root.js/rootComponents/LoginButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isAuthenticated, login, logout, user, isLoading, error } = useAuth0();
+
+
+  if(isLoading){
+    return <div>Loading...</div>
+  }
+  else if(isAuthenticated){
+    return <RootLayout></RootLayout>
+  }
+
+  if(error){
+    return console.log(error)
+  }
 
   const router = createBrowserRouter([
     {
       path: "/login",
       index : true,
-      element: <LoginPage 
-                  isLoggedIn = {isLoggedIn}
-                  setIsLoggedIn = {setIsLoggedIn}  
-                />,
+      element: <LoginButton setIsLoggedIn={setIsLoggedIn}/>
     },
     {
           path: "/",
-          element: isLoggedIn ? <RootLayout 
+          
+          element: !isAuthenticated ? <RootLayout 
                                   isLoggedIn = {isLoggedIn}
                                   setIsLoggedIn = {setIsLoggedIn}
                                 /> : <Navigate to="/login" replace />,

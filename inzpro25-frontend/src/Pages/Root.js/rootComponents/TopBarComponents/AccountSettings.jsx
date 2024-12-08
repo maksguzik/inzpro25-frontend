@@ -1,9 +1,13 @@
 import { useState } from "react";
 import "./AccountSettingsStyle.css";
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 function AccountSettings({isLoggedIn, setIsLoggedIn}){
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const {logout, isAuthenticated} = useAuth0();
+
 
     const handleClickedButton = () =>{
         setIsPopupOpen(!isPopupOpen);
@@ -23,7 +27,7 @@ function AccountSettings({isLoggedIn, setIsLoggedIn}){
               <div className="popupContentAccountSettings">
                 <button
                   className="buttonLogoutAccountSettings"
-                  onClick = {handleLogoutClicked}
+                  onClick = {()=>logout({ logoutParams: { returnTo: "http://localhost:3000/login" } })}
                 > Logout</button>
               </div>
             </div>
