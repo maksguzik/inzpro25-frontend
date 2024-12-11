@@ -11,8 +11,7 @@ function LoginButton({setIsLoggedIn}){
     }
 
     return(<div>
-            <button onClick={()=>{loginWithRedirect();
-                console.log(user)
+            <button onClick={()=>{loginWithRedirect()
             }}>
                 Sign In
             </button>

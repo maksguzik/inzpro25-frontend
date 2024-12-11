@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import HomePage from "./Pages/Home/Home";
 import AlertsPage from "./Pages/Alerts/Alerts";
@@ -17,52 +17,110 @@ import DeviceManagement from "./Pages/DeviceManagement/DeviceManagement";
 import AllAlertsPage from "./Pages/Alerts/Tabs/AllAlertsPage";
 import CreateNewAlarmPage from "./Pages/Alerts/Tabs/CreateNewAlarmPage";
 import DevicesPage from "./Pages/Logs/Tabs/DevicesPage";
+// import LoginPage from "./Pages/Root.js/rootComponents/LoginPage";
+// import LoginButton from "./Pages/Root.js/rootComponents/LoginButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      { index: true, element: <HomePage /> },
-      { path: "Alerts", element: <AlertsPage />,
-        children: [
-          {path: "All alerts", element: <AllAlertsPage />},
-          {path: "Create new alarm", element: <CreateNewAlarmPage />}
-        ]
-      },
-      {
-        path: "Logs",
-        element: <LogsPage />,
-        children: [
-          { path: "All logs", element: <DeviceLogPage /> },
-          { path: "Devices", element: <DevicesPage />},
-        ],
-      },
-      { path: "Raports", element: <RaportsPage /> },
-      { path: "Settings", element: <SettingsPage /> },
-      {
-        path: "DeviceManagement",
-        element: <DeviceManagement />,
-        children: [
-          { path: "Token", element: <DeviceTokenPage /> },
-          { path: "Json template", element: <JsonTemplatePage /> },
-          { path: "Owner", element: <CompanyPage /> },
-          { path: "Device", element: <DeviceViewPage /> },
-        ],
-      },
-    ],
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-]);
+function App() {
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const {loginWithRedirect, getAccessTokenSilently, isAuthenticated, login, logout, user, isLoading, error } = useAuth0();
+  
+  const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
+
+  const fetchData = async () => {
+    const token = await getAccessTokenSilently({
+      audience: audience,
+      scope: 'read:messages',
+    });
+  
+    const response = await fetch(audience, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+  
+    const data = await response.json();
+    console.log(data);
+  }; 
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }else if (isLoading) {
+    return <div>Loading...</div>;
+  }else if(isAuthenticated){
+
+       
+    fetchData();
+
+
+  // const router = createBrowserRouter([
+  //   {
+  //     path: "/login",
+  //     index : true,
+  //     element: <LoginButton setIsLoggedIn={setIsLoggedIn}/>
+  //   },
+  //   {
+  //         path: "/",
+  //         element: <RootLayout></RootLayout>,
+  //         children: [
+  //           { index: true, element: <HomePage /> },
+  //           { path: "Alerts", element: <AlertsPage /> },
+  //           {
+  //             path: "Logs",
+  //             element: <LogsPage />,
+  //             children: [
+  //               { path: "All logs", element: <DeviceLogPage /> },
+  //             ],
+  //           },
+  //           { path: "Raports", element: <RaportsPage /> },
+  //           { path: "Settings", element: <SettingsPage /> },
+  //           {
+  //             path: "DeviceManagement",
+  //             element: <DeviceManagement />,
+  //             children: [
+  //               { path: "Token", element: <DeviceTokenPage /> },
+  //               { path: "Json template", element: <JsonTemplatePage /> },
+  //               { path: "Owner", element: <CompanyPage /> },
+  //               { path: "Device", element: <DeviceViewPage /> },
+  //             ],
+  //           },
+  //         ],
+  //   },
+  // ]);
+
+  // return (
+  //   <>
+  //     <RouterProvider router={router} />
+  //   </>
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <Router>
+      <Routes>
+          <>
+            <Route path="/" element={<RootLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path="Alerts" element={<AlertsPage />} />
+              <Route path="Logs" element={<LogsPage />}>
+                <Route path="All logs" element={<DeviceLogPage />} />
+              </Route>
+              <Route path="Raports" element={<RaportsPage />} />
+              <Route path="Settings" element={<SettingsPage />} />
+              <Route path="DeviceManagement" element={<DeviceManagement />}>
+                <Route path="Token" element={<DeviceTokenPage />} />
+                <Route path="Json template" element={<JsonTemplatePage />} />
+                <Route path="Owner" element={<CompanyPage />} />
+                <Route path="Device" element={<DeviceViewPage />} />
+              </Route>
+            </Route>
+          </>
+      </Routes>
+    </Router>
   );
+  }else{
+    loginWithRedirect();
+  }
 }
 
 export default App;
