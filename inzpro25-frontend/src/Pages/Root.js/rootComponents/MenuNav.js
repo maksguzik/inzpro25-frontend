@@ -160,6 +160,18 @@ function MenuNav({ setActiveTab , toggleMenuRoot}) {
                 Settings
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="AdminPanel"
+                className={({ isActive }) => {
+                  if (isActive) setActiveTab("AdminPanel");
+                  return isActive ? "active" : undefined;
+                }}
+              >
+                <i className="material-icons-outlined">shield</i>
+                Admin Panel
+              </NavLink>
+            </li>
           </ul>
         )}
       </nav>

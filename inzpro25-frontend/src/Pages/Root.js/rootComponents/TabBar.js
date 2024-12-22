@@ -1,3 +1,4 @@
+import AdminPanel from "../../AdminPanel/AdminPanel";
 import "./Tabbar.css";
 import { NavLink } from "react-router-dom";
 
@@ -8,6 +9,7 @@ const tabValues = {
   Raports: ["Not working yet"],
   Settings: ["Not working yet"],
   DeviceManagement: ["Token", "Json template", "Owner", "Device"],
+  AdminPanel:["Admin Panel"]
 };
 
 function TabBar({ activeTab }) {

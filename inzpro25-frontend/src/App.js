@@ -20,6 +20,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
 
+  const [isAdmin, setIsAdmin] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const {loginWithRedirect, getAccessTokenSilently, isAuthenticated, login, logout, user, isLoading, error } = useAuth0();
   
@@ -110,6 +111,11 @@ function App() {
                 <Route path="Owner" element={<CompanyPage />} />
                 <Route path="Device" element={<DeviceViewPage />} />
               </Route>
+              {
+                isAdmin && (<Route path="AdminPanel">
+
+                </Route>)
+              }
             </Route>
           </>
       </Routes>
