@@ -14,6 +14,8 @@ import "./App.css";
 import DeviceViewPage from "./Pages/Logs/Tabs/DeviceViewPage";
 import DeviceLogPage from "./Pages/Logs/Tabs/DeviceLogPage";
 import DeviceManagement from "./Pages/DeviceManagement/DeviceManagement";
+import AdminPanel from "./Pages/AdminPanel/AdminPanel";
+import UserManagement from "./Pages/AdminPanel/AdminPanelComponents/UserManagement";
 // import LoginPage from "./Pages/Root.js/rootComponents/LoginPage";
 // import LoginButton from "./Pages/Root.js/rootComponents/LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -24,25 +26,24 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const {loginWithRedirect, getAccessTokenSilently, isAuthenticated, login, logout, user, isLoading, error } = useAuth0();
   
+  const [token, setToken] = useState(null);
+
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
-  const fetchData = async () => {
-    const token = await getAccessTokenSilently({
-      audience: audience,
-      scope: 'read:messages',
-    });
   
-    const response = await fetch(audience, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
-  
-    const data = await response.json();
-    console.log(data);
-  }; 
+    const fetchToken = async () => {
+        try {
+          const accessToken = await getAccessTokenSilently({
+            audience: audience,
+            scope: "read:messages",
+          });
+          setToken(accessToken);
+        } catch (error) {
+          console.error("Error fetching token:", error);
+        }
+    };
+
+   
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -51,7 +52,9 @@ function App() {
   }else if(isAuthenticated){
 
        
-    fetchData();
+    fetchToken();
+    
+    
 
 
   // const router = createBrowserRouter([
@@ -112,7 +115,10 @@ function App() {
                 <Route path="Device" element={<DeviceViewPage />} />
               </Route>
               {
-                isAdmin && (<Route path="AdminPanel">
+                isAdmin && (<Route path="AdminPanel" element={<AdminPanel/>}>
+                  <Route path="UserManagement" element={<UserManagement/>}>
+
+                  </Route>
 
                 </Route>)
               }
