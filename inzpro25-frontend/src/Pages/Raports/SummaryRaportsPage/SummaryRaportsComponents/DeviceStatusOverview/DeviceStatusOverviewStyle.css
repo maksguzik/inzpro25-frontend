@@ -1,0 +1,12 @@
+.header-style{
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.pie-chart{
+  height: 100% !important; /* Ustaw wysokość */
+  width: 100% !important; /* Ustaw szerokość */
+  display: block; /* Zapewnia, że element nie dziedziczy domyślnych stylów inline */
+  margin: 0 auto; 
+}

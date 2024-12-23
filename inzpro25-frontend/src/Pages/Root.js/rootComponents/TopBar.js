@@ -6,7 +6,7 @@ function TopBar() {
     <>
       <header className="header-top-bar">
         <div className="left-section">
-          <div>Logo i nazwa</div>
+          <div>TraceWave</div>
         </div>
         <div className="right-section">
           <button className="action-button">Notifications</button>

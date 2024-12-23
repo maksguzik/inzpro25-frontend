@@ -1,0 +1,16 @@
+.gridContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dwie kolumny o równych szerokościach */
+    grid-template-rows: 1fr 1fr; /* Dwa wiersze o równych wysokościach */
+    height: 90vh; /* Pełna wysokość okna przeglądarki */
+    gap: 5px; /* Przerwa między elementami */
+    box-sizing: border-box; /* Uwzględnienie paddingu w obliczeniach */
+    padding: 10px;
+  }
+  
+  .gridItem {
+    border: 1px solid #ccc; /* Ramka dla sekcji (opcjonalnie) */
+    display: flex;
+    justify-content: center; /* Wycentrowanie zawartości w poziomie */
+    align-items: center;
+  }

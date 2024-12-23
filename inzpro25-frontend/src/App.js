@@ -16,6 +16,8 @@ import DeviceManagement from "./Pages/DeviceManagement/DeviceManagement";
 import AllAlertsPage from "./Pages/Alerts/Tabs/AllAlertsPage";
 import CreateNewAlarmPage from "./Pages/Alerts/Tabs/CreateNewAlarmPage";
 import DevicesPage from "./Pages/Logs/Tabs/DevicesPage";
+import SummaryRaportsPage from "./Pages/Raports/SummaryRaportsPage/SummaryRaportsPage";
+import DeviceSummary from "./Pages/Raports/SummaryRaportsPage/SummaryRaportsComponents/DeviceSummary/DeviceSummary";
 
 const router = createBrowserRouter([
   {
@@ -37,7 +39,12 @@ const router = createBrowserRouter([
           { path: "Devices state", element: <DevicesPage />},
         ],
       },
-      { path: "Raports", element: <RaportsPage /> },
+      { path: "Raports", element: <RaportsPage />,
+        children: [
+          {path: "Summary raports", element: <SummaryRaportsPage /> },
+          {path: "Device summary", element: <DeviceSummary />},
+        ]
+       },
       { path: "Settings", element: <SettingsPage /> },
       {
         path: "DeviceManagement",

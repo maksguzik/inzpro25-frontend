@@ -5,7 +5,7 @@ const tabValues = {
   Home: ["Not working yet"],
   Alerts: ["All alerts", "Create new alarm"],
   Logs: ["All logs", "Devices state"],
-  Raports: ["Not working yet"],
+  Raports: ["Summary raports", "Device summary"],
   Settings: ["Not working yet"],
   DeviceManagement: ["Token", "Json template", "Owner", "Device"],
 };

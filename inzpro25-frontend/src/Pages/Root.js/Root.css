@@ -13,13 +13,11 @@
 .menu {
   width: 155px;
   background-color: #f4f4f4;
-  height: 100%;
 }
 
 .menu-minimized {
   width: 60px;
   background-color: #f4f4f4;
-  height: 100%;
 }
 
 .content {

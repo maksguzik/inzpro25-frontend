@@ -1,0 +1,37 @@
+.month-grid-container {
+    width: 300px;
+  }
+  
+  .month-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); 
+    gap: 5px;
+  }
+  
+  .day {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #e0e0e0; 
+  }
+  
+  .day.active {
+    background-color: #4caf50;
+  }
+  
+  .day.downtime {
+    background-color: #ff0000; 
+  }
+  
+  .day.empty {
+    background-color: transparent; 
+    border: none;
+  }
