@@ -3,7 +3,7 @@ import UserDisplay from "./UserDisplay";
 import UserDelete from "./UserDelete";
 
 
-function User({userId, index, email, emailVerified, name, companies, setUpdateUserList}){
+function User({userId, index, email, emailVerified, name, companies, setUpdateUserList, getUserList}){
 
     const [hover, setHover] = useState(false);
 
@@ -28,7 +28,7 @@ function User({userId, index, email, emailVerified, name, companies, setUpdateUs
     
 
     return(<tr
-        className = {(selected)? "deviceToken selected":"deviceToken"}
+        className = {"deviceToken"}
         
         ref = {rowRef}
         >
@@ -43,15 +43,11 @@ function User({userId, index, email, emailVerified, name, companies, setUpdateUs
         
         {(hover)?(
             <td>
-            {/* // <UpdateCompany
-            //     companyId = {companyId}
-            //     companyName = {companyName}
-            //     setUpdateCompanyList = {setUpdateCompanyList}
-            // /> */}
-            <UserDelete
-                companyIdDeleteList = {[userId]}
-                setUpdateCompanyList = {setUpdateUserList}
-            />
+                <UserDelete
+                    userId = {userId}
+                    setUpdateUserList = {setUpdateUserList}
+                    getUserList = {getUserList}
+                />
             </td>
         ):<div className = "noHoverDeleteToken"></div>}
         </tr>

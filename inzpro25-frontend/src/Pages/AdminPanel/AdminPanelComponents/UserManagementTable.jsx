@@ -44,8 +44,8 @@ function UserManagementTable(){
     };
 
     useEffect(() => {
-        if (updateUserList && isAuthenticated) getUserList();
-    },[updateUserList, isAuthenticated]);
+        if (updateUserList) getUserList();
+    },[updateUserList]);
     return(
         <div  className = "adminPanelListContainer">
             <table>
@@ -70,6 +70,7 @@ function UserManagementTable(){
                             name = {element.name}
                             companies = {element.companies}
                             setUpdateUserList = {setUpdateUserList}
+                            getUserList = {getUserList}
                             />
                         ))
                     }
