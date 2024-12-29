@@ -1,6 +1,7 @@
-import User from "./User";
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import User from "./User";
+import UserAdd from "./UserAdd";
 
 function UserManagementTable(){
 
@@ -46,7 +47,12 @@ function UserManagementTable(){
     useEffect(() => {
         if (updateUserList) getUserList();
     },[updateUserList]);
-    return(
+    return(<>
+             <div className = "deleteAddContainer">
+                <UserAdd
+                setUpdateUserList = {setUpdateUserList}
+                />
+            </div>
         <div  className = "adminPanelListContainer">
             <table>
                 <thead>
@@ -77,6 +83,7 @@ function UserManagementTable(){
                 </tbody>
             </table>
         </div>
+        </>
     );
 }
 
