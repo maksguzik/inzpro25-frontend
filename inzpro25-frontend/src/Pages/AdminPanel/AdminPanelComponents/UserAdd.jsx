@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import './UserManagementStyle.css';
 
-function UserAdd({setUpdateUserList}){
+function UserAdd({setUpdateUserList, setUpdateRoles}){
 
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
@@ -36,6 +36,7 @@ function UserAdd({setUpdateUserList}){
           if (response.ok) {
             // await new Promise(resolve => setTimeout(resolve, 1000));
             setUpdateUserList(true);
+            setUpdateRoles(true);
           }
       };
     
@@ -54,6 +55,14 @@ function UserAdd({setUpdateUserList}){
         setUserData((prevUserData)=>({
             ...prevUserData,
             [key]: event.target.value,
+        }));
+    }
+
+    const handleChangeArray = (event, key) =>{
+        event.preventDefault();
+        setUserData((prevUserData)=>({
+            ...prevUserData,
+            [key]: [event.target.value],
         }));
     }
 
@@ -85,14 +94,14 @@ function UserAdd({setUpdateUserList}){
                         <input
                             className = "inputDeviceToken"  
                             value = {userData.roles} 
-                            onChange = {(event) => handleChange(event, "roles")}
+                            onChange = {(event) => handleChangeArray(event, "roles")}
                             onKeyDown = {handleKeyDown}>
                         </input>
                         <div className="popup-label">Company Names</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {userData.companyNames} 
-                            onChange = {(event) => handleChange(event, "companyNames")}
+                            onChange = {(event) => handleChangeArray(event, "companyNames")}
                             onKeyDown = {handleKeyDown}>
                         </input>
                         <button className = "crudButton blueButton saveButton"

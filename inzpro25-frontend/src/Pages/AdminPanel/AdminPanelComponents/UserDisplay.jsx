@@ -1,5 +1,5 @@
 
-function UserDisplay({userId, index, email, emailVerified, name, companies}){
+function UserDisplay({userId, index, email, emailVerified, name, companies, roles}){
 
     return (
         <>
@@ -9,6 +9,7 @@ function UserDisplay({userId, index, email, emailVerified, name, companies}){
             <td>{email}</td>
             <td>{(emailVerified) ? "✔" : "✘"}</td>
             <td>{companies}</td>
+            <td>{roles}</td>
         </>
     )
 }

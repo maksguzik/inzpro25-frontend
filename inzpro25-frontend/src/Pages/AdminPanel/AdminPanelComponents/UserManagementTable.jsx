@@ -34,7 +34,7 @@ function UserManagementTable(){
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
+        console.log(response);
         const json = await response.json();
         setUserList(json);
         console.log(json);
@@ -63,6 +63,7 @@ function UserManagementTable(){
                         <th>email</th>
                         <th>is email verified</th>
                         <th>companies</th>
+                        <th>roles</th>
                     </tr>
                 </thead>
                 <tbody>

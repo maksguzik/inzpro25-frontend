@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 
-function UserDelete({userId, setUpdateUserList, getUserList}){
+function UserDelete({userId, setUpdateUserList}){
 
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
