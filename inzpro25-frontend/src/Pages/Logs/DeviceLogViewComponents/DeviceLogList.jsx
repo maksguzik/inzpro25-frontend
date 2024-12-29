@@ -3,16 +3,26 @@ import DeviceLog from "./DeviceLog";
 import DeviceLogFilter from "./Components/DeviceLogFilter";
 import './DeviceLogStyle.css';
 import '../LogUniversalViewStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function DeviceLogList(){
     const [deviceLogList, setDeviceLogList] = useState([]);
+    const {getAccessTokenSilently} = useAuth0();
 
     const URL = 'http://localhost:8080/api/devices-logs';
 
-    const getDeviceLogList = () =>{
-        fetch(URL)
+    const getDeviceLogList = async() =>{
+        const token = await getAccessTokenSilently();
+        console.log(token);
+        fetch(URL, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
         .then(response => response.json())
-        .then(json => setDeviceLogList(json.reverse()))
+        .then(json => setDeviceLogList(json.content.reverse()))
         .catch(error => console.error(error));
     }
 

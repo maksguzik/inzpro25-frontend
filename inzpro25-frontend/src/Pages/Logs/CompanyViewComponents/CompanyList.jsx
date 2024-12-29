@@ -4,18 +4,29 @@ import AddCompany from "./Components/AddCompany";
 import CompanyDelete from "./Components/CompanyDelete";
 import './CompanyStyle.css';
 import '../LogUniversalViewStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function CompanyList(){
     const [companyList, setCompanyList] = useState([]);
     const [updateCompanyList, setUpdateCompanyList] = useState(true);
     const [companyIdDeleteList, setCompanyIdDeleteList] = useState([]);
 
+    const {getAccessTokenSilently} = useAuth0();
+
     const URL = 'http://localhost:8080/api/companies';
 
-    const getCompanyList = () =>{
-        fetch(URL)
+    const getCompanyList = async() =>{
+        const token = await getAccessTokenSilently();
+        console.log(token);
+        fetch(URL, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
         .then(response => response.json())
-        .then(json => setCompanyList(json))
+        .then(json => setCompanyList(json.content))
         .then(()=>setUpdateCompanyList(false))
         .catch(error => console.error(error));
     }

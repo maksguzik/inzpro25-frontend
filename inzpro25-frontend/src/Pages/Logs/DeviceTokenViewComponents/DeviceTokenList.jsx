@@ -4,6 +4,7 @@ import AddDeviceToken from "./Components/AddDeviceToken";
 import DeviceTokenDelete from "./Components/DeviceTokenDelete";
 import './DeviceTokenStyle.css';
 import '../LogUniversalViewStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function DeviceTokenList(){
     const [deviceTokenList, setDeviceTokenList] = useState([]);
@@ -11,11 +12,20 @@ function DeviceTokenList(){
     // const [selectedRecord, setSelectedRecord] = useState(null);
     const [tokenIdDeleteList, setTokenIdDeleteList] = useState([]);
 
+    const {getAccessTokenSilently} = useAuth0();
 
     const URL = 'http://localhost:8080/api/devices-tokens';
 
-    const getDeviceTokenList = () =>{
-        fetch(URL)
+    const getDeviceTokenList = async() =>{
+        const token = await getAccessTokenSilently();
+        console.log(token);
+        fetch(URL, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
         .then(response => response.json())
         .then(json => setDeviceTokenList(json))
         .then(()=>setUpdateDeviceTokenList(false))
