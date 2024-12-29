@@ -9,17 +9,16 @@ function UserAdd({setUpdateUserList}){
     const {getAccessTokenSilently} = useAuth0();
 
     const [userData, setUserData] = useState({
-        email:"",
-        password:"",
-        connection:"Username-Password-Authentication",
-        roles:"",
-        name:"",
-        companyNames:""
+        email:"example123@gmail.com",
+        name:"sigma",
+        companyNames:["GreenTech Innovations"],
+        roles:["ADMIN"]
     });
     
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const addUser = async () => {
+        setIsPopupOpen(false);
         const token = await getAccessTokenSilently();
 
           const response = await fetch(URL + "api/admin-panel/users", {
@@ -28,23 +27,14 @@ function UserAdd({setUpdateUserList}){
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            // body: {
-            //     // email: userData.email,
-            //     // password: userData.password,
-            //     // identities: {
-            //     //     connection:userData.connection
-            //     // }
-            //     ...userData
-            // },
             body:JSON.stringify(userData),
           })
           .catch(error=>console.error('Error adding user:', error));
           console.log(userData);
           console.log(await response.json());
-
+          
           if (response.ok) {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            setIsPopupOpen(false);
+            // await new Promise(resolve => setTimeout(resolve, 1000));
             setUpdateUserList(true);
           }
       };
@@ -77,13 +67,6 @@ function UserAdd({setUpdateUserList}){
                     <div className="overlay"
                         onClick = {togglePopup}></div>
                     <div className="popup-content addUser"  onClick={(event) => event.stopPropagation()}>
-                    <div className="popup-label">Name</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {userData.name} 
-                            onChange = {(event) => handleChange(event, "name")}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
                         <div className="popup-label">Email</div>
                         <input
                             className = "inputDeviceToken"  
@@ -91,18 +74,11 @@ function UserAdd({setUpdateUserList}){
                             onChange = {(event) => handleChange(event, "email")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popup-label">Password</div>
+                        <div className="popup-label">Name</div>
                         <input
                             className = "inputDeviceToken"  
-                            value = {userData.password} 
-                            onChange = {(event) => handleChange(event, "password")}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
-                        <div className="popup-label">Connection</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {userData.connection} 
-                            onChange = {(event) => handleChange(event, "connection")}
+                            value = {userData.name} 
+                            onChange = {(event) => handleChange(event, "name")}
                             onKeyDown = {handleKeyDown}>
                         </input>
                         <div className="popup-label">Roles</div>
