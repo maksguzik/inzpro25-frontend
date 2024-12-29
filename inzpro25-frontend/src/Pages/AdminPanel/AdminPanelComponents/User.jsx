@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import UserDisplay from "./UserDisplay";
 import UserDelete from "./UserDelete";
-
+import UserUpdate from "./UserUpdate";
 
 function User({userId, index, email, emailVerified, name, companies, setUpdateUserList, getUserList}){
 
@@ -47,6 +47,13 @@ function User({userId, index, email, emailVerified, name, companies, setUpdateUs
                     userId = {userId}
                     setUpdateUserList = {setUpdateUserList}
                     getUserList = {getUserList}
+                />
+                <UserUpdate
+                    userId={userId}
+                    email={email}
+                    name={name}
+                    companyNames={companies}
+                    setUpdateUserList={setUpdateUserList}
                 />
             </td>
         ):<div className = "noHoverDeleteToken"></div>}
