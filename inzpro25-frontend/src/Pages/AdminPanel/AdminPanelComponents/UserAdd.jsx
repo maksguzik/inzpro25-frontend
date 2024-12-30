@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import Select from "react-select";
 import './UserManagementStyle.css';
 
-function UserAdd({setUpdateUserList}){
+function UserAdd({setUpdateUserList, companyList}){
 
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
@@ -34,7 +35,7 @@ function UserAdd({setUpdateUserList}){
           console.log(await response.json());
           
           if (response.ok) {
-            // await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, 3000));
             setUpdateUserList(true);
           }
       };
@@ -42,6 +43,11 @@ function UserAdd({setUpdateUserList}){
     const togglePopup = (event) =>{
         event.stopPropagation(); 
         setIsPopupOpen(!isPopupOpen);
+        setUserData((prevUserData)=>({
+            ...prevUserData,
+            roles:['USER'],
+            companyNames: [],
+        }));
     }
 
     const handleKeyDown = (event) =>{
@@ -64,6 +70,32 @@ function UserAdd({setUpdateUserList}){
             [key]: [event.target.value],
         }));
     }
+    const handleRolesChange = async(selectedOptions) => {
+        const selectedRoles = selectedOptions.map((option) => option.value);
+        setUserData((prevUserData) => ({
+            ...prevUserData,
+            roles: selectedRoles,
+        }));
+    };
+
+    const handleCompaniesChange = (selectedOptions) => {
+        const selectedCompanies = selectedOptions.map((option) => option.value);
+        setUserData((prevUserData) => ({
+            ...prevUserData,
+            companyNames: selectedCompanies,
+        }));
+    };
+
+    const companiesOptions = companyList.map((company) => ({
+        value: company.name,
+        label: company.name,
+    }));;
+
+    const rolesOptions = [
+        { value: "ADMIN", label: "Admin" },
+        { value: "USER", label: "User" },
+        { value: "SUPPORT_TEAM", label: "Support Team" },
+    ];
 
     return(
         <>
@@ -89,20 +121,26 @@ function UserAdd({setUpdateUserList}){
                             onChange = {(event) => handleChange(event, "name")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popup-label">Roles</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {userData.roles} 
-                            onChange = {(event) => handleChangeArray(event, "roles")}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
+                        <div className="popup-label roleLabel">Roles</div>
+                        <Select
+                            isMulti
+                            options={rolesOptions}
+                            value={rolesOptions.filter((option) =>
+                                userData.roles.includes(option.value)
+                            )}
+                            onChange={handleRolesChange}
+                            className="inputDeviceToken rolePadding"
+                        />
                         <div className="popup-label">Company Names</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {userData.companyNames} 
-                            onChange = {(event) => handleChangeArray(event, "companyNames")}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
+                        <Select
+                            isMulti
+                            options={companiesOptions}
+                            value={companiesOptions.filter((option) =>
+                                userData.companyNames.includes(option.value)
+                            )}
+                            onChange={handleCompaniesChange}
+                            className="inputDeviceToken rolePadding"
+                        />
                         <button className = "crudButton blueButton saveButton"
                         onClick = {addUser}>SAVE</button>
                         <button className = "closeButton crudButton"

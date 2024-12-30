@@ -8,6 +8,7 @@ function UserManagementTable(){
 
     const [userList, setUserList] = useState([]);
     const [updateUserList, setUpdateUserList] = useState(true);
+    const [companyList, setCompanyList] = useState([]);
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
@@ -19,6 +20,22 @@ function UserManagementTable(){
     //     .catch(error => console.error(error));
     // }
     const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+
+    const getCompanyList = async() =>{
+        const token = await getAccessTokenSilently();
+        console.log(token);
+        fetch('http://localhost:8080/api/companies', {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(response => response.json())
+        .then(json => setCompanyList(json.content))
+        .catch(error => console.error(error));
+    }
+
 
     const getUserList = async () => {
     try {
@@ -45,12 +62,15 @@ function UserManagementTable(){
     };
 
     useEffect(() => {
-        if (updateUserList) getUserList();
+        if (updateUserList) {getUserList();
+            getCompanyList();
+        };
     },[updateUserList]);
     return(<>
              <div className = "addContainer">
                 <UserAdd
                 setUpdateUserList = {setUpdateUserList}
+                companyList={companyList}
                 />
             </div>
         <div  className = "adminPanelListContainer">
