@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import HomePage from "./Pages/Home/Home";
 import AlertsPage from "./Pages/Alerts/Alerts";
 import LogsPage from "./Pages/Logs/Logs";
@@ -23,10 +23,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 function App() {
 
   const [isAdmin, setIsAdmin] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const {loginWithRedirect, getAccessTokenSilently, isAuthenticated, login, logout, user, isLoading, error } = useAuth0();
   
   const [token, setToken] = useState(null);
+  const [roles, setRoles] = useState([]);
+  const [isGetUserRoleFunctionCalled, setIsGetUserRoleFunctionCalled] = useState(false);
 
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
@@ -43,7 +44,44 @@ function App() {
         }
     };
 
+  const getUserRole = useCallback(async()=>{
+    if (!user?.sub) {
+      console.warn("User.sub is undefined");
+      return;
+    }
+          setIsGetUserRoleFunctionCalled(true);
+          const token = await getAccessTokenSilently();
+          
+            const response = await fetch(audience + "api/admin-panel/users/" + user.sub + "/roles", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            .catch(error=>console.error('Error fetching roles:', error));
+            const data =  await response.json();
+            console.log(response);
+            
+            
+            if (response.ok) {
+              // await new Promise(resolve => setTimeout(resolve, 1000));
+              setRoles(data);
+            }
+            
+  },[getAccessTokenSilently, audience, user?.sub]);
    
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      console.log(user);
+      if (isAuthenticated && user!==undefined && !isGetUserRoleFunctionCalled) {
+        await getUserRole();
+      }
+    };
+  
+    fetchUserRole();
+  }, [isAuthenticated, user, isGetUserRoleFunctionCalled, getUserRole]);
+  
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -51,11 +89,11 @@ function App() {
     return <div>Loading...</div>;
   }else if(isAuthenticated){
 
-       
+    
     fetchToken();
-    
-    
-
+    // if(isAuthenticated && !isGetUserRoleFunctionCalled){
+    //   getUserRole();
+    // }
 
   // const router = createBrowserRouter([
   //   {
@@ -101,6 +139,7 @@ function App() {
       <Routes>
           <>
             <Route path="/" element={<RootLayout />}>
+            {/* {roles.find((element)=>element === 'ADMIN' || element === 'SUPPORT_TEAM') */}
               <Route index element={<HomePage />} />
               <Route path="Alerts" element={<AlertsPage />} />
               <Route path="Logs" element={<LogsPage />}>
@@ -115,7 +154,7 @@ function App() {
                 <Route path="Device" element={<DeviceViewPage />} />
               </Route>
               {
-                isAdmin && (<Route path="AdminPanel" element={<AdminPanel/>}>
+                isAdmin && roles.find((element)=>element === 'ADMIN') && (<Route path="AdminPanel" element={<AdminPanel/>}>
                   <Route path="UserManagement" element={<UserManagement/>}>
 
                   </Route>

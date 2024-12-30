@@ -33,7 +33,7 @@ function User({userId, index, email, emailVerified, name, companies, setUpdateUs
     }, [rowRef]);
 
     
-    const getUserRoles = useCallback(async()=>{
+    const getUserRole = useCallback(async()=>{
 
         const token = await getAccessTokenSilently();
         
@@ -53,14 +53,14 @@ function User({userId, index, email, emailVerified, name, companies, setUpdateUs
             setRoles(data);
             setUpdateRoles(false);
           }
-    },[getAccessTokenSilently, userId, setRoles]);
+    },[getAccessTokenSilently, userId, setRoles, URL]);
 
     useEffect(()=>{
         if(updateRoles){
-            getUserRoles();
+            getUserRole();
             setUpdateRoles(false);
         }
-    }, [updateRoles])
+    }, [updateRoles, getUserRole])
     
 
     return(<tr

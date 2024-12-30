@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import './UserManagementStyle.css';
 
-function UserAdd({setUpdateUserList, setUpdateRoles}){
+function UserAdd({setUpdateUserList}){
 
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
@@ -36,7 +36,6 @@ function UserAdd({setUpdateUserList, setUpdateRoles}){
           if (response.ok) {
             // await new Promise(resolve => setTimeout(resolve, 1000));
             setUpdateUserList(true);
-            setUpdateRoles(true);
           }
       };
     
