@@ -67,7 +67,7 @@ function UserAdd({setUpdateUserList}){
 
     return(
         <>
-            <div>
+            <div className="AddToken">
                 <button className="crudButton greenButton" onClick={togglePopup}>ADD</button>
             </div>
             {isPopupOpen && (

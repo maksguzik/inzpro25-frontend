@@ -1,3 +1,10 @@
 .popup-content.addUser{
     min-height: 650px;
   }
+
+  .addContainer{
+    display: flex;
+    justify-content: right;
+    padding: 20px 20px 20px 20px;
+    
+  }

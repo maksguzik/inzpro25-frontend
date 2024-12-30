@@ -48,7 +48,7 @@ function UserManagementTable(){
         if (updateUserList) getUserList();
     },[updateUserList]);
     return(<>
-             <div className = "deleteAddContainer">
+             <div className = "addContainer">
                 <UserAdd
                 setUpdateUserList = {setUpdateUserList}
                 />
