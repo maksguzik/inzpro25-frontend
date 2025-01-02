@@ -67,7 +67,7 @@ function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList
 
     return(
         <>
-            <button className="crudButton blueButton margin" onClick={togglePopup}>UPDATE</button>
+            <button className="crudButton blueButton" onClick={togglePopup}>UPDATE</button>
             {isPopupOpen && (
                     <div className="popup">
                     <div className="overlay"

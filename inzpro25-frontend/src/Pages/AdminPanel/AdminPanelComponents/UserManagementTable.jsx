@@ -84,6 +84,7 @@ function UserManagementTable(){
                         <th>is email verified</th>
                         <th>companies</th>
                         <th>roles</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

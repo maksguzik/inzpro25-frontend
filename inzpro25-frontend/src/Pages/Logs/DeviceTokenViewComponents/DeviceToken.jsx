@@ -85,7 +85,7 @@ function DeviceToken({index, tokenId, token, deviceTypeName, setUpdateDeviceToke
                         // setSelectedRecord = {setSelectedRecord}
                     />
                     </td>
-                ):<div className = "noHoverDeleteToken"></div>}
+                ):<td className = "noHoverDeleteToken"></td>}
             </tr>
     );
 }

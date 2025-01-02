@@ -64,7 +64,7 @@ function Company({companyId, companyName, setUpdateCompanyList, setCompanyIdDele
                         setUpdateCompanyList = {setUpdateCompanyList}
                     />
                     </td>
-                ):<div className = "noHoverDeleteToken"></div>}
+                ):<td className = "noHoverDeleteToken"></td>}
             </tr>
     );
 }

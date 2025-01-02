@@ -8,8 +8,8 @@ function UserDisplay({userId, index, email, emailVerified, name, companies, role
             <td>{name}</td>
             <td>{email}</td>
             <td>{(emailVerified) ? "✔" : "✘"}</td>
-            <td>{companies}</td>
-            <td>{roles}</td>
+            <td>{companies.join(', ')}</td>
+            <td>{roles.join(', ')}</td>
         </>
     )
 }
