@@ -32,68 +32,36 @@ function App() {
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
   
-    const fetchToken = async () => {
-        try {
-          const accessToken = await getAccessTokenSilently({
-            audience: audience,
-            scope: "read:messages",
-          });
-          setToken(accessToken);
-        } catch (error) {
-          console.error("Error fetching token:", error);
-        }
-    };
+  const decodeJWT = (token) => {
+    const parts = token.split(".");
+    if (parts.length !== 3) throw new Error("Invalid JWT format");
+    return JSON.parse(atob(parts[1]));
+};
 
-  const getUserRole = useCallback(async()=>{
-    if (!user?.sub) {
-      console.warn("User.sub is undefined");
-      return;
-    }
-          setIsGetUserRoleFunctionCalled(true);
+  const fetchPermissions = async () => {
+      try {
           const token = await getAccessTokenSilently();
-          
-            const response = await fetch(audience + "api/admin-panel/users/" + user.sub + "/roles", {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            })
-            .catch(error=>console.error('Error fetching roles:', error));
-            const data =  await response.json();
-            console.log(response);
-            
-            
-            if (response.ok) {
-              // await new Promise(resolve => setTimeout(resolve, 1000));
-              setRoles(data);
-            }
-            
-  },[getAccessTokenSilently, audience, user?.sub]);
-   
-  useEffect(() => {
-    const fetchUserRole = async () => {
-      console.log(user);
-      if (isAuthenticated && user!==undefined && !isGetUserRoleFunctionCalled) {
-        await getUserRole();
+          const decodedToken = decodeJWT(token);
+          const permissions = decodedToken.permissions || [];
+          console.log(permissions);
+          setRoles(permissions);
+          setIsGetUserRoleFunctionCalled(true);
+      } catch (error) {
+          console.error("Error fetching permissions:", error);
       }
-    };
-  
-    fetchUserRole();
-  }, [isAuthenticated, user, isGetUserRoleFunctionCalled, getUserRole]);
-  
+  };
+
+  useEffect(()=>{
+    if(!isGetUserRoleFunctionCalled){
+      fetchPermissions();
+    }
+  },[isGetUserRoleFunctionCalled, fetchPermissions])
 
   if (error) {
     return <div>Error: {error.message}</div>;
   }else if (isLoading) {
     return <div>Loading...</div>;
   }else if(isAuthenticated){
-
-    
-    fetchToken();
-    // if(isAuthenticated && !isGetUserRoleFunctionCalled){
-    //   getUserRole();
-    // }
 
   // const router = createBrowserRouter([
   //   {
