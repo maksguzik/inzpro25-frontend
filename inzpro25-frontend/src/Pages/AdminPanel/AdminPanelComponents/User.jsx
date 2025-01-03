@@ -46,7 +46,6 @@ function User({userId, index, email, emailVerified, name, companies, setUpdateUs
           })
           .catch(error=>console.error('Error fetching roles:', error));
           const data =  await response.json();
-          console.log(data);
           
           if (response.ok) {
             // await new Promise(resolve => setTimeout(resolve, 1000));

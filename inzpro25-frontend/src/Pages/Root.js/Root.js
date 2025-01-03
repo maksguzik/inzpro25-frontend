@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
 import MenuNav from "./rootComponents/MenuNav";
+import MenuNavUser from "./rootComponents/MenuNavUser";
 import TopBar from "./rootComponents/TopBar";
 import "./Root.css";
 import { useState } from "react";
 import TabBar from "./rootComponents/TabBar";
 
-function RootLayout({isLoggedIn, setIsLoggedIn}) {
+function RootLayout({isUser, isNotAdmin}) {
   const [activeTab, setActiveTab] = useState("/");
   const [isMenuMinimized, setIsMenuMinimized] = useState(false);
  
@@ -16,12 +17,13 @@ function RootLayout({isLoggedIn, setIsLoggedIn}) {
   return (
     <div className="root-layout">
       <TopBar 
-        isLoggedIn = {isLoggedIn}
-        setIsLoggedIn = {setIsLoggedIn}
       />
       <div className="container">
         <div className={`${isMenuMinimized ? "menu-minimized" : "menu"}`}>
-          <MenuNav setActiveTab={setActiveTab} toggleMenuRoot={toggleMenu} />
+          {(!isUser) ? (<MenuNav setActiveTab={setActiveTab} toggleMenuRoot={toggleMenu} isNotAdmin={isNotAdmin}/>) : 
+            (<MenuNavUser setActiveTab={setActiveTab} toggleMenuRoot={toggleMenu} />)
+          }
+          
         </div>
         <div className="content">
           <TabBar activeTab={activeTab} />

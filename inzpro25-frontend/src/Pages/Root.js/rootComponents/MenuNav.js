@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import "./MenuNav.css";
 import { useState } from "react";
 
-function MenuNav({ setActiveTab , toggleMenuRoot}) {
+function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
   const [isShrinked, setIsShrinked] = useState(false);
 
   const toggleMenu = () => {
@@ -74,15 +74,26 @@ function MenuNav({ setActiveTab , toggleMenuRoot}) {
                 <i className="material-icons-outlined">schema</i>
               </NavLink>
             </li>
-            <li>
+            {!isNotAdmin && (<li>
               <NavLink
-                to="Settings"
+                to="AdminPanel"
                 className={({ isActive }) => {
-                  if (isActive) setActiveTab("Settings");
+                  if (isActive) setActiveTab("AdminPanel");
                   return isActive ? "active" : undefined;
                 }}
               >
-                <i className="material-icons-outlined">settings</i>
+                <i className="material-icons-outlined">shield</i>
+              </NavLink>
+            </li>)}
+            <li>
+              <NavLink
+                to="Profile"
+                className={({ isActive }) => {
+                  if (isActive) setActiveTab("Profile");
+                  return isActive ? "active" : undefined;
+                }}
+              >
+                <i className="material-icons-outlined">perm_identity</i>
               </NavLink>
             </li>
           </ul>
@@ -148,19 +159,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot}) {
                 Device management
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="Settings"
-                className={({ isActive }) => {
-                  if (isActive) setActiveTab("Settings");
-                  return isActive ? "active" : undefined;
-                }}
-              >
-                <i className="material-icons-outlined">settings</i>
-                Settings
-              </NavLink>
-            </li>
-            <li>
+            {!isNotAdmin && (<li>
               <NavLink
                 to="AdminPanel"
                 className={({ isActive }) => {
@@ -171,7 +170,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot}) {
                 <i className="material-icons-outlined">shield</i>
                 Admin Panel
               </NavLink>
-            </li>
+            </li>)}
             <li>
               <NavLink
                 to="Profile"

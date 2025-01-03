@@ -31,8 +31,7 @@ function UserAdd({setUpdateUserList, companyList}){
             body:JSON.stringify(userData),
           })
           .catch(error=>console.error('Error adding user:', error));
-          console.log(userData);
-          console.log(await response.json());
+          const data = await response.json();
           
           if (response.ok) {
             await new Promise(resolve => setTimeout(resolve, 3000));

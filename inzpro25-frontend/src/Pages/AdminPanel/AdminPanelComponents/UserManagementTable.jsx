@@ -17,7 +17,6 @@ function UserManagementTable(){
 
     const getCompanyList = async() =>{
         const token = await getAccessTokenSilently();
-        console.log(token);
         fetch(URL + 'api/companies', {
             method: 'GET',
             headers: {
@@ -34,7 +33,6 @@ function UserManagementTable(){
     const getUserList = async () => {
     try {
         const token = await getAccessTokenSilently();
-        console.log(token);
         const response = await fetch(URL + "api/admin-panel/users?page=" + currentPage + "&perPage=9", {
             headers: {
                 Authorization: `Bearer ${token}`,

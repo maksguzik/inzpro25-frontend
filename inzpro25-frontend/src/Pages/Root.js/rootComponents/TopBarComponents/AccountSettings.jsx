@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
 
-function AccountSettings({isLoggedIn, setIsLoggedIn}){
+function AccountSettings(){
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const {logout, isAuthenticated} = useAuth0();
@@ -12,10 +12,6 @@ function AccountSettings({isLoggedIn, setIsLoggedIn}){
 
     const handleClickedButton = () =>{
         setIsPopupOpen(!isPopupOpen);
-    }
-
-    const handleLogoutClicked = () =>{
-      setIsLoggedIn(false);
     }
 
     const handleRedirect = () => {

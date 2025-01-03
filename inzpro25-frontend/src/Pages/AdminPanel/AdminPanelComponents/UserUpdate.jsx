@@ -29,7 +29,6 @@ function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList
             body:JSON.stringify(userData),
           })
           .catch(error=>console.error('Error updating user:', error));
-          console.log(userData);
           console.log(await response.json());
           
           if (response.ok) {

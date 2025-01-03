@@ -17,8 +17,7 @@ import DeviceManagement from "./Pages/DeviceManagement/DeviceManagement";
 import AdminPanel from "./Pages/AdminPanel/AdminPanel";
 import UserManagement from "./Pages/AdminPanel/AdminPanelComponents/UserManagement";
 import Profile from "./Pages/Profile/Profile";
-// import LoginPage from "./Pages/Root.js/rootComponents/LoginPage";
-// import LoginButton from "./Pages/Root.js/rootComponents/LoginButton";
+import UserDeviceList from "./Pages/UserDevices/UserDeviceList";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
@@ -64,51 +63,14 @@ function App() {
     return <div>Loading...</div>;
   }else if(isAuthenticated){
 
-  // const router = createBrowserRouter([
-  //   {
-  //     path: "/login",
-  //     index : true,
-  //     element: <LoginButton setIsLoggedIn={setIsLoggedIn}/>
-  //   },
-  //   {
-  //         path: "/",
-  //         element: <RootLayout></RootLayout>,
-  //         children: [
-  //           { index: true, element: <HomePage /> },
-  //           { path: "Alerts", element: <AlertsPage /> },
-  //           {
-  //             path: "Logs",
-  //             element: <LogsPage />,
-  //             children: [
-  //               { path: "All logs", element: <DeviceLogPage /> },
-  //             ],
-  //           },
-  //           { path: "Raports", element: <RaportsPage /> },
-  //           { path: "Settings", element: <SettingsPage /> },
-  //           {
-  //             path: "DeviceManagement",
-  //             element: <DeviceManagement />,
-  //             children: [
-  //               { path: "Token", element: <DeviceTokenPage /> },
-  //               { path: "Json template", element: <JsonTemplatePage /> },
-  //               { path: "Owner", element: <CompanyPage /> },
-  //               { path: "Device", element: <DeviceViewPage /> },
-  //             ],
-  //           },
-  //         ],
-  //   },
-  // ]);
-
-  // return (
-  //   <>
-  //     <RouterProvider router={router} />
-  //   </>
   return (
     <Router>
       <Routes>
           <>
-            <Route path="/" element={<RootLayout />}>
-            {/* {roles.find((element)=>element === 'ADMIN' || element === 'SUPPORT_TEAM') */}
+          {(roles.includes('ADMIN') || roles.includes('SUPPORT_TEAM')) ?
+            <Route path="/" element={<RootLayout isNotAdmin={(roles.includes('ADMIN'))? false : true}/>}>
+
+            
               <Route index element={<HomePage />} />
               <Route path="Alerts" element={<AlertsPage />} />
               <Route path="Logs" element={<LogsPage />}>
@@ -133,7 +95,15 @@ function App() {
               <Route path="Profile" element={<Profile role={roles.includes('ADMIN') ? 'ADMIN' : ''}/>}>
 
               </Route>
+  
+            </Route> : 
+            <Route path="/" element={<RootLayout isUser={true}/>}>
+              <Route path="Profile" element={<Profile role={''}/>}/>
+              <Route path="Devices" element={<UserDeviceList/>}/>
+
             </Route>
+            
+            }
           </>
       </Routes>
     </Router>
