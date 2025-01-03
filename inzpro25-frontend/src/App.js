@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useCallback } from "react";
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState, useCallback } from "react";
 import HomePage from "./Pages/Home/Home";
 import AlertsPage from "./Pages/Alerts/Alerts";
 import LogsPage from "./Pages/Logs/Logs";
@@ -71,96 +68,7 @@ function App() {
     return <div>Loading...</div>;
   }else if(isAuthenticated){
 
-
-  const [isAdmin, setIsAdmin] = useState(true);
-  const {loginWithRedirect, getAccessTokenSilently, isAuthenticated, login, logout, user, isLoading, error } = useAuth0();
-  
-  const [token, setToken] = useState(null);
-  const [roles, setRoles] = useState([]);
-  const [isGetUserRoleFunctionCalled, setIsGetUserRoleFunctionCalled] = useState(false);
-
-  const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
-
-  
-  const decodeJWT = (token) => {
-    const parts = token.split(".");
-    if (parts.length !== 3) throw new Error("Invalid JWT format");
-    return JSON.parse(atob(parts[1]));
-};
-
-  const fetchPermissions = async () => {
-      try {
-          const token = await getAccessTokenSilently();
-          const decodedToken = decodeJWT(token);
-          const permissions = decodedToken.permissions || [];
-          console.log(permissions);
-          setRoles(permissions);
-          setIsGetUserRoleFunctionCalled(true);
-      } catch (error) {
-          console.error("Error fetching permissions:", error);
-      }
-  };
-
-  useEffect(()=>{
-    if(!isGetUserRoleFunctionCalled){
-      fetchPermissions();
-    }
-  },[isGetUserRoleFunctionCalled, fetchPermissions])
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }else if (isLoading) {
-    return <div>Loading...</div>;
-  }else if(isAuthenticated){
-
-  return (
-    <Router>
-      <Routes>
-          <>
-          {(roles.includes('SUPPORT_TEAM')) ?
-            <Route path="/" element={<RootLayout isNotAdmin={(roles.includes('ADMIN'))? false : true}/>}>
-
-            
-              <Route index element={<HomePage />} />
-              <Route path="Alerts" element={<AlertsPage />} />
-              <Route path="Logs" element={<LogsPage />}>
-                <Route path="All logs" element={<DeviceLogPage />} />
-              </Route>
-              <Route path="Raports" element={<RaportsPage />} />
-              <Route path="Settings" element={<SettingsPage />} />
-              <Route path="DeviceManagement" element={<DeviceManagement />}>
-                <Route path="Token" element={<DeviceTokenPage />} />
-                <Route path="Json template" element={<JsonTemplatePage />} />
-                <Route path="Owner" element={<CompanyPage />} />
-                <Route path="Device" element={<DeviceViewPage />} />
-              </Route>
-              {
-                isAdmin && roles.find((element)=>element === 'ADMIN') && (<Route path="AdminPanel" element={<AdminPanel/>}>
-                  <Route path="UserManagement" element={<UserManagement/>}>
-
-                  </Route>
-
-                </Route>)
-              }
-              <Route path="Profile" element={<Profile role={roles.includes('ADMIN') ? 'ADMIN' : ''}/>}>
-
-              </Route>
-  
-            </Route> : 
-            <Route path="/" element={<RootLayout isUser={true}/>}>
-              <Route path="Profile" element={<Profile role={''}/>}/>
-              <Route path="Devices" element={<UserDeviceList/>}/>
-
-            </Route>
-            
-            }
-          </>
-      </Routes>
-    </Router>
-  );
-  }else{
-    loginWithRedirect();
-  }
+    return(
     <Router>
       <Routes>
           <>
