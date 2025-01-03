@@ -10,16 +10,17 @@ function DeviceList(){
     const [deviceList, setDeviceList] = useState([]);
     const [updateDeviceList, setUpdateDeviceList] = useState(true);
     // const [selectedRecord, setSelectedRecord] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
     const [deviceIdDeleteList, setDeviceIdDeleteList] = useState([]);
 
     const {getAccessTokenSilently} = useAuth0();
 
-    const URL = 'http://localhost:8080/api/devices';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
     const getDeviceList = async() =>{
         const token = await getAccessTokenSilently();
         console.log(token);
-        fetch(URL, {
+        fetch(URL + 'api/devices?page=' + currentPage + '&size=9', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -34,7 +35,17 @@ function DeviceList(){
 
     useEffect(() => {
         if (updateDeviceList) getDeviceList();
-    });
+    }, [updateDeviceList, getDeviceList]);
+
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+        setUpdateDeviceList(true);
+    };
+    
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => (prevPage > 0 ? prevPage - 1 : 0));
+        setUpdateDeviceList(true);
+    };
 
     return(<>
         <div className = "deleteAddContainer">
@@ -78,6 +89,22 @@ function DeviceList(){
                     ))}
                 </tbody>
             </table>
+            <div className="pagination">
+                <button 
+                    onClick={handlePreviousPage} 
+                    disabled={currentPage === 0}
+                    className="crudButton greyButton paginationButton"
+                >
+                    ◀ Previous
+                </button>
+                <span className="paginationInfo">PAGE {currentPage + 1}</span>
+                <button 
+                    onClick={handleNextPage} 
+                    className="crudButton greyButton paginationButton"
+                >
+                    Next ▶
+                </button>
+            </div>
         </div>
         </>
     );

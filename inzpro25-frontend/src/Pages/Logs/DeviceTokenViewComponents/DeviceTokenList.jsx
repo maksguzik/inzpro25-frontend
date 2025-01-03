@@ -10,16 +10,17 @@ function DeviceTokenList(){
     const [deviceTokenList, setDeviceTokenList] = useState([]);
     const [updateDeviceTokenList, setUpdateDeviceTokenList] = useState(true);
     // const [selectedRecord, setSelectedRecord] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
     const [tokenIdDeleteList, setTokenIdDeleteList] = useState([]);
 
     const {getAccessTokenSilently} = useAuth0();
 
-    const URL = 'http://localhost:8080/api/devices-tokens';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
     const getDeviceTokenList = async() =>{
         const token = await getAccessTokenSilently();
         console.log(token);
-        fetch(URL, {
+        fetch(URL + 'api/devices-tokens', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
