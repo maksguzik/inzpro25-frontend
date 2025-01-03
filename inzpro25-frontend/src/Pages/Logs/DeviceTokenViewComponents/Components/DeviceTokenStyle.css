@@ -23,7 +23,7 @@ table th {
   background-color: #f4f4f4;
 }
 
-.popup, .overlay {
+/* .popup, .overlay {
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -48,7 +48,7 @@ table th {
   max-width: 600px;
   min-width: 300px;
   min-height: 200px;
-}
+} */
 .addToken{
   padding: 20px 20px 0px 20px;
   display: flex;
@@ -64,7 +64,7 @@ table th {
   align-items: center;
 }
 
-.crudButton.saveButton{
+ /* .crudButton.saveButton{
   width: 80px;
   height: 40px;
   position: absolute;
@@ -72,8 +72,8 @@ table th {
   left: 40%;
   bottom: 0;
   margin-bottom:10px;
-}
-.crudButton.closeButton{
+} */
+/* .crudButton.closeButton{
   width: 50px;
   height: 25px;
   font-size: 8px;
@@ -84,9 +84,9 @@ table th {
   margin-right: 5px;
   color: grey;
   box-shadow: none;
-}
+} */
 
-.popup-label{
+/* .popup-label{
   position: absolute;
   left: 12%;
   padding: 5px;
@@ -96,9 +96,9 @@ table th {
   color:rgb(0, 100, 200);
   background-color: #f1f1f1;
   text-align: center;
-}
+} */
 
-.inputDeviceToken{
+/* .inputDeviceToken{
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -111,8 +111,8 @@ table th {
     border-radius: 10px;
     border: solid rgb(0, 100, 200);
     background-color: transparent;
-}
+}  */
 
-.margin{
+/* .margin{
   margin-right: 10px;
-}
+} */

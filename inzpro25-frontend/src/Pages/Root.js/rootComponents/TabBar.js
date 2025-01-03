@@ -8,6 +8,7 @@ const tabValues = {
   Raports: ["Not working yet"],
   Settings: ["Not working yet"],
   DeviceManagement: ["Token", "Json template", "Owner", "Device"],
+  AdminPanel:["UserManagement"]
 };
 
 function TabBar({ activeTab }) {

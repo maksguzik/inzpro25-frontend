@@ -4,26 +4,48 @@ import AddDevice from "./Components/AddDevice";
 import DeviceDelete from "./Components/DeviceDelete";
 import './DeviceStyle.css';
 import '../LogUniversalViewStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function DeviceList(){
     const [deviceList, setDeviceList] = useState([]);
     const [updateDeviceList, setUpdateDeviceList] = useState(true);
     // const [selectedRecord, setSelectedRecord] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
     const [deviceIdDeleteList, setDeviceIdDeleteList] = useState([]);
 
-    const URL = 'http://localhost:8080/api/devices';
+    const {getAccessTokenSilently} = useAuth0();
 
-    const getDeviceList = () =>{
-        fetch(URL)
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
+
+    const getDeviceList = async() =>{
+        const token = await getAccessTokenSilently();
+        console.log(token);
+        fetch(URL + 'api/devices?page=' + currentPage + '&size=9', {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
         .then(response => response.json())
-        .then(json => setDeviceList(json))
+        .then(json => setDeviceList(json.content))
         .then(()=>setUpdateDeviceList(false))
         .catch(error => console.error(error));
     }
 
     useEffect(() => {
         if (updateDeviceList) getDeviceList();
-    });
+    }, [updateDeviceList, getDeviceList]);
+
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+        setUpdateDeviceList(true);
+    };
+    
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => (prevPage > 0 ? prevPage - 1 : 0));
+        setUpdateDeviceList(true);
+    };
 
     return(<>
         <div className = "deleteAddContainer">
@@ -67,6 +89,22 @@ function DeviceList(){
                     ))}
                 </tbody>
             </table>
+            <div className="pagination">
+                <button 
+                    onClick={handlePreviousPage} 
+                    disabled={currentPage === 0}
+                    className="crudButton greyButton paginationButton"
+                >
+                    ◀ Previous
+                </button>
+                <span className="paginationInfo">PAGE {currentPage + 1}</span>
+                <button 
+                    onClick={handleNextPage} 
+                    className="crudButton greyButton paginationButton"
+                >
+                    Next ▶
+                </button>
+            </div>
         </div>
         </>
     );

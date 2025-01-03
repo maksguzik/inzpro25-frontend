@@ -1,5 +1,6 @@
 import { useState } from "react";
 import './DeviceComponentStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function AddJsonTemplate({setUpdateDeviceList}){
     
@@ -10,12 +11,18 @@ function AddJsonTemplate({setUpdateDeviceList}){
         "lastSeenMapping" : "",
     });
     const [popup, setPopup] = useState(false);
+    const {getAccessTokenSilently} = useAuth0();
+
     const URL = 'http://localhost:8080/api/device-types';
     
-    const addDevice = () => {
+    const addDevice = async() => {
+        const token = await getAccessTokenSilently();
         fetch(URL, {
                     method: 'POST',
-                    headers : { 'Content-Type' : 'application/json' },
+                    headers : { 
+                        'Content-Type' : 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
                     body: JSON.stringify({
                         "deviceTypeName": updateRequestBody.deviceTypeName,
                         "idMapping": updateRequestBody.idMapping,
@@ -61,42 +68,44 @@ function AddJsonTemplate({setUpdateDeviceList}){
                 </div>
                 
                 {popup && (
-                    <div className="popup">
+                    <div className="popup fancyPopup">
                     <div className="overlay"
                         onClick = {togglePopup}></div>
-                    <div className="popup-content deviceUpdate"  onClick={(event) => event.stopPropagation()}>
-                        <div className="popup-label">Device Name</div>
+                    <div className="popupContent deviceUpdate"  onClick={(event) => event.stopPropagation()}>
+                        <div className="popupLabel">Device Name</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.deviceTypeName} 
                             onChange = {(event)=>handleInputChange(event, "deviceTypeName")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popup-label">Id</div>
+                        <div className="popupLabel">Id</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.idMapping} 
                             onChange = {(event)=>handleInputChange(event, "idMapping")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popup-label">Logged At</div>
+                        <div className="popupLabel">Logged At</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.deviceType} 
                             onChange = {(event)=>handleInputChange(event, "loggedAtMapping")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popup-label">Last Seen</div>
+                        <div className="popupLabel">Last Seen</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.companyName} 
                             onChange = {(event)=>handleInputChange(event, "lastSeenMapping")}
                             onKeyDown = {handleKeyDown}>
                         </input>
+                        <div className="buttonsContainer">
                         <button className = "crudButton blueButton saveButton"
                         onClick = {addDevice}>SAVE</button>
                         <button className = "closeButton crudButton"
                         onClick = {togglePopup}>Close</button>
+                        </div>
                     </div>
                 </div>
                 )}

@@ -76,6 +76,7 @@ function DeviceToken({index, tokenId, token, deviceTypeName, setUpdateDeviceToke
                     <td className = "editDeleteSpaceBetween">
                     <UpdateDeviceToken
                         tokenId = {tokenId}
+                        deviceTypeName={deviceTypeName}
                         setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                         // setSelectedRecord = {setSelectedRecord}
                     />
@@ -85,7 +86,7 @@ function DeviceToken({index, tokenId, token, deviceTypeName, setUpdateDeviceToke
                         // setSelectedRecord = {setSelectedRecord}
                     />
                     </td>
-                ):<div className = "noHoverDeleteToken"></div>}
+                ):<td className = "noHoverDeleteToken"></td>}
             </tr>
     );
 }

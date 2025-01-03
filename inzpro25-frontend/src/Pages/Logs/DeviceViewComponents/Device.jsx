@@ -71,7 +71,7 @@ function Device({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCom
                         setUpdateDeviceList = {setUpdateDeviceList}
                     />
                     </td>
-                ):<div className = "noHoverDeleteToken"></div>}
+                ):<td className = "noHoverDeleteToken"></td>}
             </tr>
     );
 }

@@ -1,0 +1,105 @@
+.profileContainer {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  .profileCard {
+    max-width: 1000px;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .profileHeader {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+  }
+  
+  .profileAvatar {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .profileImage {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    /* border: 5px solid rgb(48, 48, 48); */
+  }
+  
+  .profileNoImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #eaeaea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .profileSection {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+  }
+  
+  .profileSection strong {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .profileSection p {
+    margin: 0;
+    color: #555;
+  }
+  
+  .profileSection ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #555;
+  }
+  
+  .profileSection li {
+    margin-bottom: 5px;
+  }
+  
+
+  .passwordInput {
+    width: 97%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  
+  .passwordChangeStatus {
+    margin-top: 10px;
+    color: #333;
+    font-size: 14px;
+  }
+  
+
+  .changePasswordButton{
+    width:180px;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+  

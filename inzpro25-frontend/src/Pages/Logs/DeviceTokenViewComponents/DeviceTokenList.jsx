@@ -4,18 +4,29 @@ import AddDeviceToken from "./Components/AddDeviceToken";
 import DeviceTokenDelete from "./Components/DeviceTokenDelete";
 import './DeviceTokenStyle.css';
 import '../LogUniversalViewStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function DeviceTokenList(){
     const [deviceTokenList, setDeviceTokenList] = useState([]);
     const [updateDeviceTokenList, setUpdateDeviceTokenList] = useState(true);
     // const [selectedRecord, setSelectedRecord] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
     const [tokenIdDeleteList, setTokenIdDeleteList] = useState([]);
 
+    const {getAccessTokenSilently} = useAuth0();
 
-    const URL = 'http://localhost:8080/api/devices-tokens';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
-    const getDeviceTokenList = () =>{
-        fetch(URL)
+    const getDeviceTokenList = async() =>{
+        const token = await getAccessTokenSilently();
+        console.log(token);
+        fetch(URL + 'api/devices-tokens', {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
         .then(response => response.json())
         .then(json => setDeviceTokenList(json))
         .then(()=>setUpdateDeviceTokenList(false))

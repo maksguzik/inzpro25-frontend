@@ -2,8 +2,6 @@
 .deviceListContainer {
     width: 100%;
     max-height: 80vh; 
-    overflow-y: auto;
-    overflow-x: auto;
 }
 table {
     width: 100%;
