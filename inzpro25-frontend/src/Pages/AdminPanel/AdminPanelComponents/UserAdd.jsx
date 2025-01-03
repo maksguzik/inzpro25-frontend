@@ -5,13 +5,12 @@ import './UserManagementStyle.css';
 
 function UserAdd({setUpdateUserList, companyList}){
 
-
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     const {getAccessTokenSilently} = useAuth0();
 
     const [userData, setUserData] = useState({
         email:"example123@gmail.com",
-        name:"sigma",
+        name:"example",
         companyNames:["GreenTech Innovations"],
         roles:["ADMIN"]
     });
@@ -62,13 +61,6 @@ function UserAdd({setUpdateUserList, companyList}){
         }));
     }
 
-    const handleChangeArray = (event, key) =>{
-        event.preventDefault();
-        setUserData((prevUserData)=>({
-            ...prevUserData,
-            [key]: [event.target.value],
-        }));
-    }
     const handleRolesChange = async(selectedOptions) => {
         const selectedRoles = selectedOptions.map((option) => option.value);
         setUserData((prevUserData) => ({
@@ -98,55 +90,70 @@ function UserAdd({setUpdateUserList, companyList}){
 
     return(
         <>
-            <div className="AddToken">
-                <button className="crudButton greenButton" onClick={togglePopup}>ADD</button>
-            </div>
-            {isPopupOpen && (
-                    <div className="popup">
-                    <div className="overlay"
-                        onClick = {togglePopup}></div>
-                    <div className="popup-content addUser"  onClick={(event) => event.stopPropagation()}>
-                        <div className="popup-label">Email</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {userData.email} 
-                            onChange = {(event) => handleChange(event, "email")}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
-                        <div className="popup-label">Name</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {userData.name} 
-                            onChange = {(event) => handleChange(event, "name")}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
-                        <div className="popup-label roleLabel">Roles</div>
-                        <Select
-                            isMulti
-                            options={rolesOptions}
-                            value={rolesOptions.filter((option) =>
-                                userData.roles.includes(option.value)
-                            )}
-                            onChange={handleRolesChange}
-                            className="inputDeviceToken rolePadding"
-                        />
-                        <div className="popup-label">Company Names</div>
-                        <Select
-                            isMulti
-                            options={companiesOptions}
-                            value={companiesOptions.filter((option) =>
-                                userData.companyNames.includes(option.value)
-                            )}
-                            onChange={handleCompaniesChange}
-                            className="inputDeviceToken rolePadding"
-                        />
-                        <button className = "crudButton blueButton saveButton"
-                        onClick = {addUser}>SAVE</button>
-                        <button className = "closeButton crudButton"
-                        onClick = {togglePopup}>Close</button>
-                    </div>
-                </div>
-                )}
+<div className="addToken">
+  <button className="crudButton greenButton" onClick={togglePopup}>
+    ADD
+  </button>
+</div>
+{isPopupOpen && (
+  <div className="popup fancyPopup">
+    <div className="overlay" onClick={togglePopup}></div>
+    <div
+      className="popupContent addUser fancyPopupContent"
+      onClick={(event) => event.stopPropagation()}
+    >
+      <label className="popupLabel">Email</label>
+      <input
+        className="inputDeviceToken"
+        value={userData.email}
+        onChange={(event) => handleChange(event, "email")}
+        onKeyDown={handleKeyDown}
+      />
+      <label className="popupLabel">Name</label>
+      <input
+        className="inputDeviceToken"
+        value={userData.name}
+        onChange={(event) => handleChange(event, "name")}
+        onKeyDown={handleKeyDown}
+      />
+      <label className="popupLabel roleLabel">Roles</label>
+      <Select
+        isMulti
+        options={rolesOptions}
+        value={rolesOptions.filter((option) =>
+          userData.roles.includes(option.value)
+        )}
+        onChange={handleRolesChange}
+        className="inputDeviceToken rolePadding"
+      />
+      <label className="popupLabel">Company Names</label>
+      <Select
+        isMulti
+        options={companiesOptions}
+        value={companiesOptions.filter((option) =>
+          userData.companyNames.includes(option.value)
+        )}
+        onChange={handleCompaniesChange}
+        className="inputDeviceToken rolePadding"
+      />
+      <div className="buttonsContainer">
+        <button
+          className="crudButton blueButton saveButton"
+          onClick={addUser}
+        >
+          SAVE
+        </button>
+        <button
+          className="closeButton crudButton"
+          onClick={togglePopup}
+        >
+          CLOSE
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
         </>
     )
 }

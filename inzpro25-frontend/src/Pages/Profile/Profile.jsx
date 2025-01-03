@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
 import './ProfileStyle.css';
 
-function Profile({role}){
+function Profile(){
 
     const {getAccessTokenSilently, user} = useAuth0();
     const [userData, setUserData] = useState({
@@ -14,17 +14,15 @@ function Profile({role}){
         companies:[],
     });
     const [newPassword, setNewPassword] = useState("");
-    const [passwordChangeStatus, setPasswordChangeStatus] = useState(null); // Success/error message
-    const [api, setApi] = useState(role === 'ADMIN'? 'api/admin-panel/users/' + user.sub : "api/user/profile" );
+    const [passwordChangeStatus, setPasswordChangeStatus] = useState(null);
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
     const getUserData = async () => {
-        console.log(role);
         try {
         const token = await getAccessTokenSilently();
         
-        const response = await fetch(URL + api, {
+        const response = await fetch(URL + 'api/user/profile', {
             method: "GET",
             headers: {
             Authorization: `Bearer ${token}`,

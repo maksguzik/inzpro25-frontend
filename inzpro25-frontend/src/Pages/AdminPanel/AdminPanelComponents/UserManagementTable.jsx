@@ -101,6 +101,7 @@ function UserManagementTable(){
                             companies = {element.companies}
                             setUpdateUserList = {setUpdateUserList}
                             getUserList = {getUserList}
+                            companyList={companyList}
                             />
                         ))
                     }

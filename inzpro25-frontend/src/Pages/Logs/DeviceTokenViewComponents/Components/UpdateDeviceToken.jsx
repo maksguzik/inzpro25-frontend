@@ -51,21 +51,23 @@ function UpdateDeviceToken({tokenId, deviceTypeName, setUpdateDeviceTokenList}){
         <> 
             <button className = "crudButton blueButton margin" onClick = {togglePopup}>Edit</button>
             {popup && (
-                <div className="popup">
+                <div className="popup fancyPopup">
                 <div className="overlay"
                     onClick = {togglePopup}></div>
-                <div className="popup-content"  onClick={(event) => event.stopPropagation()}>
-                <div className="popup-label">New Device Type</div>
+                <div className="popupContent"  onClick={(event) => event.stopPropagation()}>
+                <div className="popupLabel">New Device Type</div>
                     <input 
                         className = "inputDeviceToken" 
                         value = {newDeviceTypeName} 
                         onChange = {handleInputChange}
                         onKeyDown = {handleKeyDown}>
                      </input>
+                     <div className="buttonsContainer">
                      <button className = "crudButton blueButton saveButton"
                     onClick = {updateDeviceToken}>UPDATE</button>
                     <button className = "closeButton crudButton"
                     onClick = {togglePopup}>Close</button>
+                    </div>
                 </div>
             </div>
             )}

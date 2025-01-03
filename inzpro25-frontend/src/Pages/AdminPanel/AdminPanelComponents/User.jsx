@@ -4,7 +4,7 @@ import UserDelete from "./UserDelete";
 import UserUpdate from "./UserUpdate";
 import { useAuth0 } from "@auth0/auth0-react";
 
-function User({userId, index, email, emailVerified, name, companies, setUpdateUserList}){
+function User({userId, index, email, emailVerified, name, companies, setUpdateUserList, companyList}){
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
@@ -91,6 +91,7 @@ function User({userId, index, email, emailVerified, name, companies, setUpdateUs
                     roles={roles}
                     setUpdateUserList={setUpdateUserList}
                     setUpdateRoles={setUpdateRoles}
+                    companyList={companyList}
                 />
             </td>
         ):<td className = "noHoverDeleteToken"></td>}

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import Select from "react-select";
 import './UserManagementStyle.css';
 
-function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList, setUpdateRoles}){
+function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList, setUpdateRoles, companyList}){
 
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
@@ -38,9 +39,14 @@ function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList
           }
       };
     
-    const togglePopup = (event) =>{
+      const togglePopup = (event) =>{
         event.stopPropagation(); 
         setIsPopupOpen(!isPopupOpen);
+        setUserData((prevUserData)=>({
+            ...prevUserData,
+            roles:['USER'],
+            companyNames: [],
+        }));
     }
 
     const handleKeyDown = (event) =>{
@@ -56,57 +62,94 @@ function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList
         }));
     }
 
-    const handleChangeArray = (event, key) =>{
-        event.preventDefault();
-        setUserData((prevUserData)=>({
+    const handleRolesChange = async(selectedOptions) => {
+        const selectedRoles = selectedOptions.map((option) => option.value);
+        setUserData((prevUserData) => ({
             ...prevUserData,
-            [key]: [event.target.value],
+            roles: selectedRoles,
         }));
-    }
+    };
+
+    const handleCompaniesChange = (selectedOptions) => {
+        const selectedCompanies = selectedOptions.map((option) => option.value);
+        setUserData((prevUserData) => ({
+            ...prevUserData,
+            companyNames: selectedCompanies,
+        }));
+    };
+
+    const companiesOptions = companyList.map((company) => ({
+        value: company.name,
+        label: company.name,
+    }));;
+
+    const rolesOptions = [
+        { value: "ADMIN", label: "Admin" },
+        { value: "USER", label: "User" },
+        { value: "SUPPORT_TEAM", label: "Support Team" },
+    ];
 
     return(
         <>
-            <button className="crudButton blueButton" onClick={togglePopup}>UPDATE</button>
-            {isPopupOpen && (
-                    <div className="popup">
-                    <div className="overlay"
-                        onClick = {togglePopup}></div>
-                    <div className="popup-content addUser"  onClick={(event) => event.stopPropagation()}>
-                        <div className="popup-label">Email</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {userData.email} 
-                            onChange = {(event) => handleChange(event, "email")}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
-                        <div className="popup-label">Name</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {userData.name} 
-                            onChange = {(event) => handleChange(event, "name")}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
-                        <div className="popup-label">Roles</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {userData.roles} 
-                            onChange = {(event) => handleChangeArray(event, "roles")}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
-                        <div className="popup-label">Company Names</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {userData.companyNames} 
-                            onChange = {(event) => handleChangeArray(event, "companyNames")}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
-                        <button className = "crudButton blueButton saveButton"
-                        onClick = {updateUser}>SAVE</button>
-                        <button className = "closeButton crudButton"
-                        onClick = {togglePopup}>Close</button>
-                    </div>
-                </div>
-                )}
+        <button className="crudButton blueButton" onClick={togglePopup}>UPDATE</button>
+                {isPopupOpen && (
+  <div className="popup fancyPopup">
+    <div className="overlay" onClick={togglePopup}></div>
+    <div
+      className="popupContent addUser fancyPopupContent"
+      onClick={(event) => event.stopPropagation()}
+    >
+      <label className="popupLabel">Email</label>
+      <input
+        className="inputDeviceToken"
+        value={userData.email}
+        onChange={(event) => handleChange(event, "email")}
+        onKeyDown={handleKeyDown}
+      />
+      <label className="popupLabel">Name</label>
+      <input
+        className="inputDeviceToken"
+        value={userData.name}
+        onChange={(event) => handleChange(event, "name")}
+        onKeyDown={handleKeyDown}
+      />
+      <label className="popupLabel roleLabel">Roles</label>
+      <Select
+        isMulti
+        options={rolesOptions}
+        value={rolesOptions.filter((option) =>
+          userData.roles.includes(option.value)
+        )}
+        onChange={handleRolesChange}
+        className="inputDeviceToken rolePadding"
+      />
+      <label className="popupLabel">Company Names</label>
+      <Select
+        isMulti
+        options={companiesOptions}
+        value={companiesOptions.filter((option) =>
+          userData.companyNames.includes(option.value)
+        )}
+        onChange={handleCompaniesChange}
+        className="inputDeviceToken rolePadding"
+      />
+      <div className="buttonsContainer">
+        <button
+          className="crudButton blueButton saveButton"
+          onClick={updateUser}
+        >
+          SAVE
+        </button>
+        <button
+          className="closeButton crudButton"
+          onClick={togglePopup}
+        >
+          CLOSE
+        </button>
+      </div>
+    </div>
+  </div>
+)}
         </>
     )
 }

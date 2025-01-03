@@ -48,28 +48,43 @@ function AddCompany({companyId, setUpdateCompanyList}){
     return (
         <> 
                 <div className="addToken">
-                <button className = "crudButton greenButton" onClick = {togglePopup}>ADD</button>
-                </div>
-                
-                {popup && (
-                    <div className="popup">
-                    <div className="overlay"
-                        onClick = {togglePopup}></div>
-                    <div className="popup-content"  onClick={(event) => event.stopPropagation()}>
-                        <div className="popup-label">New Company Name</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {companyName} 
-                            onChange = {handleCompanyNameChange}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
-                        <button className = "crudButton blueButton saveButton"
-                        onClick = {addCompany}>SAVE</button>
-                        <button className = "closeButton crudButton"
-                        onClick = {togglePopup}>Close</button>
-                    </div>
-                </div>
-                )}
+  <button className="crudButton greenButton" onClick={togglePopup}>
+    ADD
+  </button>
+</div>
+
+{popup && (
+  <div className="popup fancyPopup">
+    <div className="overlay" onClick={togglePopup}></div>
+    <div
+      className="popupContent"
+      onClick={(event) => event.stopPropagation()}
+    >
+      <div className="popupLabel">New Company Name</div>
+      <input
+        className="inputDeviceToken"
+        value={companyName}
+        onChange={handleCompanyNameChange}
+        onKeyDown={handleKeyDown}
+      />
+      <div className="buttonsContainer">
+      <button
+        className="crudButton blueButton saveButton"
+        onClick={addCompany}
+      >
+        SAVE
+      </button>
+      <button
+        className="closeButton crudButton"
+        onClick={togglePopup}
+      >
+        CLOSE
+      </button>
+      </div>
+    </div>
+  </div>
+)}
+
             </>
     )
 }

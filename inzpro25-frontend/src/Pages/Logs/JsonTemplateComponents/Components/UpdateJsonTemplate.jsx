@@ -58,42 +58,44 @@ function UpdateJsonTemplate({deviceTypeName, idMapping, loggedAtMapping, lastSee
     return (<> 
                 <button className = "crudButton blueButton margin" onClick = {togglePopup}>Edit</button>
                 {popup && (
-                    <div className="popup">
+                    <div className="popup fancyPopup">
                     <div className="overlay"
                         onClick = {togglePopup}></div>
-                    <div className="popup-content deviceUpdate"  onClick={(event) => event.stopPropagation()}>
-                        <div className="popup-label">Device Name</div>
+                    <div className="popupContent deviceUpdate"  onClick={(event) => event.stopPropagation()}>
+                        <div className="popupLabel">Device Name</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.deviceTypeName} 
                             onChange = {(event)=>handleInputChange(event, "deviceTypeName")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popup-label">Id</div>
+                        <div className="popupLabel">Id</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.idMapping} 
                             onChange = {(event)=>handleInputChange(event, "idMapping")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popup-label">Logged At</div>
+                        <div className="popupLabel">Logged At</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.loggedAtMapping} 
                             onChange = {(event)=>handleInputChange(event, "loggedAtMapping")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popup-label">Last Seen</div>
+                        <div className="popupLabel">Last Seen</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.lastSeenMapping} 
                             onChange = {(event)=>handleInputChange(event, "lastSeenMapping")}
                             onKeyDown = {handleKeyDown}>
                         </input>
+                        <div className="buttonsContainer">
                         <button className = "crudButton blueButton saveButton"
                         onClick = {updateDevice}>UPDATE</button>
                         <button className = "closeButton crudButton"
                         onClick = {togglePopup}>Close</button>
+                        </div>
                     </div>
                 </div>
                 )}

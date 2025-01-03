@@ -67,7 +67,7 @@ function App() {
     <Router>
       <Routes>
           <>
-          {(roles.includes('ADMIN') || roles.includes('SUPPORT_TEAM')) ?
+          {(roles.includes('SUPPORT_TEAM')) ?
             <Route path="/" element={<RootLayout isNotAdmin={(roles.includes('ADMIN'))? false : true}/>}>
 
             
