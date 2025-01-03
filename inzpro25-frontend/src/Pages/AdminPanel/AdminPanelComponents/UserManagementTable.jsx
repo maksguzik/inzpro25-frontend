@@ -9,16 +9,10 @@ function UserManagementTable(){
     const [userList, setUserList] = useState([]);
     const [updateUserList, setUpdateUserList] = useState(true);
     const [companyList, setCompanyList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
-    // const getUserList = () =>{
-    //     fetch(URL + "/api/admin-panel/users")
-    //     .then(response => response.json())
-    //     .then(json => setUserList(json))
-    //     .then(()=>setUpdateUserList(false))
-    //     .catch(error => console.error(error));
-    // }
     const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
     const getCompanyList = async() =>{
@@ -41,7 +35,7 @@ function UserManagementTable(){
     try {
         const token = await getAccessTokenSilently();
         console.log(token);
-        const response = await fetch(URL + "api/admin-panel/users?page=0", {
+        const response = await fetch(URL + "api/admin-panel/users?page=" + currentPage + "&perPage=9", {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
@@ -51,10 +45,9 @@ function UserManagementTable(){
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        console.log(response);
+
         const json = await response.json();
         setUserList(json);
-        console.log(json);
         setUpdateUserList(false);
     } catch (error) {
         console.error("Error fetching user list:", error);
@@ -66,6 +59,17 @@ function UserManagementTable(){
             getCompanyList();
         };
     },[updateUserList]);
+
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+        setUpdateUserList(true);
+    };
+    
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => (prevPage > 0 ? prevPage - 1 : 0));
+        setUpdateUserList(true);
+    };
+    
     return(<>
              <div className = "addContainer">
                 <UserAdd
@@ -104,6 +108,23 @@ function UserManagementTable(){
                     }
                 </tbody>
             </table>
+            <div className="pagination">
+                <button 
+                    onClick={handlePreviousPage} 
+                    disabled={currentPage === 0}
+                    className="crudButton greyButton paginationButton"
+                >
+                    ◀ Previous
+                </button>
+                <span className="paginationInfo">PAGE {currentPage + 1}</span>
+                <button 
+                    onClick={handleNextPage} 
+                    className="crudButton greyButton paginationButton"
+                >
+                    Next ▶
+                </button>
+            </div>
+
         </div>
         </>
     );

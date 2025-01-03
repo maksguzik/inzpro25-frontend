@@ -62,3 +62,35 @@
     /* background-color: rgb(155, 0, 0); */
     background-color: rgb(4, 131, 0);
   }
+
+  .greyButton{
+    background-color:rgb(48, 48, 48);
+  }
+  
+  .greyButton:hover{
+    background-color:rgb(48, 48, 48);
+  }  
+
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 15px;
+  }
+  
+  .paginationInfo {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+  }
+  
+  .paginationButton{
+    width:120px;
+  }
+  
+  .paginationButton:disabled{
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
