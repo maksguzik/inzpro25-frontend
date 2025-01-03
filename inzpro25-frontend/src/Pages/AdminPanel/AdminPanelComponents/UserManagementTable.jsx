@@ -18,7 +18,7 @@ function UserManagementTable(){
     const getCompanyList = async() =>{
         const token = await getAccessTokenSilently();
         console.log(token);
-        fetch('http://localhost:8080/api/companies', {
+        fetch(URL + 'api/companies', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",

@@ -10,15 +10,16 @@ function CompanyList(){
     const [companyList, setCompanyList] = useState([]);
     const [updateCompanyList, setUpdateCompanyList] = useState(true);
     const [companyIdDeleteList, setCompanyIdDeleteList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
 
     const {getAccessTokenSilently} = useAuth0();
 
-    const URL = 'http://localhost:8080/api/companies';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
     const getCompanyList = async() =>{
         const token = await getAccessTokenSilently();
         console.log(token);
-        fetch(URL, {
+        fetch(URL + 'api/companies?page=' + currentPage + '&size=9', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -34,6 +35,16 @@ function CompanyList(){
     useEffect(() => {
         if (updateCompanyList) getCompanyList();
     });
+
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+        setUpdateCompanyList(true);
+    };
+    
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => (prevPage > 0 ? prevPage - 1 : 0));
+        setUpdateCompanyList(true);
+    };
 
     return(<>
         <div className = "deleteAddContainer">
@@ -71,6 +82,22 @@ function CompanyList(){
                     ))}
                 </tbody>
             </table>
+            <div className="pagination">
+                <button 
+                    onClick={handlePreviousPage} 
+                    disabled={currentPage === 0}
+                    className="crudButton greyButton paginationButton"
+                >
+                    ◀ Previous
+                </button>
+                <span className="paginationInfo">PAGE {currentPage + 1}</span>
+                <button 
+                    onClick={handleNextPage} 
+                    className="crudButton greyButton paginationButton"
+                >
+                    Next ▶
+                </button>
+            </div>
         </div>
         </>
     );
