@@ -172,6 +172,18 @@ function MenuNav({ setActiveTab , toggleMenuRoot}) {
                 Admin Panel
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="Profile"
+                className={({ isActive }) => {
+                  if (isActive) setActiveTab("Profile");
+                  return isActive ? "active" : undefined;
+                }}
+              >
+                <i className="material-icons-outlined">perm_identity</i>
+                Profile
+              </NavLink>
+            </li>
           </ul>
         )}
       </nav>

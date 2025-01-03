@@ -16,6 +16,7 @@ import DeviceLogPage from "./Pages/Logs/Tabs/DeviceLogPage";
 import DeviceManagement from "./Pages/DeviceManagement/DeviceManagement";
 import AdminPanel from "./Pages/AdminPanel/AdminPanel";
 import UserManagement from "./Pages/AdminPanel/AdminPanelComponents/UserManagement";
+import Profile from "./Pages/Profile/Profile";
 // import LoginPage from "./Pages/Root.js/rootComponents/LoginPage";
 // import LoginButton from "./Pages/Root.js/rootComponents/LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -129,6 +130,9 @@ function App() {
 
                 </Route>)
               }
+              <Route path="Profile" element={<Profile role={roles.includes('ADMIN') ? 'ADMIN' : ''}/>}>
+
+              </Route>
             </Route>
           </>
       </Routes>

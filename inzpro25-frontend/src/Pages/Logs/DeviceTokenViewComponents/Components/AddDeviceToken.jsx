@@ -20,7 +20,7 @@ function AddDeviceToken({setUpdateDeviceTokenList}){
                     },
                     body: JSON.stringify({deviceTypeName: deviceTypeName})    
                     })
-            .then(response => {setUpdateDeviceTokenList(true); console.log(response.json())})
+            .then(response => setUpdateDeviceTokenList(true))
             .then(()=>setPopup(false))
             .then(()=>setDeviceTypeName(""))
             .catch(error=>console.error());
