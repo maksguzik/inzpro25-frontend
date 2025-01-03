@@ -76,6 +76,7 @@ function DeviceToken({index, tokenId, token, deviceTypeName, setUpdateDeviceToke
                     <td className = "editDeleteSpaceBetween">
                     <UpdateDeviceToken
                         tokenId = {tokenId}
+                        deviceTypeName={deviceTypeName}
                         setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                         // setSelectedRecord = {setSelectedRecord}
                     />

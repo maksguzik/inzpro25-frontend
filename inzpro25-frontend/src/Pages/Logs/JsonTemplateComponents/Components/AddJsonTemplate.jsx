@@ -1,5 +1,6 @@
 import { useState } from "react";
 import './DeviceComponentStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function AddJsonTemplate({setUpdateDeviceList}){
     
@@ -10,12 +11,18 @@ function AddJsonTemplate({setUpdateDeviceList}){
         "lastSeenMapping" : "",
     });
     const [popup, setPopup] = useState(false);
+    const {getAccessTokenSilently} = useAuth0();
+
     const URL = 'http://localhost:8080/api/device-types';
     
-    const addDevice = () => {
+    const addDevice = async() => {
+        const token = await getAccessTokenSilently();
         fetch(URL, {
                     method: 'POST',
-                    headers : { 'Content-Type' : 'application/json' },
+                    headers : { 
+                        'Content-Type' : 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
                     body: JSON.stringify({
                         "deviceTypeName": updateRequestBody.deviceTypeName,
                         "idMapping": updateRequestBody.idMapping,

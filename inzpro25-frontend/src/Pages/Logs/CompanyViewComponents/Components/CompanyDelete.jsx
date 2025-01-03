@@ -1,11 +1,20 @@
 import './CompanyComponentStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function CompanyDelete({companyIdDeleteList, setUpdateCompanyList}){
     const URL = 'http://localhost:8080/api/companies/';
-    
-    const deleteCompany = () => {
+    const {getAccessTokenSilently} = useAuth0();
+
+    const deleteCompany = async() => {
+        const token = await getAccessTokenSilently();
         for(const companyId of companyIdDeleteList){
-            fetch(URL + companyId, {method:'DELETE'})
+            fetch(URL + companyId, {
+                method:'DELETE',
+                headers : { 
+                    'Content-Type' : 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            })
                 .then(response => setUpdateCompanyList(true))
                 .catch(error=>console.error());
         } 

@@ -1,32 +1,37 @@
 import { useState } from "react";
 import './CompanyComponentStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
-function UpdateCompany({companyId, setUpdateCompanyList}){
+function UpdateCompany({companyId, companyName, setUpdateCompanyList}){
     
-    const [companyName, setCompanyName] = useState("");
-    // const [newCompanyId, setNewCompanyId] = useState(0);
+    const [newCompanyName, setNewCompanyName] = useState(companyName);
     const [popup, setPopup] = useState(false);
+    const {getAccessTokenSilently} = useAuth0();
 
     const URL = 'http://localhost:8080/api/companies/' + companyId;
     
-    const updateCompany = () => {
+    const updateCompany = async() => {
+        const token = await getAccessTokenSilently();
         fetch(URL, {
                     method: 'PUT',
-                    headers : { 'Content-Type' : 'application/json' },
+                    headers : { 
+                        'Content-Type' : 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
                     body: JSON.stringify({
                         "id": companyId,
-                        "name" : companyName
+                        "name" : newCompanyName
                     })    
                     })
             .then(response => setUpdateCompanyList(true))
-            .then(()=>setCompanyName(""))
+            .then(()=>setNewCompanyName(""))
             .then(()=>setPopup(false))
             .catch(error=>console.error());
     }
 
     const handleCompanyNameChange = (event) =>{
         event.preventDefault();
-        setCompanyName(event.target.value);
+        setNewCompanyName(event.target.value);
     }
     
     // const handleNewCompanyIdChange = (event) =>{
@@ -56,7 +61,7 @@ function UpdateCompany({companyId, setUpdateCompanyList}){
                         <div className="popup-label">New Company Name</div>
                         <input
                             className = "inputDeviceToken"  
-                            value = {companyName} 
+                            value = {newCompanyName} 
                             onChange = {handleCompanyNameChange}
                             onKeyDown = {handleKeyDown}>
                         </input>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import './DeviceComponentStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function AddDevice({setUpdateDeviceList}){
     
@@ -10,13 +11,20 @@ function AddDevice({setUpdateDeviceList}){
         "deviceType" : "",
         "companyName": ""
     });
+    
+    const {getAccessTokenSilently} = useAuth0();
+
     const [popup, setPopup] = useState(false);
     const URL = 'http://localhost:8080/api/devices';
     
-    const addDevice = () => {
+    const addDevice = async() => {
+        const token = await getAccessTokenSilently();
         fetch(URL, {
                     method: 'POST',
-                    headers : { 'Content-Type' : 'application/json' },
+                    headers : { 
+                        'Content-Type' : 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
                     body: JSON.stringify({
                         "id": parseInt(updateRequestBody.id),
                         "serialNumber": updateRequestBody.serialNumber,
