@@ -1,32 +1,37 @@
 import { useState } from "react";
 import './CompanyComponentStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
-function UpdateCompany({companyId, setUpdateCompanyList}){
+function UpdateCompany({companyId, companyName, setUpdateCompanyList}){
     
-    const [companyName, setCompanyName] = useState("");
-    // const [newCompanyId, setNewCompanyId] = useState(0);
+    const [newCompanyName, setNewCompanyName] = useState(companyName);
     const [popup, setPopup] = useState(false);
+    const {getAccessTokenSilently} = useAuth0();
 
     const URL = 'http://localhost:8080/api/companies/' + companyId;
     
-    const updateCompany = () => {
+    const updateCompany = async() => {
+        const token = await getAccessTokenSilently();
         fetch(URL, {
                     method: 'PUT',
-                    headers : { 'Content-Type' : 'application/json' },
+                    headers : { 
+                        'Content-Type' : 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
                     body: JSON.stringify({
                         "id": companyId,
-                        "name" : companyName
+                        "name" : newCompanyName
                     })    
                     })
             .then(response => setUpdateCompanyList(true))
-            .then(()=>setCompanyName(""))
+            .then(()=>setNewCompanyName(""))
             .then(()=>setPopup(false))
             .catch(error=>console.error());
     }
 
     const handleCompanyNameChange = (event) =>{
         event.preventDefault();
-        setCompanyName(event.target.value);
+        setNewCompanyName(event.target.value);
     }
     
     // const handleNewCompanyIdChange = (event) =>{
@@ -49,24 +54,37 @@ function UpdateCompany({companyId, setUpdateCompanyList}){
         <> 
                 <button className = "crudButton blueButton margin" onClick = {togglePopup}>Edit</button>
                 {popup && (
-                    <div className="popup">
-                    <div className="overlay"
-                        onClick = {togglePopup}></div>
-                    <div className="popup-content"  onClick={(event) => event.stopPropagation()}>
-                        <div className="popup-label">New Company Name</div>
-                        <input
-                            className = "inputDeviceToken"  
-                            value = {companyName} 
-                            onChange = {handleCompanyNameChange}
-                            onKeyDown = {handleKeyDown}>
-                        </input>
-                        <button className = "crudButton blueButton saveButton"
-                        onClick = {updateCompany}>UPDATE</button>
-                        <button className = "closeButton crudButton"
-                        onClick = {togglePopup}>Close</button>
-                    </div>
-                </div>
-                )}
+  <div className="popup fancyPopup">
+    <div className="overlay" onClick={togglePopup}></div>
+    <div
+      className="popupContent"
+      onClick={(event) => event.stopPropagation()}
+    >
+      <div className="popupLabel">New Company Name</div>
+      <input
+        className="inputDeviceToken"
+        value={newCompanyName}
+        onChange={handleCompanyNameChange}
+        onKeyDown={handleKeyDown}
+      />
+      <div className="buttonsContainer">
+      <button
+        className="crudButton blueButton saveButton"
+        onClick={updateCompany}
+      >
+        SAVE
+      </button>
+      <button
+        className="closeButton crudButton"
+        onClick={togglePopup}
+      >
+        CLOSE
+      </button>
+      </div>
+    </div>
+  </div>
+)}
+
             </>
     )
 }
