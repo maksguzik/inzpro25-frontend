@@ -1,0 +1,165 @@
+.popupContent.addUser {
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.addContainer {
+  display: flex;
+  justify-content: right;
+  padding: 20px;
+}
+
+.popupLabel.roleLabel {
+  position: absolute;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.paginationInfo {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.paginationButton {
+  width: 120px;
+}
+
+.paginationButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.fancyPopup {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.popupContent {
+  position: relative;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px 25px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  animation: popupShow 0.3s ease-out;
+}
+
+.popupLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.inputDeviceToken {
+  width: 95%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s ease;
+}
+
+.inputDeviceToken:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.rolePadding {
+  padding: 5px;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.closeButton {
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.closeButton:hover {
+  background-color: #e9ecef;
+}
+
+@keyframes popupShow {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .popupContent {
+    padding: 20px;
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+
+.inputDeviceToken.rolePadding {
+  width: 100%;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  padding: 0;
+  margin-bottom: 20px;
+  box-shadow: none;
+}
+
+.inputDeviceToken.rolePadding .css-1okebmr-indicatorSeparator {
+  display: none;
+}
+
+.inputDeviceToken.rolePadding .css-1s2u09g-control {
+  min-height: 40px;
+  border: none;
+  border-radius: 8px;
+}
+
+.inputDeviceToken.rolePadding .css-1pahdxg-control {
+  box-shadow: none;
+  border: 1px solid #007bff;
+}
+
+.inputDeviceToken.rolePadding .css-26l3qy-menu {
+  z-index: 1050;
+}

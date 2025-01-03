@@ -67,7 +67,7 @@ function JsonTemplate({deviceTypeName, idMapping, loggedAtMapping, lastSeenMappi
                         setUpdateDeviceList = {setUpdateDeviceList}
                     />
                     </td>
-                ):<div className = "noHoverDeleteToken"></div>}
+                ):<td className = "noHoverDeleteToken"></td>}
             </tr>
     );
 }

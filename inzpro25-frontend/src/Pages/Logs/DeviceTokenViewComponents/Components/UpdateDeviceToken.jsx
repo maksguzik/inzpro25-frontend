@@ -1,29 +1,35 @@
 import { useState } from "react";
 import './DeviceTokenStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
-function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
+function UpdateDeviceToken({tokenId, deviceTypeName, setUpdateDeviceTokenList}){
     
-    const [deviceTypeName, setDeviceTypeName] = useState("");
+    const [newDeviceTypeName, setNewDeviceTypeName] = useState(deviceTypeName);
     // const [clicked, setClicked] = useState(false);
     const [popup, setPopup] = useState(false);
+    const {getAccessTokenSilently} = useAuth0();
 
     const URL = 'http://localhost:8080/api/devices-tokens/' + tokenId;
     
-    const updateDeviceToken = () => {
+    const updateDeviceToken = async() => {
+        const token = await getAccessTokenSilently();
         fetch(URL, {
                     method: 'PUT',
-                    headers : { 'Content-Type' : 'application/json' },
-                    body: JSON.stringify({deviceTypeName: deviceTypeName})    
+                    headers : { 
+                        'Content-Type' : 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({deviceTypeName: newDeviceTypeName})    
                     })
             .then(response => setUpdateDeviceTokenList(true))
-            .then(()=>setDeviceTypeName(""))
+            .then(()=>setNewDeviceTypeName(""))
             .then(()=>setPopup(false))
             .catch(error=>console.error());
     }
 
     const handleInputChange = (event) =>{
         event.preventDefault();
-        setDeviceTypeName(event.target.value);
+        setNewDeviceTypeName(event.target.value);
     }
 
     const handleKeyDown = (event) =>{
@@ -45,21 +51,23 @@ function UpdateDeviceToken({tokenId, setUpdateDeviceTokenList}){
         <> 
             <button className = "crudButton blueButton margin" onClick = {togglePopup}>Edit</button>
             {popup && (
-                <div className="popup">
+                <div className="popup fancyPopup">
                 <div className="overlay"
                     onClick = {togglePopup}></div>
-                <div className="popup-content"  onClick={(event) => event.stopPropagation()}>
-                <div className="popup-label">New Device Type</div>
+                <div className="popupContent"  onClick={(event) => event.stopPropagation()}>
+                <div className="popupLabel">New Device Type</div>
                     <input 
                         className = "inputDeviceToken" 
-                        value = {deviceTypeName} 
+                        value = {newDeviceTypeName} 
                         onChange = {handleInputChange}
                         onKeyDown = {handleKeyDown}>
                      </input>
+                     <div className="buttonsContainer">
                      <button className = "crudButton blueButton saveButton"
                     onClick = {updateDeviceToken}>UPDATE</button>
                     <button className = "closeButton crudButton"
                     onClick = {togglePopup}>Close</button>
+                    </div>
                 </div>
             </div>
             )}

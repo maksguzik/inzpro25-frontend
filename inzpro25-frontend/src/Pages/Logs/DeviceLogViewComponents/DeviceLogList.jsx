@@ -3,22 +3,47 @@ import DeviceLog from "./DeviceLog";
 import DeviceLogFilter from "./Components/DeviceLogFilter";
 import './DeviceLogStyle.css';
 import '../LogUniversalViewStyle.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function DeviceLogList(){
     const [deviceLogList, setDeviceLogList] = useState([]);
+    const {getAccessTokenSilently} = useAuth0();
+    const [currentPage, setCurrentPage] = useState(0);
+    const [updateDeviceLogList, setUpdateDeviceLogList] = useState(true);
 
-    const URL = 'http://localhost:8080/api/devices-logs';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
-    const getDeviceLogList = () =>{
-        fetch(URL)
+    const getDeviceLogList = async() =>{
+        const token = await getAccessTokenSilently();
+        console.log(token);
+        fetch(URL +'api/devices-logs?page=' + currentPage + '&size=8', {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
         .then(response => response.json())
-        .then(json => setDeviceLogList(json.reverse()))
+        .then(json => setDeviceLogList(json.content.reverse()))
+        .then(()=>setUpdateDeviceLogList(false))
         .catch(error => console.error(error));
     }
 
     useEffect(() => {
-       getDeviceLogList();
-    },[]);
+        if(updateDeviceLogList){
+            getDeviceLogList();
+        }
+    },[updateDeviceLogList, getDeviceLogList]);
+
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+        setUpdateDeviceLogList(true);
+    };
+    
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => (prevPage > 0 ? prevPage - 1 : 0));
+        setUpdateDeviceLogList(true);
+    };
 
     return(<>
         <DeviceLogFilter
@@ -50,6 +75,22 @@ function DeviceLogList(){
                     ))}
                 </tbody>
             </table>
+            <div className="pagination">
+                <button 
+                    onClick={handlePreviousPage} 
+                    disabled={currentPage === 0}
+                    className="crudButton greyButton paginationButton"
+                >
+                    ◀ Previous
+                </button>
+                <span className="paginationInfo">PAGE {currentPage + 1}</span>
+                <button 
+                    onClick={handleNextPage} 
+                    className="crudButton greyButton paginationButton"
+                >
+                    Next ▶
+                </button>
+            </div>
         </div>
         </>
     );
