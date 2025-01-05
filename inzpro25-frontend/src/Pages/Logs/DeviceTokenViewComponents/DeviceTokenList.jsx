@@ -19,7 +19,7 @@ function DeviceTokenList(){
 
     const getDeviceTokenList = async() =>{
         const token = await getAccessTokenSilently();
-        fetch(URL + 'api/devices-tokens', {
+        fetch(URL + 'api/devices-tokens?page=' + currentPage + '&size=9', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -35,6 +35,16 @@ function DeviceTokenList(){
     useEffect(() => {
         if (updateDeviceTokenList) getDeviceTokenList();
     });
+    
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+        setUpdateDeviceTokenList(true);
+    };
+    
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => (prevPage > 0 ? prevPage - 1 : 0));
+        setUpdateDeviceTokenList(true);
+    };
 
     return(<>
     <div className = "deleteAddContainer">
@@ -75,6 +85,22 @@ function DeviceTokenList(){
                     ))}
                 </tbody>
             </table>
+            <div className="pagination">
+                <button 
+                    onClick={handlePreviousPage} 
+                    disabled={currentPage === 0}
+                    className="crudButton greyButton paginationButton"
+                >
+                    ◀ Previous
+                </button>
+                <span className="paginationInfo">PAGE {currentPage + 1}</span>
+                <button 
+                    onClick={handleNextPage} 
+                    className="crudButton greyButton paginationButton"
+                >
+                    Next ▶
+                </button>
+            </div>
         </div>
         </>
     );

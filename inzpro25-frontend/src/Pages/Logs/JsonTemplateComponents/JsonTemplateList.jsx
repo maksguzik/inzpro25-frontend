@@ -8,16 +8,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 function JsonTemplateList(){
     const [deviceList, setDeviceList] = useState([]);
     const [updateDeviceList, setUpdateDeviceList] = useState(true);
-    // const [selectedRecord, setSelectedRecord] = useState(null);
     const [deviceIdDeleteList, setDeviceIdDeleteList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
 
     const {getAccessTokenSilently} = useAuth0();
 
-    const URL = 'http://localhost:8080/api/device-types';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
     const getDeviceList = async() =>{
         const token = await getAccessTokenSilently();
-        fetch(URL, {
+        fetch(URL + 'api/device-types?page=' + currentPage + '&size=9', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -34,6 +34,16 @@ function JsonTemplateList(){
         if (updateDeviceList) getDeviceList();
     });
 
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+        setUpdateDeviceList(true);
+    };
+    
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => (prevPage > 0 ? prevPage - 1 : 0));
+        setUpdateDeviceList(true);
+    };
+
     return(<>
         <div className = "deleteAddContainer">
                 <AddJsonTemplate
@@ -46,7 +56,7 @@ function JsonTemplateList(){
                     />
                 </div>
         </div>
-        <div  className = "deviceListContainer">
+        <div  className = "deviceTokenListContainer">
             
             <table>
                 <thead>
@@ -74,6 +84,22 @@ function JsonTemplateList(){
                     ))}
                 </tbody>
             </table>
+            <div className="pagination">
+                <button 
+                    onClick={handlePreviousPage} 
+                    disabled={currentPage === 0}
+                    className="crudButton greyButton paginationButton"
+                >
+                    ◀ Previous
+                </button>
+                <span className="paginationInfo">PAGE {currentPage + 1}</span>
+                <button 
+                    onClick={handleNextPage} 
+                    className="crudButton greyButton paginationButton"
+                >
+                    Next ▶
+                </button>
+            </div>
         </div>
         </>
     );
