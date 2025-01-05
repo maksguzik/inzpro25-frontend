@@ -9,11 +9,11 @@ function UpdateDeviceToken({tokenId, deviceTypeName, setUpdateDeviceTokenList}){
     const [popup, setPopup] = useState(false);
     const {getAccessTokenSilently} = useAuth0();
 
-    const URL = 'http://localhost:8080/api/devices-tokens/' + tokenId;
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     
     const updateDeviceToken = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL, {
+        fetch(URL + 'api/devices-tokens/' + tokenId , {
                     method: 'PUT',
                     headers : { 
                         'Content-Type' : 'application/json',

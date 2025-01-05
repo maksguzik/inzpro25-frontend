@@ -13,11 +13,11 @@ function UpdateJsonTemplate({deviceTypeName, idMapping, loggedAtMapping, lastSee
     const {getAccessTokenSilently} = useAuth0();
     const [popup, setPopup] = useState(false);
 
-    const URL = 'http://localhost:8080/api/device-types';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     
     const updateDevice = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL, {
+        fetch(URL + 'api/device-types', {
                     method: 'POST',
                     headers : { 
                         'Content-Type' : 'application/json',

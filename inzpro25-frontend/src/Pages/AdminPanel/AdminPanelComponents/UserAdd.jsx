@@ -9,7 +9,7 @@ function UserAdd({setUpdateUserList, companyList}){
     const {getAccessTokenSilently} = useAuth0();
 
     const [userData, setUserData] = useState({
-        email:"example123@gmail.com",
+        email:"example123@example.com",
         name:"example",
         companyNames:["GreenTech Innovations"],
         roles:["ADMIN"]

@@ -15,11 +15,11 @@ function AddDevice({setUpdateDeviceList}){
     const {getAccessTokenSilently} = useAuth0();
 
     const [popup, setPopup] = useState(false);
-    const URL = 'http://localhost:8080/api/devices';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     
     const addDevice = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL, {
+        fetch(URL + 'api/devices', {
                     method: 'POST',
                     headers : { 
                         'Content-Type' : 'application/json',

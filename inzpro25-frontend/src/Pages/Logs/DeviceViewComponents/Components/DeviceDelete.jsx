@@ -2,14 +2,14 @@ import './DeviceComponentStyle.css';
 import { useAuth0 } from "@auth0/auth0-react";
 
 function DeviceDelete({deviceIdDeleteList, setUpdateDeviceList}){
-    const URL = 'http://localhost:8080/api/devices/';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     
     const {getAccessTokenSilently} = useAuth0();
 
     const deleteDevice = async() => {
         for(const deviceId of deviceIdDeleteList){
             const token = await getAccessTokenSilently();
-            fetch(URL + deviceId, {
+            fetch(URL + 'api/devices/' + deviceId, {
                 method:'DELETE',
                 headers: {
                     "Content-Type": "application/json",

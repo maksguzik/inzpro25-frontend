@@ -7,12 +7,12 @@ function AddCompany({companyId, setUpdateCompanyList}){
     const [companyName, setCompanyName] = useState("");
     // const [companyId, setCompanyId] = useState(0);
     const [popup, setPopup] = useState(false);
-    const URL = 'http://localhost:8080/api/companies';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     const {getAccessTokenSilently} = useAuth0();
     
     const addCompany = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL, {
+        fetch(URL + 'api/companies', {
                     method: 'POST',
                     headers : { 
                         'Content-Type' : 'application/json',

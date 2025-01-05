@@ -8,11 +8,11 @@ function UpdateCompany({companyId, companyName, setUpdateCompanyList}){
     const [popup, setPopup] = useState(false);
     const {getAccessTokenSilently} = useAuth0();
 
-    const URL = 'http://localhost:8080/api/companies/' + companyId;
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     
     const updateCompany = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL, {
+        fetch(URL + 'api/companies/' + companyId, {
                     method: 'PUT',
                     headers : { 
                         'Content-Type' : 'application/json',
