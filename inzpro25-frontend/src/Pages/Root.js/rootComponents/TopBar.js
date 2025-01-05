@@ -1,7 +1,7 @@
 import "./Topbar.css";
 import AccountSettings from "./TopBarComponents/AccountSettings";
 
-function TopBar({}) {
+function TopBar({isOnlyUser}) {
 
   return (
     <>
@@ -10,9 +10,9 @@ function TopBar({}) {
           <div>Logo i nazwa</div>
         </div>
         <div className="right-section">
-          <button className="action-button">Notifications</button>
-          <button className="action-button">Triggered alarms</button>
-          <AccountSettings
+          <button className="actionButton">Notifications</button>
+          <button className="actionButton">Triggered alarms</button>
+          <AccountSettings isOnlyUser={isOnlyUser}
           />
         </div>
       </header>

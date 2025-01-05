@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
 
-function AccountSettings(){
+function AccountSettings({isOnlyUser}){
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const {logout, isAuthenticated} = useAuth0();
@@ -19,8 +19,8 @@ function AccountSettings(){
     };    
 
     return (
-        <div className="account-settings-container">
-          <button className="action-button" onClick={handleClickedButton}>
+        <div className="accountSettingsContainer">
+          <button className="actionButton" onClick={handleClickedButton}>
             Account Settings
           </button>
           {isPopupOpen && (
@@ -30,9 +30,10 @@ function AccountSettings(){
                   className="buttonLogoutAccountSettings"
                   onClick = {()=>logout({ logoutParams: { returnTo: "http://localhost:3000/login" } })}
                 > Logout</button>
+                {isOnlyUser && (
                 <button className="buttonLogoutAccountSettings" onClick={handleRedirect}>
                   Profile
-                </button>
+                </button>)}
               </div>
             </div>
           )}

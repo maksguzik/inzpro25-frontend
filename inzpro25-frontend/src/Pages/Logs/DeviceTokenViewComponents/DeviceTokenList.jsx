@@ -28,7 +28,7 @@ function DeviceTokenList(){
             },
         })
         .then(response => response.json())
-        .then(json => setDeviceTokenList(json))
+        .then(json => setDeviceTokenList(json.content))
         .then(()=>setUpdateDeviceTokenList(false))
         .catch(error => console.error(error));
     }

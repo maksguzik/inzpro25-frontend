@@ -26,9 +26,7 @@ import DevicesPage from "./Pages/Logs/Tabs/DevicesPage";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
-
-  const [isAdmin, setIsAdmin] = useState(true);
-  const {loginWithRedirect, getAccessTokenSilently, isAuthenticated, login, logout, user, isLoading, error } = useAuth0();
+  const {loginWithRedirect, getAccessTokenSilently, isAuthenticated, isLoading, error } = useAuth0();
   
   const [token, setToken] = useState(null);
   const [roles, setRoles] = useState([]);
@@ -72,12 +70,15 @@ function App() {
     <Router>
       <Routes>
           <>
-          {(roles.includes('SUPPORT_TEAM')) ?
-            <Route path="/" element={<RootLayout isNotAdmin={(roles.includes('ADMIN'))? false : true}/>}>
-
-            
+         
+            <Route path="/" element={<RootLayout isAdmin={roles.includes('ADMIN')}
+              isUser={roles.includes('USER')} isSupportTeam={roles.includes('SUPPORT_TEAM')}
+            />}>
               <Route index element={<HomePage />} />
-              <Route path="Alerts" element={<AlertsPage />} />
+              {(roles.includes('SUPPORT_TEAM')) &&
+              
+              (<Route>
+                <Route path="Alerts" element={<AlertsPage />} />
               <Route path="Logs" element={<LogsPage />}>
                 <Route path="All logs" element={<DeviceLogPage />} />
               </Route>
@@ -89,26 +90,24 @@ function App() {
                 <Route path="Owner" element={<CompanyPage />} />
                 <Route path="Device" element={<DeviceViewPage />} />
               </Route>
+              </Route>)}
+              {(roles.includes('ADMIN')) &&
+              (<Route path="AdminPanel" element={<AdminPanel/>}>
+                  <Route path="UserManagement" element={<UserManagement/>}/>
+
+              </Route>) }
+            {
+            roles.includes('USER') && (
+              <Route path="Profile" element={<Profile/>}/>
+              )}
               {
-                isAdmin && roles.find((element)=>element === 'ADMIN') && (<Route path="AdminPanel" element={<AdminPanel/>}>
-                  <Route path="UserManagement" element={<UserManagement/>}>
-
-                  </Route>
-
-                </Route>)
+                !(roles.includes('ADMIN') || roles.includes('SUPPORT_TEAM')) && (
+                  <Route path="Devices" element={<UserDeviceList/>}/>
+                )
               }
-              <Route path="Profile" element={<Profile role={roles.includes('ADMIN') ? 'ADMIN' : ''}/>}>
-
-              </Route>
-  
-            </Route> : 
-            <Route path="/" element={<RootLayout isUser={true}/>}>
-              <Route path="Profile" element={<Profile role={''}/>}/>
-              <Route path="Devices" element={<UserDeviceList/>}/>
 
             </Route>
             
-            }
           </>
       </Routes>
     </Router>

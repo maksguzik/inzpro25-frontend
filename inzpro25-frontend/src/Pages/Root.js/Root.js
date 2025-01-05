@@ -6,7 +6,7 @@ import "./Root.css";
 import { useState } from "react";
 import TabBar from "./rootComponents/TabBar";
 
-function RootLayout({isUser, isNotAdmin}) {
+function RootLayout({isAdmin, isUser, isSupportTeam}) {
   const [activeTab, setActiveTab] = useState("/");
   const [isMenuMinimized, setIsMenuMinimized] = useState(false);
  
@@ -16,14 +16,13 @@ function RootLayout({isUser, isNotAdmin}) {
 
   return (
     <div className="root-layout">
-      <TopBar 
+      <TopBar isOnlyUser={isUser && !isAdmin && !isSupportTeam}
       />
       <div className="container">
         <div className={`${isMenuMinimized ? "menu-minimized" : "menu"}`}>
-          {(!isUser) ? (<MenuNav setActiveTab={setActiveTab} toggleMenuRoot={toggleMenu} isNotAdmin={isNotAdmin}/>) : 
-            (<MenuNavUser setActiveTab={setActiveTab} toggleMenuRoot={toggleMenu} />)
-          }
-          
+          <MenuNav setActiveTab={setActiveTab} toggleMenuRoot={toggleMenu} isAdmin={isAdmin}
+            isUser={isUser} isSupportTeam={isSupportTeam}
+          />
         </div>
         <div className="content">
           <TabBar activeTab={activeTab} />
