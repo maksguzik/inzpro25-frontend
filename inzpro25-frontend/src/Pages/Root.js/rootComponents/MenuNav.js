@@ -133,7 +133,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
               <>
             <li>
               <NavLink
-                to="Logs"
+                to="logs"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Logs");
                   return isActive ? "active" : undefined;
@@ -145,7 +145,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
             </li>
             <li>
               <NavLink
-                to="Alerts"
+                to="alerts"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Alerts");
                   return isActive ? "active" : undefined;
@@ -157,7 +157,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
             </li>
             <li>
               <NavLink
-                to="Raports"
+                to="raports"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Raports");
                   return isActive ? "active" : undefined;
@@ -169,7 +169,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
             </li>
             <li>
               <NavLink
-                to="DeviceManagement"
+                to="device-management"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("DeviceManagement");
                   return isActive ? "active" : undefined;
@@ -182,7 +182,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
             </>)}
             {isAdmin && (<li>
               <NavLink
-                to="AdminPanel"
+                to="admin-panel"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("AdminPanel");
                   return isActive ? "active" : undefined;
@@ -196,19 +196,19 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
               <>
             <li>
               <NavLink
-                to="Devices"
+                to="my-devices"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Devices");
                   return isActive ? "active" : undefined;
                 }}
               >
                 <i className="material-icons-outlined">devices</i>
-                Devices
+                My Devices
               </NavLink>
             </li>             
             <li>
               <NavLink
-                to="Profile"
+                to="profile"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Profile");
                   return isActive ? "active" : undefined;

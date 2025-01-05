@@ -15,7 +15,7 @@ function RootLayout({isAdmin, isUser, isSupportTeam}) {
 
   return (
     <div className="root-layout">
-      <TopBar isOnlyUser={isUser && !isAdmin && !isSupportTeam}
+      <TopBar isUser={isUser}
       />
       <div className="container">
         <div className={`${isMenuMinimized ? "menu-minimized" : "menu"}`}>

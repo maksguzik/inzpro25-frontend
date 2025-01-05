@@ -1,7 +1,7 @@
 import "./Topbar.css";
-import AccountSettings from "./TopBarComponents/AccountSettings";
+import Logout from "./TopBarComponents/Logout";
 
-function TopBar({isOnlyUser}) {
+function TopBar({isUser}) {
 
   return (
     <>
@@ -12,7 +12,7 @@ function TopBar({isOnlyUser}) {
         <div className="right-section">
           <button className="actionButton">Notifications</button>
           <button className="actionButton">Triggered alarms</button>
-          <AccountSettings isOnlyUser={isOnlyUser}
+          <Logout isUser={isUser}
           />
         </div>
       </header>

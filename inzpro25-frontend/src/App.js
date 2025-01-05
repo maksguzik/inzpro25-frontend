@@ -76,31 +76,31 @@ function App() {
               {(roles.includes('SUPPORT_TEAM')) &&
               
               (<Route>
-                <Route path="Alerts" element={<AlertsPage />} />
-              <Route path="Logs" element={<LogsPage />}>
-                <Route path="All logs" element={<DeviceLogPage />} />
+                <Route path="alerts" element={<AlertsPage />} />
+              <Route path="logs" element={<LogsPage />}>
+                <Route path="all-logs" element={<DeviceLogPage />} />
               </Route>
-              <Route path="Raports" element={<RaportsPage />} />
-              <Route path="Settings" element={<SettingsPage />} />
-              <Route path="DeviceManagement" element={<DeviceManagement />}>
-                <Route path="Token" element={<DeviceTokenPage />} />
-                <Route path="Json template" element={<JsonTemplatePage />} />
-                <Route path="Owner" element={<CompanyPage />} />
-                <Route path="Device" element={<DeviceViewPage />} />
+              <Route path="raports" element={<RaportsPage />} />
+              <Route path="settings" element={<SettingsPage />} />
+              <Route path="device-management" element={<DeviceManagement />}>
+                <Route path="token" element={<DeviceTokenPage />} />
+                <Route path="json-template" element={<JsonTemplatePage />} />
+                <Route path="owner" element={<CompanyPage />} />
+                <Route path="device" element={<DeviceViewPage />} />
               </Route>
               </Route>)}
               {(roles.includes('ADMIN')) &&
-              (<Route path="AdminPanel" element={<AdminPanel/>}>
-                  <Route path="UserManagement" element={<UserManagement/>}/>
+              (<Route path="admin-panel" element={<AdminPanel/>}>
+                  <Route path="user-management" element={<UserManagement/>}/>
 
               </Route>) }
             {
             roles.includes('USER') && (
-              <Route path="Profile" element={<Profile/>}/>
+              <Route path="profile" element={<Profile/>}/>
               )}
               {
                 (roles.includes('USER')) && (
-                  <Route path="Devices" element={<UserDeviceList/>}/>
+                  <Route path="my-devices" element={<UserDeviceList/>}/>
                 )
               }
 
