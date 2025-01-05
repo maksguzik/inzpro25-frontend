@@ -82,13 +82,17 @@ function App() {
               </Route>
               <Route path="raports" element={<RaportsPage />} />
               <Route path="settings" element={<SettingsPage />} />
-              <Route path="device-management" element={<DeviceManagement />}>
+              </Route>)}
+              {
+                (roles.includes('ADMIN')) && (
+                  <Route path="device-management" element={<DeviceManagement />}>
                 <Route path="token" element={<DeviceTokenPage />} />
                 <Route path="json-template" element={<JsonTemplatePage />} />
                 <Route path="owner" element={<CompanyPage />} />
                 <Route path="device" element={<DeviceViewPage />} />
               </Route>
-              </Route>)}
+                )
+              }
               {(roles.includes('ADMIN')) &&
               (<Route path="admin-panel" element={<AdminPanel/>}>
                   <Route path="user-management" element={<UserManagement/>}/>
