@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import MenuNav from "./rootComponents/MenuNav";
-import MenuNavUser from "./rootComponents/MenuNavUser";
 import TopBar from "./rootComponents/TopBar";
 import "./Root.css";
 import { useState } from "react";

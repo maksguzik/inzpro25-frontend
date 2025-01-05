@@ -42,7 +42,10 @@ function UserDeviceList(){
     };
 
     return(<>
-        <div  className = "deviceListContainer">
+    <div className="deleteAddContainer">
+
+    </div>
+        <div  className = "deviceTokenListContainer">
             
             <table>
                 <thead>

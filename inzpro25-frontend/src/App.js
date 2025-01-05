@@ -21,8 +21,6 @@ import UserDeviceList from "./Pages/UserDevices/UserDeviceList";
 import AllAlertsPage from "./Pages/Alerts/Tabs/AllAlertsPage";
 import CreateNewAlarmPage from "./Pages/Alerts/Tabs/CreateNewAlarmPage";
 import DevicesPage from "./Pages/Logs/Tabs/DevicesPage";
-// import LoginPage from "./Pages/Root.js/rootComponents/LoginPage";
-// import LoginButton from "./Pages/Root.js/rootComponents/LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
