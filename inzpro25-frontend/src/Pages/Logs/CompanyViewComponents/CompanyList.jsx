@@ -18,7 +18,6 @@ function CompanyList(){
 
     const getCompanyList = async() =>{
         const token = await getAccessTokenSilently();
-        console.log(token);
         fetch(URL + 'api/companies?page=' + currentPage + '&size=9', {
             method: 'GET',
             headers: {

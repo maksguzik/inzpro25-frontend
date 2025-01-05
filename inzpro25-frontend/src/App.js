@@ -101,7 +101,7 @@ function App() {
               <Route path="Profile" element={<Profile/>}/>
               )}
               {
-                !(roles.includes('ADMIN') || roles.includes('SUPPORT_TEAM')) && (
+                (roles.includes('USER')) && (
                   <Route path="Devices" element={<UserDeviceList/>}/>
                 )
               }

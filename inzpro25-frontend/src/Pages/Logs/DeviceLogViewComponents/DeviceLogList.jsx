@@ -15,7 +15,6 @@ function DeviceLogList(){
 
     const getDeviceLogList = async() =>{
         const token = await getAccessTokenSilently();
-        console.log(token);
         fetch(URL +'api/devices-logs?page=' + currentPage + '&size=8', {
             method: 'GET',
             headers: {

@@ -19,7 +19,6 @@ function DeviceTokenList(){
 
     const getDeviceTokenList = async() =>{
         const token = await getAccessTokenSilently();
-        console.log(token);
         fetch(URL + 'api/devices-tokens', {
             method: 'GET',
             headers: {

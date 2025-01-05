@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function AccountSettings({isOnlyUser}){
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const {logout, isAuthenticated} = useAuth0();
+    const {logout} = useAuth0();
     const navigate = useNavigate();
 
     const handleClickedButton = () =>{

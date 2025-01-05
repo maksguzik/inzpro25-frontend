@@ -4,7 +4,7 @@ import './ProfileStyle.css';
 
 function Profile(){
 
-    const {getAccessTokenSilently, user} = useAuth0();
+    const {getAccessTokenSilently} = useAuth0();
     const [userData, setUserData] = useState({
         userId:"",
         name:"",
@@ -87,11 +87,6 @@ function Profile(){
             ) : (
                 <div className="profileNoImage">No Photo</div>
             )}
-            </div>
-
-            <div className="profileSection">
-            <div className="bold">User ID:</div>
-            <div>{userData.userId || "No data available"}</div>
             </div>
 
             <div className="profileSection">

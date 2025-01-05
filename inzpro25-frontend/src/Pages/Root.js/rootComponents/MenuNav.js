@@ -88,7 +88,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
                 <i className="material-icons-outlined">shield</i>
               </NavLink>
             </li>)}
-            {isUser && !isAdmin && !isSupportTeam && (
+            {isUser && (
               <>
             <li>
               <NavLink
@@ -98,8 +98,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
                   return isActive ? "active" : undefined;
                 }}
               >
-                <i className="material-icons-outlined">content_paste_search</i>
-                Devices
+                <i className="material-icons-outlined">devices</i>
               </NavLink>
             </li>             
             <li>
@@ -193,7 +192,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
                 Admin Panel
               </NavLink>
             </li>)}
-            {isUser && !isAdmin && !isSupportTeam && (
+            {isUser &&  (
               <>
             <li>
               <NavLink
@@ -203,7 +202,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
                   return isActive ? "active" : undefined;
                 }}
               >
-                <i className="material-icons-outlined">content_paste_search</i>
+                <i className="material-icons-outlined">devices</i>
                 Devices
               </NavLink>
             </li>             

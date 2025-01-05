@@ -17,7 +17,6 @@ function JsonTemplateList(){
 
     const getDeviceList = async() =>{
         const token = await getAccessTokenSilently();
-        console.log(token);
         fetch(URL, {
             method: 'GET',
             headers: {

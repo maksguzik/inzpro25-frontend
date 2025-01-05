@@ -19,7 +19,6 @@ function DeviceList(){
 
     const getDeviceList = async() =>{
         const token = await getAccessTokenSilently();
-        console.log(token);
         fetch(URL + 'api/devices?page=' + currentPage + '&size=9', {
             method: 'GET',
             headers: {
