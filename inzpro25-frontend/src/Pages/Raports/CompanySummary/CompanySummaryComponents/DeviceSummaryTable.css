@@ -9,14 +9,12 @@
 .device-table td {
   font-weight: normal; 
 }
-  /* Błąd */
   .error {
     color: red;
     margin-top: 10px;
     font-size: 14px;
   }
 
-  /* Status kółka */
 .status-indicator {
     display: inline-block;
     width: 10px;

@@ -166,7 +166,7 @@ function DeviceSummaryTable({ companyId }) {
               </tr>
             </thead>
             <tbody>
-              {filteredDevices.map((device) => (
+              {filteredDevices.map((device, index) => (
                 <tr
                   key={device.id}
                   onClick={() => setSelectedDeviceId(device.id)}
@@ -174,8 +174,10 @@ function DeviceSummaryTable({ companyId }) {
                     cursor: "pointer",
                     backgroundColor:
                       selectedDeviceId === device.id
-                        ? "lightgray"
-                        : "transparent",
+                        ? "lightblue"
+                        : index % 2 === 0 
+                        ? "#e9e7e79c" 
+                        : "white", 
                   }}
                 >
                   <td>{device.id}</td>
