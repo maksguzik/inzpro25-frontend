@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Doughnut, Bar } from "react-chartjs-2";
 import "./Dashboard.css";
@@ -10,17 +10,19 @@ function Dashboard() {
     return savedCharts ? JSON.parse(savedCharts) : Array(6).fill(null);
   });
   const [companies, setCompanies] = useState([]);
+  const [filteredCompanies, setFilteredCompanies] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [popupOpen, setPopupOpen] = useState(false);
   const [activeDashboard, setActiveDashboard] = useState(null);
   const [chartType, setChartType] = useState("donut");
   const [deviceType, setDeviceType] = useState("All");
 
-  const fetchCompanies = async () => {
+  const fetchCompanies = async (query = "") => {
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(
-        "http://localhost:8080/api/companies?page=0&size=10&sortBy=id&order=asc",
+        `http://localhost:8080/api/companies?name=${query}&page=0&size=10&sortBy=id&order=asc`,
         {
           method: "GET",
           headers: {
@@ -31,6 +33,7 @@ function Dashboard() {
       );
       const data = await response.json();
       setCompanies(data.content);
+      setFilteredCompanies(data.content);
       if (data.content.length > 0) {
         setSelectedCompany(data.content[0].id);
       }
@@ -65,7 +68,7 @@ function Dashboard() {
       }
 
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       return data;
     } catch (error) {
       console.error("Error fetching stats:", error);
@@ -75,6 +78,14 @@ function Dashboard() {
   useEffect(() => {
     fetchCompanies();
   }, []);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchCompanies(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery]);
 
   useEffect(() => {
     localStorage.setItem("charts", JSON.stringify(charts));
@@ -92,8 +103,8 @@ function Dashboard() {
     setDeviceType("All");
   };
 
-  const handleDropdownChange = (event) => {
-    setSelectedCompany(event.target.value);
+  const handleSearchQueryChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   const handleChartTypeSelection = (type) => {
@@ -131,7 +142,7 @@ function Dashboard() {
 
   const renderChart = (chart, index) => {
     if (!chart || !chart.data) return null;
-  
+
     const data = {
       labels: ["Inactive Devices", "Active Devices"],
       datasets: [
@@ -145,7 +156,7 @@ function Dashboard() {
         },
       ],
     };
-  
+
     return (
       <div className="chart-container">
         <div className="chart-description">
@@ -184,8 +195,8 @@ function Dashboard() {
   const handleRefresh = async (index) => {
     const chartToUpdate = charts[index];
     if (!chartToUpdate) return;
-  
-    const statsData = await fetchStats(); 
+
+    const statsData = await fetchStats();
     if (statsData) {
       const newCharts = [...charts];
       newCharts[index] = {
@@ -195,7 +206,6 @@ function Dashboard() {
       setCharts(newCharts);
     }
   };
-  
 
   return (
     <div className="dashboard-grid">
@@ -210,29 +220,37 @@ function Dashboard() {
           )}
         </div>
       ))}
-
       {popupOpen && (
         <div className="dashboard-popup-overlay">
           <div className="dashboard-popup">
             <h3>Choose a Company</h3>
-            <label htmlFor="companySelect" className="dashboard-popup-label">
-              Choose a Company:
+            <label htmlFor="searchQuery" className="dashboard-popup-label">
             </label>
+            <input
+              type="text"
+              id="searchQuery"
+              value={searchQuery}
+              onChange={handleSearchQueryChange}
+              placeholder="Type company name..."
+              className="search-input"
+              style={{ width: "282px", margin: "5px 0" }}
+            />
             <select
               id="companySelect"
-              onChange={handleDropdownChange}
+              onChange={(e) => setSelectedCompany(e.target.value)}
               value={selectedCompany || ""}
+              className="company-select-dropdown"
             >
               <option value="" disabled>
                 Select a company
               </option>
-              {companies.map((company) => (
+              {filteredCompanies.map((company) => (
                 <option key={company.id} value={company.id}>
                   {company.name}
                 </option>
               ))}
             </select>
-
+  
             <label htmlFor="chartType" className="dashboard-popup-label">
               Choose a Chart Type:
             </label>
@@ -254,7 +272,7 @@ function Dashboard() {
                 Bar Chart
               </button>
             </div>
-
+  
             <label htmlFor="deviceType" className="dashboard-popup-label">
               Device Type:
             </label>
@@ -266,7 +284,7 @@ function Dashboard() {
                 onChange={handleDeviceTypeChange}
               />
             </div>
-
+  
             <div className="popup-buttons">
               <button
                 className="crudButton greyButton paginationButton"

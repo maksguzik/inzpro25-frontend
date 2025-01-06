@@ -23,3 +23,23 @@
     cursor: pointer;
     height: 40px; 
   }
+
+  #companySearch {
+    padding: 9px;
+    margin-right: 10px;
+    font-size: 14px;
+    width: 200px;
+    border-radius: 6px;
+  }
+  
+  .dropdown-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  #companyDropdown {
+    padding: 5px;
+    font-size: 14px;
+    width: 200px;
+  }

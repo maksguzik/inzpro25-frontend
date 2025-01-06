@@ -142,7 +142,7 @@ function AllAlerts() {
           <input
             id="search-specific-device-id"
             type="text"
-            placeholder="Enter Device ID to search (leave empty to fetch all)"
+            placeholder="Enter Device ID to search"
             value={searchSpecificDeviceId}
             onChange={(e) => setSearchSpecificDeviceId(e.target.value)}
             className="search-input"
