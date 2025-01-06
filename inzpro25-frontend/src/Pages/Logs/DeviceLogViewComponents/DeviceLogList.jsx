@@ -10,12 +10,13 @@ function DeviceLogList(){
     const {getAccessTokenSilently} = useAuth0();
     const [currentPage, setCurrentPage] = useState(0);
     const [updateDeviceLogList, setUpdateDeviceLogList] = useState(true);
+    const [totalPages, setTotalPages] = useState(0);
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
     const getDeviceLogList = async() =>{
         const token = await getAccessTokenSilently();
-        fetch(URL +'api/devices-logs?page=' + currentPage + '&size=8', {
+        fetch(URL +'api/devices-logs?page=' + currentPage + '&size=5', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -23,7 +24,7 @@ function DeviceLogList(){
             },
         })
         .then(response => response.json())
-        .then(json => setDeviceLogList(json.content.reverse()))
+        .then(json => {setDeviceLogList(json.content.reverse()); setTotalPages(json.totalPages)})
         .then(()=>setUpdateDeviceLogList(false))
         .catch(error => console.error(error));
     }
@@ -35,8 +36,10 @@ function DeviceLogList(){
     },[updateDeviceLogList, getDeviceLogList]);
 
     const handleNextPage = () => {
-        setCurrentPage((prevPage) => prevPage + 1);
-        setUpdateDeviceLogList(true);
+        if (currentPage < totalPages - 1) {
+          setCurrentPage((prevPage) => prevPage + 1);
+          setUpdateDeviceLogList(true);
+        }
     };
     
     const handlePreviousPage = () => {
@@ -83,8 +86,9 @@ function DeviceLogList(){
                     ◀ Previous
                 </button>
                 <span className="paginationInfo">PAGE {currentPage + 1}</span>
-                <button 
-                    onClick={handleNextPage} 
+                <button
+                    onClick={handleNextPage}
+                    disabled={currentPage >= totalPages - 1}
                     className="crudButton greyButton paginationButton"
                 >
                     Next ▶

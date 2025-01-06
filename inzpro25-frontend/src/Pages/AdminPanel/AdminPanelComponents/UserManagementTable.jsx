@@ -10,6 +10,9 @@ function UserManagementTable(){
     const [updateUserList, setUpdateUserList] = useState(true);
     const [companyList, setCompanyList] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+
+    const elementPerPage = 5;
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
@@ -25,7 +28,7 @@ function UserManagementTable(){
             },
         })
         .then(response => response.json())
-        .then(json => setCompanyList(json.content))
+        .then(json => {setCompanyList(json.content);  setTotalPages(json.content.length/elementPerPage)})
         .catch(error => console.error(error));
     }
 
@@ -33,7 +36,7 @@ function UserManagementTable(){
     const getUserList = async () => {
     try {
         const token = await getAccessTokenSilently();
-        const response = await fetch(URL + "api/admin-panel/users?page=" + currentPage + "&perPage=9", {
+        const response = await fetch(URL + "api/admin-panel/users?page=" + currentPage + "&perPage=" + elementPerPage, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
@@ -59,8 +62,10 @@ function UserManagementTable(){
     },[updateUserList]);
 
     const handleNextPage = () => {
-        setCurrentPage((prevPage) => prevPage + 1);
-        setUpdateUserList(true);
+        if (currentPage < totalPages - 1) {
+          setCurrentPage((prevPage) => prevPage + 1);
+          setUpdateUserList(true);
+        }
     };
     
     const handlePreviousPage = () => {
@@ -116,8 +121,9 @@ function UserManagementTable(){
                     ◀ Previous
                 </button>
                 <span className="paginationInfo">PAGE {currentPage + 1}</span>
-                <button 
-                    onClick={handleNextPage} 
+                <button
+                    onClick={handleNextPage}
+                    disabled={currentPage >= totalPages - 1}
                     className="crudButton greyButton paginationButton"
                 >
                     Next ▶

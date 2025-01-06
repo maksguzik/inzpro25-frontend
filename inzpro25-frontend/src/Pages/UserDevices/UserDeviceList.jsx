@@ -6,15 +6,14 @@ function UserDeviceList(){
     const [deviceList, setDeviceList] = useState([]);
     const [updateDeviceList, setUpdateDeviceList] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
-
+    const [totalPages, setTotalPages] = useState(0);
     const {getAccessTokenSilently} = useAuth0();
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
     const getDeviceList = async() =>{
         const token = await getAccessTokenSilently();
-        console.log(token);
-        fetch(URL + 'api/user/devices?page=' + currentPage + '&size=9', {
+        fetch(URL + 'api/user/devices?page=' + currentPage + '&size=5', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -22,7 +21,7 @@ function UserDeviceList(){
             },
         })
         .then(response => response.json())
-        .then(json => setDeviceList(json.content))
+        .then(json => {setDeviceList(json.content); setTotalPages(json.totalPages)})
         .then(()=>setUpdateDeviceList(false))
         .catch(error => console.error(error));
     }
@@ -32,8 +31,10 @@ function UserDeviceList(){
     }, [updateDeviceList, getDeviceList]);
 
     const handleNextPage = () => {
-        setCurrentPage((prevPage) => prevPage + 1);
-        setUpdateDeviceList(true);
+        if (currentPage < totalPages - 1) {
+          setCurrentPage((prevPage) => prevPage + 1);
+          setUpdateDeviceList(true);
+        }
     };
     
     const handlePreviousPage = () => {
@@ -82,8 +83,9 @@ function UserDeviceList(){
                     ◀ Previous
                 </button>
                 <span className="paginationInfo">PAGE {currentPage + 1}</span>
-                <button 
-                    onClick={handleNextPage} 
+                <button
+                    onClick={handleNextPage}
+                    disabled={currentPage >= totalPages - 1}
                     className="crudButton greyButton paginationButton"
                 >
                     Next ▶

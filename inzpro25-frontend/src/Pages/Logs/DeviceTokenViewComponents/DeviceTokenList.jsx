@@ -9,9 +9,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 function DeviceTokenList(){
     const [deviceTokenList, setDeviceTokenList] = useState([]);
     const [updateDeviceTokenList, setUpdateDeviceTokenList] = useState(true);
-    // const [selectedRecord, setSelectedRecord] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [tokenIdDeleteList, setTokenIdDeleteList] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
 
     const {getAccessTokenSilently} = useAuth0();
 
@@ -19,7 +19,7 @@ function DeviceTokenList(){
 
     const getDeviceTokenList = async() =>{
         const token = await getAccessTokenSilently();
-        fetch(URL + 'api/devices-tokens?page=' + currentPage + '&size=9', {
+        fetch(URL + 'api/devices-tokens?page=' + currentPage + '&size=5', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -27,7 +27,7 @@ function DeviceTokenList(){
             },
         })
         .then(response => response.json())
-        .then(json => setDeviceTokenList(json.content))
+        .then(json => {setDeviceTokenList(json.content); setTotalPages(json.totalPages)})
         .then(()=>setUpdateDeviceTokenList(false))
         .catch(error => console.error(error));
     }
@@ -37,8 +37,10 @@ function DeviceTokenList(){
     });
     
     const handleNextPage = () => {
-        setCurrentPage((prevPage) => prevPage + 1);
-        setUpdateDeviceTokenList(true);
+        if (currentPage < totalPages - 1) {
+          setCurrentPage((prevPage) => prevPage + 1);
+          setUpdateDeviceTokenList(true);
+        }
     };
     
     const handlePreviousPage = () => {
@@ -94,8 +96,9 @@ function DeviceTokenList(){
                     ◀ Previous
                 </button>
                 <span className="paginationInfo">PAGE {currentPage + 1}</span>
-                <button 
-                    onClick={handleNextPage} 
+                <button
+                    onClick={handleNextPage}
+                    disabled={currentPage >= totalPages - 1}
                     className="crudButton greyButton paginationButton"
                 >
                     Next ▶

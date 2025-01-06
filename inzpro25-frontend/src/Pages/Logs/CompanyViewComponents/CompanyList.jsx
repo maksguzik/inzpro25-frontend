@@ -11,6 +11,7 @@ function CompanyList(){
     const [updateCompanyList, setUpdateCompanyList] = useState(true);
     const [companyIdDeleteList, setCompanyIdDeleteList] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
 
     const {getAccessTokenSilently} = useAuth0();
 
@@ -26,7 +27,7 @@ function CompanyList(){
             },
         })
         .then(response => response.json())
-        .then(json => setCompanyList(json.content))
+        .then(json => {setCompanyList(json.content); setTotalPages(json.totalPages)})
         .then(()=>setUpdateCompanyList(false))
         .catch(error => console.error(error));
     }
@@ -36,8 +37,10 @@ function CompanyList(){
     });
 
     const handleNextPage = () => {
-        setCurrentPage((prevPage) => prevPage + 1);
-        setUpdateCompanyList(true);
+        if (currentPage < totalPages - 1) {
+          setCurrentPage((prevPage) => prevPage + 1);
+          setUpdateCompanyList(true);
+        }
     };
     
     const handlePreviousPage = () => {
@@ -90,8 +93,9 @@ function CompanyList(){
                     ◀ Previous
                 </button>
                 <span className="paginationInfo">PAGE {currentPage + 1}</span>
-                <button 
-                    onClick={handleNextPage} 
+                <button
+                    onClick={handleNextPage}
+                    disabled={currentPage >= totalPages - 1}
                     className="crudButton greyButton paginationButton"
                 >
                     Next ▶

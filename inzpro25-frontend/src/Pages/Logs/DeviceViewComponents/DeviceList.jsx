@@ -9,9 +9,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 function DeviceList(){
     const [deviceList, setDeviceList] = useState([]);
     const [updateDeviceList, setUpdateDeviceList] = useState(true);
-    // const [selectedRecord, setSelectedRecord] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [deviceIdDeleteList, setDeviceIdDeleteList] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
 
     const {getAccessTokenSilently} = useAuth0();
 
@@ -19,7 +19,7 @@ function DeviceList(){
 
     const getDeviceList = async() =>{
         const token = await getAccessTokenSilently();
-        fetch(URL + 'api/devices?page=' + currentPage + '&size=9', {
+        fetch(URL + 'api/devices?page=' + currentPage + '&size=5', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -27,7 +27,7 @@ function DeviceList(){
             },
         })
         .then(response => response.json())
-        .then(json => setDeviceList(json.content))
+        .then(json => {setDeviceList(json.content); setTotalPages(json.totalPages)})
         .then(()=>setUpdateDeviceList(false))
         .catch(error => console.error(error));
     }
@@ -37,8 +37,10 @@ function DeviceList(){
     }, [updateDeviceList, getDeviceList]);
 
     const handleNextPage = () => {
-        setCurrentPage((prevPage) => prevPage + 1);
-        setUpdateDeviceList(true);
+        if (currentPage < totalPages - 1) {
+          setCurrentPage((prevPage) => prevPage + 1);
+          setUpdateDeviceList(true);
+        }
     };
     
     const handlePreviousPage = () => {
@@ -58,7 +60,7 @@ function DeviceList(){
                     />
                 </div>
             </div>
-        <div  className = "deviceListContainer">
+        <div  className = "deviceTokenListContainer">
             
             <table>
                 <thead>
@@ -97,8 +99,9 @@ function DeviceList(){
                     ◀ Previous
                 </button>
                 <span className="paginationInfo">PAGE {currentPage + 1}</span>
-                <button 
-                    onClick={handleNextPage} 
+                <button
+                    onClick={handleNextPage}
+                    disabled={currentPage >= totalPages - 1}
                     className="crudButton greyButton paginationButton"
                 >
                     Next ▶
