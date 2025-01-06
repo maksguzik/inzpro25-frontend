@@ -118,7 +118,7 @@ const DeviceStatus = ({ deviceState, deviceId: deviceIdFromProps }) => {
             {deviceState.alarm ? (
               <FaBell className="icon active" title="Alarm Active" />
             ) : (
-              <FaTimesCircle className="icon inactive" title="Alarm Inactive" />
+              <FaCheckCircle className="icon success" title="Alarm Inactive" />
             )}
           </span>
         </div>
