@@ -84,7 +84,7 @@ function CompanyList(){
                     <input
                         type="text"
                         className="input-field"
-                        placeholder="Search by name"
+                        placeholder="Search by Company Name"
                         value={searchName}
                         onChange={(e) => {setSearchName(e.target.value);
                             setUpdateCompanyList(true);

@@ -14,7 +14,7 @@ function DeviceTokenList(){
     const [totalPages, setTotalPages] = useState(0);
     const [order, setOrder] = useState('asc');
     const [sortBy, setSortBy] = useState('deviceTypeName');
-    const [searchName, setSearchName] = useState('');
+    const [deviceTypeName, setDeviceTypeName] = useState('');
 
     const {getAccessTokenSilently} = useAuth0();
 
@@ -37,7 +37,7 @@ function DeviceTokenList(){
 
     const getDeviceTokenListOrdered = async () => {
         const token = await getAccessTokenSilently();
-        fetch(`${URL}api/devices-tokens?page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
+        fetch(`${URL}api/devices-tokens?deviceTypeName=${deviceTypeName}&page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -80,17 +80,17 @@ function DeviceTokenList(){
     return(<>
     <div className="orderAddDeleteContainer">
         <div className="orderContainer">
-            {/* <div className="sortDirection">
-                    <div className="addToken">
-                    <select
-                        className="crudButton greyButton orderButtons"
-                        onChange={(e) => handleSortByChange(e.target.value)}
-                    >
-                        <option value="deviceTypeName">Device Type</option>
-                        <option value="id">Id</option>
-                    </select>
+        <div className="searchByNameContainer">
+                    <input
+                        type="text"
+                        className="input-field"
+                        placeholder="Search by Device Type"
+                        value={deviceTypeName}
+                        onChange={(e) => {setDeviceTypeName(e.target.value);
+                            setUpdateDeviceTokenList(true);
+                        }}
+                    />
                 </div>
-                </div> */}
                 <div className="sortDirection">
                     <div className="addToken">
                     <select

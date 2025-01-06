@@ -120,7 +120,6 @@ function UserDeviceList(){
                         <th>name</th>
                         <th>device Type</th>
                         <th>owner</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

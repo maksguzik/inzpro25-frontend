@@ -27,4 +27,6 @@ thead{
     font-weight: 900;
   }
 
-  
+  .deviceLogInputWidth{
+    width:200px;
+  }

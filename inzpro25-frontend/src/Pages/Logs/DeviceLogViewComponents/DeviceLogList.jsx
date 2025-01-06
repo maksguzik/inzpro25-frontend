@@ -12,7 +12,9 @@ function DeviceLogList(){
     const [totalPages, setTotalPages] = useState(0);
     const [order, setOrder] = useState('desc');
     const [sortBy, setSortBy] = useState('logTime');
-    const [searchName, setSearchName] = useState('');
+    const [serialNumber, setSerialNumber] = useState('');
+    const [deviceTypeName, setDeviceTypeName] = useState('');
+    const [owner, setOwner] = useState('');
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
@@ -67,7 +69,7 @@ function DeviceLogList(){
     
     const getDeviceLogList = async() =>{
         const token = await getAccessTokenSilently();
-        fetch(URL + 'api/devices-logs/' + chosenTimeStampRange + `?startTime=${datePickedAfter}:11Z&endTime=${datePickedBefore}:11Z` + '&page=' + currentPage + '&size=5' + '&sortBy=' + sortBy +'&order=' + order, {
+        fetch(URL + 'api/devices-logs/' + chosenTimeStampRange + `?startTime=${datePickedAfter}:11Z&endTime=${datePickedBefore}:11Z` +'&owner='+ owner +'&deviceSerialNumber=' + serialNumber + '&deviceType=' + deviceTypeName + '&page=' + currentPage + '&size=5' + '&sortBy=' + sortBy +'&order=' + order, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -110,6 +112,39 @@ function DeviceLogList(){
     return(<>
      <div className="orderAddDeleteContainer">
         <div className="orderContainer flex">
+        <div className="searchByNameContainer">
+                    <input
+                        type="text"
+                        className="input-field deviceLogInputWidth"
+                        placeholder="Search by Serial Number"
+                        value={serialNumber}
+                        onChange={(e) => {setSerialNumber(e.target.value);
+                            setUpdateDeviceLogList(true);
+                        }}
+                    />
+                </div>
+                <div className="searchByNameContainer">
+                    <input
+                        type="text"
+                        className="input-field deviceLogInputWidth"
+                        placeholder="Search by Device Type"
+                        value={deviceTypeName}
+                        onChange={(e) => {setDeviceTypeName(e.target.value);
+                            setUpdateDeviceLogList(true);
+                        }}
+                    />
+                </div>
+                <div className="searchByNameContainer">
+                    <input
+                        type="text"
+                        className="input-field deviceLogInputWidth"
+                        placeholder="Search by Company Name"
+                        value={owner}
+                        onChange={(e) => {setOwner(e.target.value);
+                            setUpdateDeviceLogList(true);
+                        }}
+                    />
+                </div>
         <div className="sortLabel">
                     Sort By
                 </div>

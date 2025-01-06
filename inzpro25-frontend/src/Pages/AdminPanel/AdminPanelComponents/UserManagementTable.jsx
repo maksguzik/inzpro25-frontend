@@ -48,7 +48,8 @@ function UserManagementTable(){
         }
 
         const json = await response.json();
-        setUserList(json);
+        setUserList(json.userResponseList);
+        setTotalPages(Math.ceil(json.totalUsers/elementPerPage));
         setUpdateUserList(false);
     } catch (error) {
         console.error("Error fetching user list:", error);

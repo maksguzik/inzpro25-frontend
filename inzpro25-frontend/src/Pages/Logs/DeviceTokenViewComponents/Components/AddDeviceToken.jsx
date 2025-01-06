@@ -51,7 +51,7 @@ function AddDeviceToken({setUpdateDeviceTokenList}){
                 <div className="overlay"
                     onClick = {togglePopup}></div>
                 <div className="popupContent">
-                    <div className="popupLabel">New Device Type</div>
+                    <div className="popupLabel">Device Type</div>
                     <input 
                         className = "inputDeviceToken" 
                         value = {deviceTypeName} 

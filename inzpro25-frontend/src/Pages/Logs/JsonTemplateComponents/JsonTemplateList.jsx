@@ -13,7 +13,7 @@ function JsonTemplateList(){
     const [totalPages, setTotalPages] = useState(0);
     const [order, setOrder] = useState('asc');
     const [sortBy, setSortBy] = useState('deviceTypeName');
-    const [searchName, setSearchName] = useState('');
+    const [deviceTypeName, setDeviceTypeName] = useState('');
 
     const {getAccessTokenSilently} = useAuth0();
 
@@ -36,7 +36,7 @@ function JsonTemplateList(){
 
     const getDeviceListOrdered = async () => {
         const token = await getAccessTokenSilently();
-        fetch(`${URL}api/device-types?page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
+        fetch(`${URL}api/device-types?deviceTypeName=${deviceTypeName}&page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -79,6 +79,17 @@ function JsonTemplateList(){
     return(<>
     <div className="orderAddDeleteContainer">
         <div className="orderContainer">
+        <div className="searchByNameContainer">
+                    <input
+                        type="text"
+                        className="input-field"
+                        placeholder="Search by Device Type"
+                        value={deviceTypeName}
+                        onChange={(e) => {setDeviceTypeName(e.target.value);
+                            setUpdateDeviceList(true);
+                        }}
+                    />
+                </div>
         <div className="sortLabel">
                     Sort By
                 </div>
@@ -110,16 +121,6 @@ function JsonTemplateList(){
             </div>
                 
         </div>
-        {/* <div className="sortDirection">
-            <div className="addToken">
-            <button
-                className="crudButton greyButton searchByNameButton"
-                onClick={() => getDeviceListOrdered()}
-            >
-            Search
-        </button>
-            </div>
-        </div> */}
         
             </div>
             
@@ -141,7 +142,7 @@ function JsonTemplateList(){
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Device Name</th>
+                        <th>Device Type</th>
                         <th>Id Mapping</th>
                         <th>Logged at</th>
                         <th>Last seen</th>
