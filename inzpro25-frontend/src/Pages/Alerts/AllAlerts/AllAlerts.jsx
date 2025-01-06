@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from "react";
-import "./DeviceSummaryTable.css";
+import "./AllAlerts.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
-function DeviceSummaryTable({ companyId }) {
-  const [devices, setDevices] = useState([]);
-  const [filteredDevices, setFilteredDevices] = useState([]);
-  const [deviceStates, setDeviceStates] = useState({});
+function AllAlerts() {
+  const [deviceStates, setDeviceStates] = useState([]);
+  const [filteredDeviceStates, setFilteredDeviceStates] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [searchDeviceId, setSearchDeviceId] = useState("");
-  const [searchDeviceType, setSearchDeviceType] = useState("");
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
-
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    const fetchDevices = async () => {
+    const fetchDeviceStates = async () => {
       try {
         const token = await getAccessTokenSilently();
         const response = await fetch(
-          `http://localhost:8080/api/companies/${companyId}/devices?page=${currentPage}&size=8&sortBy=id&order=asc`,
+          `http://localhost:8080/alert/device-states?page=${currentPage}&size=8`,
           {
             method: "GET",
             headers: {
@@ -35,68 +32,29 @@ function DeviceSummaryTable({ companyId }) {
         }
 
         const data = await response.json();
-        //console.log(data)
-        setDevices(data.content);
-        setFilteredDevices(data.content);
+        console.log(data);
+        setDeviceStates(data.content);
+        setFilteredDeviceStates(data.content);
         setTotalPages(data.totalPages);
         setError(null);
-
-        data.content.forEach((device) => fetchDeviceState(device.id));
       } catch (err) {
-        console.error("Error fetching devices:", err);
-        setError("Failed to fetch devices. Please try again.");
+        console.error("Error fetching device states:", err);
+        setError("Failed to fetch device states. Please try again.");
       }
     };
 
-    const fetchDeviceState = async (id) => {
-      try {
-        const token = await getAccessTokenSilently();
-        const response = await fetch(
-          `http://localhost:8080/alert/device-states/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setDeviceStates((prevStates) => ({
-          ...prevStates,
-          [id]: data.down ? "Inactive" : "Active",
-        }));
-      } catch (err) {
-        console.error(`Error fetching state for device ${id}:`, err);
-        setDeviceStates((prevStates) => ({
-          ...prevStates,
-          [id]: "Unknown",
-        }));
-      }
-    };
-
-    fetchDevices();
-  }, [companyId, currentPage, getAccessTokenSilently]);
+    fetchDeviceStates();
+  }, [currentPage, getAccessTokenSilently]);
 
   useEffect(() => {
-    const filtered = devices.filter((device) => {
-      const matchesDeviceId =
+    const filtered = deviceStates.filter((state) => {
+      return (
         searchDeviceId === "" ||
-        device.id.toString().includes(searchDeviceId.toLowerCase());
-      const matchesDeviceType =
-        searchDeviceType === "" ||
-        device.deviceType
-          .toLowerCase()
-          .includes(searchDeviceType.toLowerCase());
-      return matchesDeviceId && matchesDeviceType;
+        state.deviceId.toString().includes(searchDeviceId.toLowerCase())
+      );
     });
-    setFilteredDevices(filtered);
-  }, [searchDeviceId, searchDeviceType, devices]);
+    setFilteredDeviceStates(filtered);
+  }, [searchDeviceId, deviceStates]);
 
   const handlePreviousPage = () => {
     if (currentPage > 0) {
@@ -127,19 +85,6 @@ function DeviceSummaryTable({ companyId }) {
             className="search-input"
           />
         </div>
-        <div className="filter-group">
-          <label htmlFor="search-device-type" className="search-label">
-            Search Device Type:
-          </label>
-          <input
-            id="search-device-type"
-            type="text"
-            placeholder="Enter Device Type"
-            value={searchDeviceType}
-            onChange={(e) => setSearchDeviceType(e.target.value)}
-            className="search-input"
-          />
-        </div>
         {selectedDeviceId && (
           <div style={{ marginTop: "10px" }}>
             <button
@@ -148,53 +93,71 @@ function DeviceSummaryTable({ companyId }) {
                 (window.location.href = `/Raports/Device Summary/${selectedDeviceId}`)
               }
             >
-              Go to the Device
+              Go to Device
             </button>
           </div>
         )}
       </div>
-      {filteredDevices.length > 0 ? (
+      {filteredDeviceStates.length > 0 ? (
         <>
           <table className="device-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Serial Number</th>
-                <th>Name</th>
-                <th>Device Type</th>
-                <th>Company Name</th>
-                <th>Status</th>
+                <th>Device ID</th>
+                <th>Last Seen</th>
+                <th>
+                  Downtime
+                  Detection
+                  <br />
+                  Duration (min)
+                </th>
+                <th>
+                  Alarm
+                  Detection
+                  <br />
+                  Duration (min)
+                </th>
+                <th>Alarm</th>
+                <th>Down</th>
+                <th>Send Email</th>
               </tr>
             </thead>
             <tbody>
-              {filteredDevices.map((device, index) => (
+              {filteredDeviceStates.map((state, index) => (
                 <tr
-                  key={device.id}
-                  onClick={() => setSelectedDeviceId(device.id)}
+                  key={state.deviceId}
+                  onClick={() => setSelectedDeviceId(state.deviceId)}
                   style={{
                     cursor: "pointer",
                     backgroundColor:
-                      selectedDeviceId === device.id
+                      selectedDeviceId === state.deviceId
                         ? "lightblue"
-                        : index % 2 === 0 
-                        ? "#e9e7e79c" 
-                        : "white", 
+                        : index % 2 === 0
+                        ? "#e9e7e79c"
+                        : "white",
                   }}
                 >
-                  <td>{device.id}</td>
-                  <td>{device.serialNumber}</td>
-                  <td>{device.name}</td>
-                  <td>{device.deviceType}</td>
-                  <td>{device.companyName}</td>
+                  <td>{state.deviceId}</td>
+                  <td>{new Date(state.lastSeen).toLocaleString()}</td>
+                  <td>{state.downtimeDetectionDuration}</td>
+                  <td>{state.alarmDetectionDuration}</td>
                   <td>
-                    {deviceStates[device.id] === "Active" && (
-                      <span className="status-indicator active"></span>
-                    )}
-                    {deviceStates[device.id] === "Inactive" && (
-                      <span className="status-indicator inactive"></span>
-                    )}
-                    {deviceStates[device.id] || "Loading..."}
+                    <span
+                      className={`status-indicator ${
+                        state.alarm ? "red" : "green"
+                      }`}
+                    ></span>
+                    {state.alarm ? "Yes" : "No"}
                   </td>
+                  <td>
+                    <span
+                      className={`status-indicator ${
+                        state.down ? "red" : "green"
+                      }`}
+                    ></span>
+                    {state.down ? "Yes" : "No"}
+                  </td>
+                  <td>{state.shouldSendEmail ? "Yes" : "No"}</td>
                 </tr>
               ))}
             </tbody>
@@ -219,7 +182,7 @@ function DeviceSummaryTable({ companyId }) {
         </>
       ) : (
         <>
-          <p>No devices found.</p>
+          <p>No device states found.</p>
           <div className="pagination">
             <button
               onClick={handlePreviousPage}
@@ -243,4 +206,4 @@ function DeviceSummaryTable({ companyId }) {
   );
 }
 
-export default DeviceSummaryTable;
+export default AllAlerts;

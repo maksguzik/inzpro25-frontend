@@ -2,7 +2,7 @@ import "./Tabbar.css";
 import { NavLink } from "react-router-dom";
 
 const tabValues = {
-  Home: ["Not working yet"],
+  Home: ["Dashboard"],
   Alerts: ["All alerts"],
   Logs: ["All logs"],
   Raports: ["Company Summary","Device Summary"],
