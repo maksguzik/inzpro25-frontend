@@ -9,10 +9,9 @@ function DeviceSummaryTable({ companyId }) {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  // const [searchDeviceId, setSearchDeviceId] = useState("");
-  // const [searchDeviceType, setSearchDeviceType] = useState("");
-  const [searchDeviceName, setSearchDeviceName] = useState(""); 
-  const [searchDeviceSerialNumber, setSearchDeviceSerialNumber] = useState(""); 
+  const [searchDeviceName, setSearchDeviceName] = useState("");
+  const [searchDeviceSerialNumber, setSearchDeviceSerialNumber] = useState("");
+  const [searchDeviceType, setSearchDeviceType] = useState("");
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
 
   const { getAccessTokenSilently } = useAuth0();
@@ -84,28 +83,11 @@ function DeviceSummaryTable({ companyId }) {
     fetchDevices();
   }, [companyId, currentPage, getAccessTokenSilently]);
 
-  /*
-  useEffect(() => {
-    const filtered = devices.filter((device) => {
-      const matchesDeviceId =
-        searchDeviceId === "" ||
-        device.id.toString().includes(searchDeviceId.toLowerCase());
-      const matchesDeviceType =
-        searchDeviceType === "" ||
-        device.deviceType
-          .toLowerCase()
-          .includes(searchDeviceType.toLowerCase());
-      return matchesDeviceId && matchesDeviceType;
-    });
-    setFilteredDevices(filtered);
-  }, [searchDeviceId, searchDeviceType, devices]);
-  */
-
   const handleSearchForDevice = async () => {
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(
-        `http://localhost:8080/api/companies/${companyId}/devices?name=${searchDeviceName}&serialNumber=${searchDeviceSerialNumber}&page=0&size=10&sortBy=id&order=asc`,
+        `http://localhost:8080/api/companies/${companyId}/devices?deviceType=${searchDeviceType}&deviceName=${searchDeviceName}&serialNumber=${searchDeviceSerialNumber}&page=0&size=10&sortBy=id&order=asc`,
         {
           method: "GET",
           headers: {
@@ -123,7 +105,6 @@ function DeviceSummaryTable({ companyId }) {
       setFilteredDevices(data.content);
       setError(null);
 
-      // Aktualizacja statusu każdego wyszukanego urządzenia
       data.content.forEach((device) => fetchDeviceState(device.id));
     } catch (err) {
       console.error("Error searching for devices:", err);
@@ -147,34 +128,6 @@ function DeviceSummaryTable({ companyId }) {
     <div className="device-table-container">
       {error && <p className="error">{error}</p>}
       <div className="filter-container">
-        {/*
-        <div className="filter-group">
-          <label htmlFor="search-device-id" className="search-label">
-            Search Device ID:
-          </label>
-          <input
-            id="search-device-id"
-            type="text"
-            placeholder="Enter Device ID"
-            value={searchDeviceId}
-            onChange={(e) => setSearchDeviceId(e.target.value)}
-            className="search-input"
-          />
-        </div>
-        <div className="filter-group">
-          <label htmlFor="search-device-type" className="search-label">
-            Search Device Type:
-          </label>
-          <input
-            id="search-device-type"
-            type="text"
-            placeholder="Enter Device Type"
-            value={searchDeviceType}
-            onChange={(e) => setSearchDeviceType(e.target.value)}
-            className="search-input"
-          />
-        </div>
-        */}
         <div className="filter-group">
           <label htmlFor="search-device-name" className="search-label">
             Search Device Name:
@@ -198,6 +151,19 @@ function DeviceSummaryTable({ companyId }) {
             placeholder="Enter Serial Number"
             value={searchDeviceSerialNumber}
             onChange={(e) => setSearchDeviceSerialNumber(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        <div className="filter-group">
+          <label htmlFor="search-device-type" className="search-label">
+            Search Device Type:
+          </label>
+          <input
+            id="search-device-type"
+            type="text"
+            placeholder="Enter Device Type"
+            value={searchDeviceType}
+            onChange={(e) => setSearchDeviceType(e.target.value)}
             className="search-input"
           />
         </div>
