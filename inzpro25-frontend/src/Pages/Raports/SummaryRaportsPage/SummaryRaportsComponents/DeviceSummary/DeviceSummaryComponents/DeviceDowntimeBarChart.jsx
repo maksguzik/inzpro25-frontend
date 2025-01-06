@@ -49,7 +49,7 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
     "December",
   ];
 
-  const years = [2023, 2024, 2025];
+  const years = [2023, 2024, 2025]; // Add more years dynamically if needed
 
   const viewModes = [
     { value: "year", label: "Whole Year" },
@@ -57,7 +57,6 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
     { value: "threeMonths", label: "Three Months" },
   ];
 
-  let daysBack;
   const today = new Date();
 
   const fetchDowntimeData = async () => {
@@ -66,6 +65,7 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
       return;
     }
 
+    let daysBack;
     if (viewMode === "year") {
       daysBack = 365;
     } else if (viewMode === "month") {
@@ -74,22 +74,14 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
         months.indexOf(selectedMonth),
         1
       );
-      const diffInTime = today - firstDayOfSelectedMonth;
-      daysBack = Math.ceil(diffInTime / (1000 * 60 * 60 * 24));
+      daysBack = Math.ceil((today - firstDayOfSelectedMonth) / (1000 * 60 * 60 * 24));
     } else if (viewMode === "threeMonths") {
-      const startMonth = startMonthIndex;
-      const endMonth = startMonth + 3;
-      const startDate = new Date(selectedYear, startMonth, 1);
-      const endDate = new Date(selectedYear, endMonth, 0);
+      const startDate = new Date(selectedYear, startMonthIndex, 1);
       daysBack = Math.ceil((today - startDate) / (1000 * 60 * 60 * 24));
-
-      if (startDate > today) {
-        daysBack = 0;
-      }
     }
 
-    const token = await getAccessTokenSilently();
     try {
+      const token = await getAccessTokenSilently();
       const response = await fetch(
         `http://localhost:8080/alert/device-states/${deviceId}/downtimes?days=${daysBack}`,
         {
@@ -121,29 +113,36 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
   const processData = () => {
     const downtimeDays = new Array(12).fill(0);
     const activeDays = new Array(12).fill(0);
-  
+
     downtimeData.forEach((downtime) => {
       const startDate = new Date(downtime.started);
-      const endDate = downtime.ended ? new Date(downtime.ended) : new Date(); 
+      const endDate = downtime.ended ? new Date(downtime.ended) : today;
       let currentDate = new Date(startDate);
-  
+
       while (currentDate <= endDate) {
         const monthIndex = currentDate.getMonth();
         const year = currentDate.getFullYear();
-  
-        if (year === selectedYear) {
-          downtimeDays[monthIndex] += 1; 
+
+        if (year === selectedYear && currentDate <= today) {
+          downtimeDays[monthIndex] += 1;
         }
-  
-        currentDate.setDate(currentDate.getDate() + 1); 
+
+        currentDate.setDate(currentDate.getDate() + 1);
       }
     });
-  
+
     activeDays.forEach((_, index) => {
       const daysInMonth = new Date(selectedYear, index + 1, 0).getDate();
-      activeDays[index] = daysInMonth - downtimeDays[index]; 
+
+      if (selectedYear === today.getFullYear() && index === today.getMonth()) {
+        activeDays[index] = today.getDate() - downtimeDays[index];
+      } else if (selectedYear < today.getFullYear() || index < today.getMonth()) {
+        activeDays[index] = daysInMonth - downtimeDays[index];
+      } else {
+        activeDays[index] = 0;
+      }
     });
-  
+
     if (viewMode === "year") {
       return {
         filteredMonths: months,
@@ -171,24 +170,7 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
     }
   };
 
-  const handlePrevious = () => {
-    if (startMonthIndex > 0) {
-      setStartMonthIndex(startMonthIndex - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (startMonthIndex + 3 < months.length) {
-      setStartMonthIndex(startMonthIndex + 1);
-    }
-  };
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  const { filteredMonths, filteredDowntimeDays, filteredActiveDays } =
-    processData();
+  const { filteredMonths, filteredDowntimeDays, filteredActiveDays } = processData();
 
   const data = {
     labels: filteredMonths,
@@ -209,16 +191,11 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
   const options = {
     responsive: true,
     plugins: {
-      legend: {
-        position: "top",
-      },
+      legend: { position: "top" },
     },
     scales: {
-      x: { title: { display: false, text: "Months" } },
-      y: {
-        title: { display: false, text: "Number of Days" },
-        beginAtZero: false,
-      },
+      x: { title: { display: true, text: "Months" } },
+      y: { title: { display: true, text: "Number of Days" }, beginAtZero: true },
     },
   };
 
@@ -259,11 +236,11 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
 
         {viewMode === "threeMonths" && (
           <>
-            <button onClick={handlePrevious} disabled={startMonthIndex === 0}>
+            <button onClick={() => setStartMonthIndex(startMonthIndex - 1)} disabled={startMonthIndex === 0}>
               Previous
             </button>
             <button
-              onClick={handleNext}
+              onClick={() => setStartMonthIndex(startMonthIndex + 1)}
               disabled={startMonthIndex + 3 >= months.length}
             >
               Next
@@ -271,7 +248,6 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
           </>
         )}
       </div>
-
       <Bar data={data} options={options} />
     </div>
   );
