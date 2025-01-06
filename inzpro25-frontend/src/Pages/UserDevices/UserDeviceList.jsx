@@ -13,7 +13,6 @@ function UserDeviceList(){
 
     const getDeviceList = async() =>{
         const token = await getAccessTokenSilently();
-        console.log(token);
         fetch(URL + 'api/user/devices?page=' + currentPage + '&size=9', {
             method: 'GET',
             headers: {

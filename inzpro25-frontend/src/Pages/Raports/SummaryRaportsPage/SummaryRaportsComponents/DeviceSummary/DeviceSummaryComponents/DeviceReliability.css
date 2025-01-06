@@ -1,0 +1,54 @@
+.container-date {
+    display: flex;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 28px;
+    font-family: Arial, sans-serif;
+    color: black;
+  }
+  
+  .controls-date {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .date-picker {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .date-picker:focus {
+    outline: none;
+    border-color: black;
+    box-shadow: 0 0 5px black;
+  }
+  
+  .loading {
+    text-align: center;
+    font-style: italic;
+    color: black;
+  }
+  
+  .error {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+  }
+  
+  .chart-date {
+    width: 250px;
+    height: 250px;
+    margin: 20px auto;
+  }
+
+  .relaliabily-h2{
+    margin-top: 0px;
+    margin-bottom: 40px;
+  }

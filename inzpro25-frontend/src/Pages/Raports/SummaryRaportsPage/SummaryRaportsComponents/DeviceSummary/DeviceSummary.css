@@ -1,0 +1,71 @@
+.pie-chart-summary{
+    height: 50% !important; 
+    width: 50% !important; 
+    display: block; 
+    margin: 0 auto; 
+  }
+
+
+  .deviceSummaryContainer {
+    display: flex;
+    font-family: Arial, sans-serif;
+    flex-direction: column;
+    gap: 10px; 
+    margin: 20px; 
+  }
+  
+  .input-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .details-container {
+    display: flex;
+    gap: 100px; 
+    align-items: flex-start; 
+  }
+
+.button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.loading {
+    font-style: italic;
+    color: #555;
+}
+
+.error {
+    color: red;
+}
+
+.device-details {
+    margin-top: 0px;
+}
+
+.device-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.device-details li {
+    margin-bottom: 8px;
+}
+
+.input-field {
+  display: flex;
+  gap: 10px;
+  border-radius: 8px; 
+  width: 300px;
+}
+

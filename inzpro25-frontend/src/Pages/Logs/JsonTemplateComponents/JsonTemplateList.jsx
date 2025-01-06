@@ -26,7 +26,7 @@ function JsonTemplateList(){
             },
         })
         .then(response => response.json())
-        .then(json => setDeviceList(json))
+        .then(json => setDeviceList(json.content))
         .then(()=>setUpdateDeviceList(false))
         .catch(error => console.error(error));
     }
