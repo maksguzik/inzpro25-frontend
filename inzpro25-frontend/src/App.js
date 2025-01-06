@@ -23,6 +23,7 @@ import UserDeviceList from "./Pages/UserDevices/UserDeviceList";
 import { useAuth0 } from "@auth0/auth0-react";
 import DeviceSummary from "./Pages/Raports/SummaryRaportsPage/SummaryRaportsComponents/DeviceSummary/DeviceSummary";
 import CompanySummary from "./Pages/Raports/CompanySummary/CompanySummary";
+import AllAlerts from "./Pages/Alerts/AllAlerts/AllAlerts";
 
 function App() {
 
@@ -76,7 +77,9 @@ function App() {
 
             
               <Route index element={<HomePage />} />
-              <Route path="Alerts" element={<AlertsPage />} />
+              <Route path="Alerts" element={<AlertsPage />}>
+                <Route path="All alerts" element={<AllAlerts/>}></Route>
+              </Route>
               <Route path="Logs" element={<LogsPage />}>
                 <Route path="All logs" element={<DeviceLogPage />} />
               </Route>
