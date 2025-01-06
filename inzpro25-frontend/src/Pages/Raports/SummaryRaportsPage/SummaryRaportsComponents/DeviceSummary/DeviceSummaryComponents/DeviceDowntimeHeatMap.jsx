@@ -7,17 +7,16 @@ import { useParams } from "react-router-dom";
 
 const DeviceDowntimeHeatMap = ({ deviceId: deviceIdFromProps }) => {
   const [downtimes, setDowntimes] = useState([]);
-  const {getAccessTokenSilently} = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const { deviceId: deviceIdFromParams } = useParams();
 
   const deviceId = deviceIdFromProps || deviceIdFromParams;
 
   const fetchDowntimes = async () => {
-
     const token = await getAccessTokenSilently();
     if (!deviceId) {
       console.error("Device ID is missing");
-      return; 
+      return;
     }
 
     try {
@@ -43,13 +42,27 @@ const DeviceDowntimeHeatMap = ({ deviceId: deviceIdFromProps }) => {
     }
   };
 
- 
-  const mappedData = downtimes.map((downtime) => {
-    return {
-      date: downtime.started.split("T")[0], 
-      count: downtime.active ? 1 : 0, 
-    };
-  });
+  const expandDowntimePeriods = (downtimes) => {
+    const expandedDates = [];
+    downtimes.forEach((downtime) => {
+      const startDate = new Date(downtime.started.split("T")[0]);
+      const endDate = downtime.ended
+        ? new Date(downtime.ended.split("T")[0])
+        : new Date();
+      let currentDate = startDate;
+
+      while (currentDate <= endDate) {
+        expandedDates.push({
+          date: currentDate.toISOString().split("T")[0],
+          count: downtime.active ? 1 : 0,
+        });
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+    });
+    return expandedDates;
+  };
+
+  const mappedData = expandDowntimePeriods(downtimes);
 
   useEffect(() => {
     fetchDowntimes();

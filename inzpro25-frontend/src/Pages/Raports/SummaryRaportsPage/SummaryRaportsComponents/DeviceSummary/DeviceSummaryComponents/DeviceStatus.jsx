@@ -19,8 +19,8 @@ const DeviceStatus = ({ deviceState, deviceId: deviceIdFromProps }) => {
   
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [formValues, setFormValues] = useState({
-    downTimeDetectionDuration: 5,
-    alarmDetectionDuration: 15,
+    downTimeDetectionDuration: "",
+    alarmDetectionDuration: "",
     shouldSendEmail: false,
   });
 
@@ -42,7 +42,7 @@ const DeviceStatus = ({ deviceState, deviceId: deviceIdFromProps }) => {
         body: JSON.stringify([
           {
             deviceId: deviceId,
-            downTimeDetectionDuraction: values.downTimeDetectionDuration,
+            downtimeDetectionDuration: values.downTimeDetectionDuration,
             alarmDetectionDuration: values.alarmDetectionDuration,
             shouldSendEmail: values.shouldSendEmail,
           },
@@ -54,6 +54,7 @@ const DeviceStatus = ({ deviceState, deviceId: deviceIdFromProps }) => {
       }
 
       const data = await response.json();
+      alert("Update successful")
       console.log("Update successful:", data);
     } catch (error) {
       console.error("Error updating device state:", error);

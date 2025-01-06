@@ -121,22 +121,29 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
   const processData = () => {
     const downtimeDays = new Array(12).fill(0);
     const activeDays = new Array(12).fill(0);
-
+  
     downtimeData.forEach((downtime) => {
-      const date = new Date(downtime.started);
-      const monthIndex = date.getMonth();
-      const year = date.getFullYear();
-
-      if (year === selectedYear) {
-        downtimeDays[monthIndex] += 1;
+      const startDate = new Date(downtime.started);
+      const endDate = downtime.ended ? new Date(downtime.ended) : new Date(); 
+      let currentDate = new Date(startDate);
+  
+      while (currentDate <= endDate) {
+        const monthIndex = currentDate.getMonth();
+        const year = currentDate.getFullYear();
+  
+        if (year === selectedYear) {
+          downtimeDays[monthIndex] += 1; 
+        }
+  
+        currentDate.setDate(currentDate.getDate() + 1); 
       }
     });
-
+  
     activeDays.forEach((_, index) => {
       const daysInMonth = new Date(selectedYear, index + 1, 0).getDate();
-      activeDays[index] = daysInMonth - downtimeDays[index];
+      activeDays[index] = daysInMonth - downtimeDays[index]; 
     });
-
+  
     if (viewMode === "year") {
       return {
         filteredMonths: months,
