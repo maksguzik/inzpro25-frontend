@@ -9,16 +9,18 @@ function DeviceDelete({deviceIdDeleteList, setUpdateDeviceList}){
     const deleteDevice = async() => {
         for(const deviceId of deviceIdDeleteList){
             const token = await getAccessTokenSilently();
-            fetch(URL + 'api/devices/' + deviceId, {
+            const response  = await fetch(URL + 'api/devices/' + deviceId, {
                 method:'DELETE',
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
             })
-                .then(response => setUpdateDeviceList(true))
-                .catch(error=>console.error());
+            if(String(response.status).at(0)!=='2'){
+                alert("Failed to delete the device.");
+            }
         }
+        setUpdateDeviceList(true);
     }
 
     return (

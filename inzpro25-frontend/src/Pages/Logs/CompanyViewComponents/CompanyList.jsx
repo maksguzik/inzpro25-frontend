@@ -37,7 +37,7 @@ function CompanyList(){
 
     const getCompanyListOrderedByName = async () => {
         const token = await getAccessTokenSilently();
-        fetch(`${URL}api/companies?page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
+        fetch(`${URL}api/companies?name=${searchName}&page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -80,15 +80,17 @@ function CompanyList(){
     return(<>
         <div className="orderAddDeleteContainer">
             <div className="orderContainer">
-                {/* <div className="searchByNameContainer">
+                <div className="searchByNameContainer">
                     <input
                         type="text"
                         className="input-field"
                         placeholder="Search by name"
                         value={searchName}
-                        onChange={(e) => setSearchName(e.target.value)}
+                        onChange={(e) => {setSearchName(e.target.value);
+                            setUpdateCompanyList(true);
+                        }}
                     />
-                </div> */}
+                </div>
                 <div className="sortDirection">
                     <div className="addToken">
                         <select

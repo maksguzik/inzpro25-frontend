@@ -19,7 +19,7 @@ function AddDevice({setUpdateDeviceList}){
     
     const addDevice = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL + 'api/devices', {
+        const response = await fetch(URL + 'api/devices', {
                     method: 'POST',
                     headers : { 
                         'Content-Type' : 'application/json',
@@ -33,16 +33,20 @@ function AddDevice({setUpdateDeviceList}){
                         "companyName": updateRequestBody.companyName
                     })    
                     })
-            .then(response => setUpdateDeviceList(true))
-            .then(()=>setPopup(false))
-            .then(()=>setUpdateRequestBody({
-                "id": 0,
-                "serialNumber": "",
-                "name": "",
-                "deviceType" : "",
-                "companyName": ""
-              }))
-            .catch(error=>console.error());
+        const responseData = await response.json();
+        if(String(response.status).at(0)=='2'){
+          setPopup(false);
+          setUpdateDeviceList(true);
+          setUpdateRequestBody({
+            "id": 0,
+            "serialNumber": "",
+            "name": "",
+            "deviceType" : "",
+            "companyName": ""
+          });
+        }else{
+          alert("Something went wrong! Please check your input and try again.");
+        }
     }
 
     const handleInputChange = (event, key) =>{
@@ -76,28 +80,28 @@ function AddDevice({setUpdateDeviceList}){
                     <div className="overlay"
                         onClick = {togglePopup}></div>
                     <div className="popupContent deviceUpdate"  onClick={(event) => event.stopPropagation()}>
-                        <div className="popup-label">New Serial Number</div>
+                        <div className="popup-label">Serial Number</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.serialNumber} 
                             onChange = {(event)=>handleInputChange(event, "serialNumber")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popupLabel">New Name</div>
+                        <div className="popupLabel">Name</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.name} 
                             onChange = {(event)=>handleInputChange(event, "name")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popupLabel">New Device Type</div>
+                        <div className="popupLabel">Device Type</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.deviceType} 
                             onChange = {(event)=>handleInputChange(event, "deviceType")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popupLabel">New Company Name</div>
+                        <div className="popupLabel">Company Name</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.companyName} 

@@ -13,7 +13,7 @@ function UpdateDeviceToken({tokenId, deviceTypeName, setUpdateDeviceTokenList}){
     
     const updateDeviceToken = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL + 'api/devices-tokens/' + tokenId , {
+        const response = await fetch(URL + 'api/devices-tokens/' + tokenId , {
                     method: 'PUT',
                     headers : { 
                         'Content-Type' : 'application/json',
@@ -21,10 +21,15 @@ function UpdateDeviceToken({tokenId, deviceTypeName, setUpdateDeviceTokenList}){
                     },
                     body: JSON.stringify({deviceTypeName: newDeviceTypeName})    
                     })
-            .then(response => setUpdateDeviceTokenList(true))
-            .then(()=>setNewDeviceTypeName(""))
-            .then(()=>setPopup(false))
-            .catch(error=>console.error());
+        const responseData = await response.json();
+        if(String(response.status).at(0)=='2'){
+          setPopup(false);
+          setUpdateDeviceTokenList(true);
+          setNewDeviceTypeName(deviceTypeName);
+        }else{
+          alert("Something went wrong! Please check your input and try again.");
+        }
+                    
     }
 
     const handleInputChange = (event) =>{

@@ -8,16 +8,18 @@ function CompanyDelete({companyIdDeleteList, setUpdateCompanyList}){
     const deleteCompany = async() => {
         const token = await getAccessTokenSilently();
         for(const companyId of companyIdDeleteList){
-            fetch(URL + 'api/companies/' + companyId, {
+            const response = await fetch(URL + 'api/companies/' + companyId, {
                 method:'DELETE',
                 headers : { 
                     'Content-Type' : 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
             })
-                .then(response => setUpdateCompanyList(true))
-                .catch(error=>console.error());
+        if(String(response.status).at(0)!=='2'){
+          alert("Failed to delete the device.");
+        }
         } 
+        setUpdateCompanyList(true);
     }
 
     return (

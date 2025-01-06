@@ -9,8 +9,9 @@ function UserAdd({setUpdateUserList, companyList}){
     const {getAccessTokenSilently} = useAuth0();
 
     const [userData, setUserData] = useState({
-        email:"example123@example.com",
-        name:"example",
+        email:"example@example.com",
+        firstName:"example",
+        lastName:"example",
         companyNames:["GreenTech Innovations"],
         roles:["ADMIN"]
     });
@@ -20,20 +21,26 @@ function UserAdd({setUpdateUserList, companyList}){
     const addUser = async () => {
         setIsPopupOpen(false);
         const token = await getAccessTokenSilently();
-
+        console.log(userData)
           const response = await fetch(URL + "api/admin-panel/users", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            body:JSON.stringify(userData),
+            body: JSON.stringify({
+              email: userData.email,
+              name: userData.firstName + ' ' + userData.lastName,
+              companyNames: userData.companyNames,
+              roles: userData.roles,
+          }),
           })
-          .catch(error=>console.error('Error adding user:', error));
-          const data = await response.json();
+          if(String(response.status).at(0)!=='2'){
+            alert("Something went wrong! Please check your input and try again.");
+          }
           
           if (response.ok) {
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            await new Promise(resolve => setTimeout(resolve, 2000));
             setUpdateUserList(true);
           }
       };
@@ -109,11 +116,18 @@ function UserAdd({setUpdateUserList, companyList}){
         onChange={(event) => handleChange(event, "email")}
         onKeyDown={handleKeyDown}
       />
-      <label className="popupLabel">Name</label>
+      <label className="popupLabel">First Name</label>
       <input
         className="inputDeviceToken"
-        value={userData.name}
-        onChange={(event) => handleChange(event, "name")}
+        value={userData.firstName}
+        onChange={(event) => handleChange(event, "firstName")}
+        onKeyDown={handleKeyDown}
+      />
+      <label className="popupLabel">Last Name</label>
+      <input
+        className="inputDeviceToken"
+        value={userData.lastName}
+        onChange={(event) => handleChange(event, "lastName")}
         onKeyDown={handleKeyDown}
       />
       <label className="popupLabel roleLabel">Roles</label>

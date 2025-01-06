@@ -46,6 +46,7 @@ table {
     align-items: center;
     margin-top: 10px;
     gap: 10px;
+    margin-right: 20px;
 }
 
 .input-field {

@@ -3,7 +3,7 @@ import UpdateJsonTemplate from "./Components/UpdateJsonTemplate";
 import JsonTemplateDelete from "./Components/JsonTemplateDelete";
 import { useEffect, useRef, useState } from "react";
 
-function JsonTemplate({deviceTypeName, idMapping, loggedAtMapping, lastSeenMapping, setUpdateDeviceList, setDeviceIdDeleteList}){
+function JsonTemplate({deviceId, deviceTypeName, idMapping, loggedAtMapping, lastSeenMapping, setUpdateDeviceList, setDeviceIdDeleteList}){
 
     const [selected, setSelected] = useState(false);
     const [hover, setHover] = useState(false);
@@ -14,10 +14,10 @@ function JsonTemplate({deviceTypeName, idMapping, loggedAtMapping, lastSeenMappi
             const newSelected = !prevSelected;
     
             if (newSelected) {
-                setDeviceIdDeleteList((prevList) => [...prevList, deviceTypeName]);
+                setDeviceIdDeleteList((prevList) => [...prevList, deviceId]);
             } else {
                 setDeviceIdDeleteList((prevList) =>
-                    prevList.filter((element) => element !== deviceTypeName)
+                    prevList.filter((element) => element !== deviceId)
                 );
             }
     
@@ -56,6 +56,7 @@ function JsonTemplate({deviceTypeName, idMapping, loggedAtMapping, lastSeenMappi
                 {(hover)?(
                     <td>
                     <UpdateJsonTemplate
+                        deviceId={deviceId}
                         deviceTypeName = {deviceTypeName}
                         idMapping = {idMapping}
                         loggedAtMapping = {loggedAtMapping}
@@ -63,7 +64,7 @@ function JsonTemplate({deviceTypeName, idMapping, loggedAtMapping, lastSeenMappi
                         setUpdateDeviceList = {setUpdateDeviceList}
                     />
                     <JsonTemplateDelete
-                        deviceIdDeleteList = {[deviceTypeName]}
+                        deviceIdDeleteList = {[deviceId]}
                         setUpdateDeviceList = {setUpdateDeviceList}
                     />
                     </td>

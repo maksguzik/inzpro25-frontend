@@ -12,7 +12,7 @@ function AddCompany({companyId, setUpdateCompanyList}){
     
     const addCompany = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL + 'api/companies', {
+        const response = await fetch(URL + 'api/companies', {
                     method: 'POST',
                     headers : { 
                         'Content-Type' : 'application/json',
@@ -23,10 +23,15 @@ function AddCompany({companyId, setUpdateCompanyList}){
                         "name": companyName
                     })    
                     })
-            .then(response => setUpdateCompanyList(true))
-            .then(()=>setPopup(false))
-            .then(()=>setCompanyName(""))
-            .catch(error=>console.error());
+        const responseData = await response.json();
+        if(String(response.status).at(0)=='2'){
+          setPopup(false);
+          setUpdateCompanyList(true);
+          setCompanyName("");
+        }
+        else{
+          alert("Something went wrong! Please check your input and try again.");
+        }
     }
 
     const handleCompanyNameChange = (event) =>{

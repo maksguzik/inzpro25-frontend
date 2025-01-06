@@ -14,6 +14,7 @@ function DeviceList(){
     const [totalPages, setTotalPages] = useState(0);
     const [order, setOrder] = useState('asc');
     const [sortBy, setSortBy] = useState('deviceType');
+    const [serialNumber, setSerialNumber] = useState('');
 
     const {getAccessTokenSilently} = useAuth0();
 
@@ -36,7 +37,7 @@ function DeviceList(){
 
     const getDeviceListOrderedByNameAndSerialNumber = async (name) => {
         const token = await getAccessTokenSilently();
-        fetch(`${URL}api/devices?page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
+        fetch(`${URL}api/devices?serialNumber=${serialNumber}&page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -79,27 +80,21 @@ function DeviceList(){
     return(<>
         <div className="orderAddDeleteContainer">
             <div className="orderContainer">
-            <div className="sortLabel">
-                    Sort By
-                </div>
-                {/* <div className="searchByNameContainer">
-                    <input
-                        type="text"
-                        className="input-field"
-                        placeholder="Search by name"
-                        value={searchName}
-                        onChange={(e) => setSearchName(e.target.value)}
-                    />
-                </div>
+
                 <div className="searchByNameContainer">
                     <input
                         type="text"
                         className="input-field"
                         placeholder="Search by Serial Number"
                         value={serialNumber}
-                        onChange={(e) => setSerialNumber(e.target.value)}
+                        onChange={(e) => {setSerialNumber(e.target.value);
+                            setUpdateDeviceList(true);
+                        }}
                     />
-                </div> */}
+                </div>
+                <div className="sortLabel sortLabelMarginLeft">
+                    Sort By
+                </div>
             <div className="sortDirection">
                     <div className="addToken">
                         <select

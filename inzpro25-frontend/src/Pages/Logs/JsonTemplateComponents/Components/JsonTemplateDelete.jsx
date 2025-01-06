@@ -9,16 +9,19 @@ function JsonTemplateDelete({deviceIdDeleteList, setUpdateDeviceList}){
     const deleteDevice = async() => {
         const token = await getAccessTokenSilently();
         for(const deviceTypeName of deviceIdDeleteList){
-            fetch(URL + 'api/device-types/' + deviceTypeName, {
+            const response = await fetch(URL + 'api/device-types/' + deviceTypeName, {
                 method:'DELETE',
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
             })
-                .then(response => setUpdateDeviceList(true))
-                .catch(error=>console.error());
+            console.log(String(response.status).at(0));
+            if(String(response.status).at(0)!=='2'){
+                alert("Failed to delete the device.");
+            }
         } 
+        setUpdateDeviceList(true);
     }
 
     return (

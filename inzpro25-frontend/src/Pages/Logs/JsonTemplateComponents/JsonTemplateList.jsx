@@ -142,7 +142,7 @@ function JsonTemplateList(){
                     <tr>
                         <th></th>
                         <th>Device Name</th>
-                        <th>Id</th>
+                        <th>Id Mapping</th>
                         <th>Logged at</th>
                         <th>Last seen</th>
                         <th></th>
@@ -153,6 +153,7 @@ function JsonTemplateList(){
                         <JsonTemplate
                         key = {element.deviceTypeName}
                         index = {index}
+                        deviceId={element.id}
                         deviceTypeName = {element.deviceTypeName}
                         idMapping = {element.idMapping}
                         loggedAtMapping = {element.loggedAtMapping}

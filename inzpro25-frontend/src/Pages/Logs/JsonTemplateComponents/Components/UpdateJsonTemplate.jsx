@@ -2,7 +2,7 @@ import { useState } from "react";
 import './DeviceComponentStyle.css';
 import { useAuth0 } from "@auth0/auth0-react";
 
-function UpdateJsonTemplate({deviceTypeName, idMapping, loggedAtMapping, lastSeenMapping, setUpdateDeviceList}){
+function UpdateJsonTemplate({deviceId, deviceTypeName, idMapping, loggedAtMapping, lastSeenMapping, setUpdateDeviceList}){
     
     const [updateRequestBody, setUpdateRequestBody] = useState({
         "deviceTypeName": deviceTypeName,
@@ -17,23 +17,27 @@ function UpdateJsonTemplate({deviceTypeName, idMapping, loggedAtMapping, lastSee
     
     const updateDevice = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL + 'api/device-types', {
-                    method: 'POST',
+        const response = await fetch(URL + 'api/device-types/' + deviceId, {
+                    method: 'PUT',
                     headers : { 
                         'Content-Type' : 'application/json',
                         Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify(updateRequestBody)    
                     })
-            .then(response => setUpdateDeviceList(true))
-            .then(()=>setUpdateRequestBody({
+            const responseData = await response.json();
+            if(String(response.status).at(0)=='2'){
+              setPopup(false);
+              setUpdateDeviceList(true);
+              setUpdateRequestBody({
                 "deviceTypeName": updateRequestBody.deviceTypeName,
                 "idMapping": updateRequestBody.id,
                 "loggedAtMapping": updateRequestBody.loggedAtMapping,
                 "lastSeenMapping": updateRequestBody.lastSeenMapping
-              }))
-            .then(()=>setPopup(false))
-            .catch(error=>console.error());
+              })
+            }else{
+              alert("Something went wrong! Please check your input and try again.");
+            }
     }
 
     const handleInputChange = (event, key) =>{
@@ -69,7 +73,7 @@ function UpdateJsonTemplate({deviceTypeName, idMapping, loggedAtMapping, lastSee
                             onChange = {(event)=>handleInputChange(event, "deviceTypeName")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popupLabel">Id</div>
+                        <div className="popupLabel">Id Mapping</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.idMapping} 
