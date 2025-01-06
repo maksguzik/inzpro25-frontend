@@ -2,11 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Doughnut, Bar } from "react-chartjs-2";
 import "./Dashboard.css";
-import { ChartContext } from "../../../context/ChartContext";
 
 function Dashboard() {
   const { getAccessTokenSilently } = useAuth0();
-  const { charts, setCharts } = useContext(ChartContext);
+  const [charts, setCharts] = useState(() => {
+    const savedCharts = localStorage.getItem("charts");
+    return savedCharts ? JSON.parse(savedCharts) : Array(6).fill(null);
+  });
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [popupOpen, setPopupOpen] = useState(false);
@@ -73,6 +75,10 @@ function Dashboard() {
     fetchCompanies();
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("charts", JSON.stringify(charts));
+  }, [charts]);
+
   const openPopup = (index) => {
     setActiveDashboard(index);
     setPopupOpen(true);
@@ -134,7 +140,7 @@ function Dashboard() {
             chart.data.inactiveDevices,
             chart.data.totalDevices - chart.data.inactiveDevices,
           ],
-          backgroundColor: ["#FF4D4F", "#4CAF50 "],
+          backgroundColor: ["#FF4D4F", "#4CAF50"], // Czerwień i zieleń
         },
       ],
     };
