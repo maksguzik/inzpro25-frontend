@@ -18,9 +18,6 @@ import AdminPanel from "./Pages/AdminPanel/AdminPanel";
 import UserManagement from "./Pages/AdminPanel/AdminPanelComponents/UserManagement";
 import Profile from "./Pages/Profile/Profile";
 import UserDeviceList from "./Pages/UserDevices/UserDeviceList";
-import AllAlertsPage from "./Pages/Alerts/Tabs/AllAlertsPage";
-import CreateNewAlarmPage from "./Pages/Alerts/Tabs/CreateNewAlarmPage";
-import DevicesPage from "./Pages/Logs/Tabs/DevicesPage";
 import { useAuth0 } from "@auth0/auth0-react";
 import DeviceSummary from "./Pages/Raports/SummaryRaportsPage/SummaryRaportsComponents/DeviceSummary/DeviceSummary";
 import CompanySummary from "./Pages/Raports/CompanySummary/CompanySummary";
@@ -79,17 +76,17 @@ function App() {
               {(roles.includes('SUPPORT_TEAM')) &&
               
               (<Route>
-                <Route path="/Home/Dashboard" element={<Dashboard/>}/>
-              <Route path="Alerts" element={<AlertsPage />}>
-                <Route path="All alerts" element={<AllAlerts/>}></Route>
+                  <Route path="home/dashboard" element={<Dashboard/>}/>                
+              <Route path="alerts" element={<AlertsPage />}>
+                <Route path="all-alerts" element={<AllAlerts/>}></Route>
               </Route>
               <Route path="logs" element={<LogsPage />}>
                 <Route path="all-logs" element={<DeviceLogPage />} />
               </Route>
               <Route path="raports" element={<RaportsPage />}>
-                <Route path="Device Summary" element={<DeviceSummary />} />
-                <Route path="/Raports/Device Summary/:deviceId" element={<DeviceSummary />} />
-                <Route path="Company Summary" element={<CompanySummary />} />
+                <Route path="device-summary" element={<DeviceSummary />} />
+                <Route path="device-summary/:deviceId" element={<DeviceSummary />} />
+                <Route path="company-summary" element={<CompanySummary />} />
               </Route>
               <Route path="settings" element={<SettingsPage />} />
               </Route>)}

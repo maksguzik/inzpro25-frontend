@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./AllAlerts.css";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
 
 function AllAlerts() {
   const [deviceStates, setDeviceStates] = useState([]);
@@ -12,6 +13,8 @@ function AllAlerts() {
   const [searchSpecificDeviceId, setSearchSpecificDeviceId] = useState("");
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
   const { getAccessTokenSilently } = useAuth0();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDeviceStates = async () => {
@@ -167,7 +170,7 @@ function AllAlerts() {
             <button
               className="crudButton greyButton searchButton"
               onClick={() =>
-                (window.location.href = `/Raports/Device Summary/${selectedDeviceId}`)
+                navigate(`/raports/device-summary/${selectedDeviceId}`)
               }
             >
               Go to Device

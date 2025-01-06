@@ -179,7 +179,7 @@ function DeviceSummaryTable({ companyId }) {
             <button
               className="crudButton greyButton paginationButton"
               onClick={() =>
-                (window.location.href = `/Raports/Device Summary/${selectedDeviceId}`)
+                (window.location.href = `device-summary/${selectedDeviceId}`)
               }
             >
               Go to the Device
