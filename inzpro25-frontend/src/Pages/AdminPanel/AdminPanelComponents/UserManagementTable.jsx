@@ -74,7 +74,7 @@ function UserManagementTable(){
     };
     
     return(<>
-             <div className = "addContainer">
+             <div className = "deleteAddContainer">
                 <UserAdd
                 setUpdateUserList = {setUpdateUserList}
                 companyList={companyList}

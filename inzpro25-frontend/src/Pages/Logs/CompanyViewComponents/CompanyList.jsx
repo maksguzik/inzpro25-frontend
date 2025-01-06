@@ -12,6 +12,9 @@ function CompanyList(){
     const [companyIdDeleteList, setCompanyIdDeleteList] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [order, setOrder] = useState('asc');
+    const [sortBy, setSortBy] = useState('name');
+    const [searchName, setSearchName] = useState('');
 
     const {getAccessTokenSilently} = useAuth0();
 
@@ -19,7 +22,7 @@ function CompanyList(){
 
     const getCompanyList = async() =>{
         const token = await getAccessTokenSilently();
-        fetch(URL + 'api/companies?page=' + currentPage + '&size=9', {
+        fetch(URL + 'api/companies?page=' + currentPage + '&size=5', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -32,9 +35,26 @@ function CompanyList(){
         .catch(error => console.error(error));
     }
 
+    const getCompanyListOrderedByName = async () => {
+        const token = await getAccessTokenSilently();
+        fetch(`${URL}api/companies?page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(response => response.json())
+        .then(json => {
+            setCompanyList(json.content);
+            setTotalPages(json.totalPages);
+        }).then(()=>setUpdateCompanyList(false))
+        .catch(error => console.error(error));
+    };
+
     useEffect(() => {
-        if (updateCompanyList) getCompanyList();
-    });
+        if (updateCompanyList) getCompanyListOrderedByName();
+    }, [updateCompanyList, currentPage]);
 
     const handleNextPage = () => {
         if (currentPage < totalPages - 1) {
@@ -48,18 +68,65 @@ function CompanyList(){
         setUpdateCompanyList(true);
     };
 
+    const handleSortDirectionChange = (direction) => {
+        setOrder(direction);
+    };
+
+    const handleSortByChange = (sortBy)=>{
+        setSortBy(sortBy);
+    }
+    
+
     return(<>
-        <div className = "deleteAddContainer">
-            <AddCompany
-            setUpdateCompanyList = {setUpdateCompanyList}
-            />
-            <div className="deleteToken">
-                <CompanyDelete
-                        companyIdDeleteList = {companyIdDeleteList}
-                        setUpdateCompanyList = {setUpdateCompanyList}
+        <div className="orderAddDeleteContainer">
+            <div className="orderContainer">
+                {/* <div className="searchByNameContainer">
+                    <input
+                        type="text"
+                        className="input-field"
+                        placeholder="Search by name"
+                        value={searchName}
+                        onChange={(e) => setSearchName(e.target.value)}
+                    />
+                </div> */}
+                <div className="sortDirection">
+                    <div className="addToken">
+                        <select
+                            className="crudButton greyButton orderButtons"
+                            onChange={(e) => {handleSortDirectionChange(e.target.value);
+                                setUpdateCompanyList(true);
+                            }}
+                        >
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                    </div>
+            </div>
+        {/* <div className="sortDirection">
+            <div className="addToken">
+                <button
+                    className="crudButton greyButton searchByNameButton"
+                    onClick={() => getCompanyListOrderedByName()}
+                >
+                Search
+                </button>
+            </div>
+        </div> */}
+        
+            </div>
+            <div className = "deleteAddContainer">
+                <AddCompany
+                setUpdateCompanyList = {setUpdateCompanyList}
                 />
-            </div> 
+                <div className="deleteToken">
+                    <CompanyDelete
+                            companyIdDeleteList = {companyIdDeleteList}
+                            setUpdateCompanyList = {setUpdateCompanyList}
+                    />
+                </div> 
+            </div>
         </div>
+        
         <div  className = "companyListContainer">
             
             <table>

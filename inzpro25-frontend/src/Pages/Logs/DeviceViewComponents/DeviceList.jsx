@@ -12,6 +12,8 @@ function DeviceList(){
     const [currentPage, setCurrentPage] = useState(0);
     const [deviceIdDeleteList, setDeviceIdDeleteList] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
+    const [order, setOrder] = useState('asc');
+    const [sortBy, setSortBy] = useState('deviceType');
 
     const {getAccessTokenSilently} = useAuth0();
 
@@ -32,9 +34,27 @@ function DeviceList(){
         .catch(error => console.error(error));
     }
 
+    const getDeviceListOrderedByNameAndSerialNumber = async (name) => {
+        const token = await getAccessTokenSilently();
+        fetch(`${URL}api/devices?page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(response => response.json())
+        .then(json => {
+            setDeviceList(json.content);
+            setTotalPages(json.totalPages);
+        })
+        .then(()=>setUpdateDeviceList(false))
+        .catch(error => console.error(error));
+    };
+
     useEffect(() => {
-        if (updateDeviceList) getDeviceList();
-    }, [updateDeviceList, getDeviceList]);
+        if (updateDeviceList) getDeviceListOrderedByNameAndSerialNumber();
+    }, [updateDeviceList, getDeviceListOrderedByNameAndSerialNumber]);
 
     const handleNextPage = () => {
         if (currentPage < totalPages - 1) {
@@ -48,7 +68,78 @@ function DeviceList(){
         setUpdateDeviceList(true);
     };
 
+    const handleSortDirectionChange = (direction) => {
+        setOrder(direction);
+    };
+
+    const handleSortByChange = (sortBy)=>{
+        setSortBy(sortBy);
+    }
+
     return(<>
+        <div className="orderAddDeleteContainer">
+            <div className="orderContainer">
+            <div className="sortLabel">
+                    Sort By
+                </div>
+                {/* <div className="searchByNameContainer">
+                    <input
+                        type="text"
+                        className="input-field"
+                        placeholder="Search by name"
+                        value={searchName}
+                        onChange={(e) => setSearchName(e.target.value)}
+                    />
+                </div>
+                <div className="searchByNameContainer">
+                    <input
+                        type="text"
+                        className="input-field"
+                        placeholder="Search by Serial Number"
+                        value={serialNumber}
+                        onChange={(e) => setSerialNumber(e.target.value)}
+                    />
+                </div> */}
+            <div className="sortDirection">
+                    <div className="addToken">
+                        <select
+                            className="crudButton greyButton orderButtons deviceLogOrderButtons"
+                            onChange={(e) => {handleSortByChange(e.target.value);
+                                setUpdateDeviceList(true);
+                            }}
+                        >
+                            <option value="serialNumber">Serial Number</option>
+                            <option value="name">Name</option>
+                            <option value="deviceType">Device Type</option>
+                            <option value="companyName">Company Name</option>
+                        </select>
+                    </div>
+            </div>
+                <div className="sortDirection">
+                    <div className="addToken">
+                        <select
+                            className="crudButton greyButton orderButtons"
+                            onChange={(e) => {handleSortDirectionChange(e.target.value);
+                                setUpdateDeviceList(true);
+                            }}
+                        >
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                    </div>
+            </div>
+        {/* <div className="sortDirection">
+            <div className="addToken">
+                <button
+                    className="crudButton greyButton searchByNameButton"
+                    onClick={() => getDeviceListOrderedByNameAndSerialNumber()}
+                >
+                Search
+                </button>
+            </div>
+        </div> */}
+        
+            </div>
         <div className = "deleteAddContainer">
                 <AddDevice
                 setUpdateDeviceList = {setUpdateDeviceList}
@@ -59,6 +150,7 @@ function DeviceList(){
                             setUpdateDeviceList = {setUpdateDeviceList}
                     />
                 </div>
+            </div>
             </div>
         <div  className = "deviceTokenListContainer">
             

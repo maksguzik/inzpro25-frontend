@@ -22,19 +22,31 @@ table td{
 }
 
 .searchLogs{
-  margin-left: 30%;
   margin-top: 2%;
   margin-bottom: 2%;
+  display: flex;
+  align-items: center;
+  display: inline;
+  
+}
+
+.dataPicker{
+  margin-top:20px;
+}
+
+.flex{
+  flex:none;
 }
 
 .inputDatePicker{
   width: 220px;
-  height: 60px;
+  height: 40px;
   border-radius: 5px;
   border: 3px solid rgb(48, 48, 48);
   margin: 10px;
   font-size: 20px;
   font-weight: 900;
+  padding: 0 20px 0px 20px;
 }
 
 .searchButton{
@@ -43,4 +55,20 @@ table td{
 
 .searchButton:hover{
   background-color: rgb(48, 48, 48);
+}
+
+.sortLabel {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  margin-top: 30px;
+}
+
+
+.deviceLogOrderButtons{
+  width:auto;
 }

@@ -12,6 +12,9 @@ function DeviceTokenList(){
     const [currentPage, setCurrentPage] = useState(0);
     const [tokenIdDeleteList, setTokenIdDeleteList] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
+    const [order, setOrder] = useState('asc');
+    const [sortBy, setSortBy] = useState('deviceTypeName');
+    const [searchName, setSearchName] = useState('');
 
     const {getAccessTokenSilently} = useAuth0();
 
@@ -27,13 +30,31 @@ function DeviceTokenList(){
             },
         })
         .then(response => response.json())
-        .then(json => {setDeviceTokenList(json.content); setTotalPages(json.totalPages)})
+        .then(json => {setDeviceTokenList(json?.content || []); setTotalPages(json?.totalPages || 0)})
         .then(()=>setUpdateDeviceTokenList(false))
         .catch(error => console.error(error));
     }
 
+    const getDeviceTokenListOrdered = async () => {
+        const token = await getAccessTokenSilently();
+        fetch(`${URL}api/devices-tokens?page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(response => response.json())
+        .then(json => {
+            setDeviceTokenList(json?.content || []);
+            setTotalPages(json?.totalPages || 0);
+        })
+        .then(()=>setUpdateDeviceTokenList(false))
+        .catch(error => console.error(error));
+    };
+
     useEffect(() => {
-        if (updateDeviceTokenList) getDeviceTokenList();
+        if (updateDeviceTokenList) getDeviceTokenListOrdered();
     });
     
     const handleNextPage = () => {
@@ -48,7 +69,54 @@ function DeviceTokenList(){
         setUpdateDeviceTokenList(true);
     };
 
+    const handleSortDirectionChange = (direction) => {
+        setOrder(direction);
+    };
+
+    const handleSortByChange = (sortBy)=>{
+        setSortBy(sortBy);
+    }
+
     return(<>
+    <div className="orderAddDeleteContainer">
+        <div className="orderContainer">
+            {/* <div className="sortDirection">
+                    <div className="addToken">
+                    <select
+                        className="crudButton greyButton orderButtons"
+                        onChange={(e) => handleSortByChange(e.target.value)}
+                    >
+                        <option value="deviceTypeName">Device Type</option>
+                        <option value="id">Id</option>
+                    </select>
+                </div>
+                </div> */}
+                <div className="sortDirection">
+                    <div className="addToken">
+                    <select
+                        className="crudButton greyButton orderButtons"
+                        onChange={(e) => {handleSortDirectionChange(e.target.value);
+                            setUpdateDeviceTokenList(true);
+                        }}
+                    >
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+                
+        </div>
+        <div className="sortDirection">
+            <div className="addToken">
+            {/* <button
+                className="crudButton greyButton searchByNameButton"
+                onClick={() => getDeviceTokenListOrdered()}
+            >
+            Search
+        </button> */}
+            </div>
+        </div>
+        
+            </div>
     <div className = "deleteAddContainer">
                 <AddDeviceToken
                 setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
@@ -59,6 +127,7 @@ function DeviceTokenList(){
                             setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                 />
                 </div>
+            </div>
             </div>
         <div  className = "deviceTokenListContainer">
             

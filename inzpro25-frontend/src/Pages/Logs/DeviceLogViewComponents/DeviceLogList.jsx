@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import DeviceLog from "./DeviceLog";
-import DeviceLogFilter from "./Components/DeviceLogFilter";
 import './DeviceLogStyle.css';
 import '../LogUniversalViewStyle.css';
 import { useAuth0 } from "@auth0/auth0-react";
@@ -11,12 +10,64 @@ function DeviceLogList(){
     const [currentPage, setCurrentPage] = useState(0);
     const [updateDeviceLogList, setUpdateDeviceLogList] = useState(true);
     const [totalPages, setTotalPages] = useState(0);
+    const [order, setOrder] = useState('desc');
+    const [sortBy, setSortBy] = useState('logTime');
+    const [searchName, setSearchName] = useState('');
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
+
+    const getCurrentDateTime = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+    
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+      };
+
+
+    const [chosenTimeStampRange, setChosenTimeStampRange] = useState('between');
+    const [datePickedBefore, setDatePickedBefore] = useState(getCurrentDateTime());
+    const [datePickedAfter, setDatePickedAfter] = useState('2018-06-12T19:30');
+
+
+    const FilterDeviceLogList = async() =>{
+        const token = await getAccessTokenSilently();
+        fetch(URL + 'api/devices-logs/' + chosenTimeStampRange + `?startTime=${datePickedAfter}:11Z&endTime=${datePickedBefore}:11Z`,
+            {
+                method: 'GET',
+                headers : { 
+                    'Content-Type' : 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        )
+        .then(response => response.json())
+        .then(json => {
+            setDeviceLogList(json.content);
+            setTotalPages(json.totalPages)
+        })
+        .then(()=>setUpdateDeviceLogList(false))
+        .catch(error => console.error(error));
+    }
+
+    const handleChangeAfter = (event) => {
+        setDatePickedAfter(event.target.value);
+        setUpdateDeviceLogList(true);
+    };
+
+    const handleChangeBefore = (event) => {
+        setDatePickedBefore(event.target.value);
+        setUpdateDeviceLogList(true);
+    };
+
+    
     const getDeviceLogList = async() =>{
         const token = await getAccessTokenSilently();
-        fetch(URL +'api/devices-logs?page=' + currentPage + '&size=5', {
+        fetch(URL + 'api/devices-logs/' + chosenTimeStampRange + `?startTime=${datePickedAfter}:11Z&endTime=${datePickedBefore}:11Z` + '&page=' + currentPage + '&size=5' + '&sortBy=' + sortBy +'&order=' + order, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -24,7 +75,7 @@ function DeviceLogList(){
             },
         })
         .then(response => response.json())
-        .then(json => {setDeviceLogList(json.content.reverse()); setTotalPages(json.totalPages)})
+        .then(json => {setDeviceLogList(json.content); setTotalPages(json.totalPages)})
         .then(()=>setUpdateDeviceLogList(false))
         .catch(error => console.error(error));
     }
@@ -47,10 +98,85 @@ function DeviceLogList(){
         setUpdateDeviceLogList(true);
     };
 
+    const handleSortDirectionChange = (direction) => {
+        setOrder(direction);
+    };
+
+    const handleSortByChange = (sortBy)=>{
+        setSortBy(sortBy);
+    }
+    
+
     return(<>
-        <DeviceLogFilter
+     <div className="orderAddDeleteContainer">
+        <div className="orderContainer flex">
+        <div className="sortLabel">
+                    Sort By
+                </div>
+            <div className="sortDirection">
+                
+                    <div className="addToken">
+                        <select
+                            className="crudButton greyButton orderButtons deviceLogOrderButtons"
+                            onChange={(e) => {handleSortByChange(e.target.value);
+                                setUpdateDeviceLogList(true);
+                            }}
+                        >
+                            <option value="logTime">Log Time</option>
+                            <option value="lastSeenTime">Last Seen</option>
+                            <option value="deviceType">Device Type</option>
+                            <option value="deviceSerialNumber">Serial Number</option>
+                            <option value="owner">Company Name</option>
+                        </select>
+                    </div>
+            </div>
+                <div className="sortDirection">
+                    <div className="addToken">
+                        <select
+                            className="crudButton greyButton orderButtons"
+                            onChange={(e) => {handleSortDirectionChange(e.target.value);
+                                setUpdateDeviceLogList(true);
+                            }}
+                        >
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                    </div>
+            </div>
+           
+        </div>
+        <div className='dataPicker'>
+            <label htmlFor="start-time"></label>
+            <input
+                className = "inputDatePicker"
+                type="datetime-local"
+                id="start-time"
+                name="start-time"
+                value={datePickedAfter || '2018-06-07T00:00'}
+                min="2018-06-07T00:00"
+                max={getCurrentDateTime()}
+                onChange={handleChangeAfter}
+            />
+            <label htmlFor="end-time"></label>
+            <input
+                className = "inputDatePicker"
+                type="datetime-local"
+                id="end-time"
+                name="end-time"
+                value={datePickedBefore || '2024-06-22T12:30'}
+                min="2018-06-07T00:00"
+                max={getCurrentDateTime()}
+                onChange={handleChangeBefore}
+            />
+            {/* <button
+                className = "crudButton greenButton searchButton"
+                onClick = {getDeviceLogList}
+            >SEARCH</button> */}
+            </div>
+            </div>
+        {/* <DeviceLogFilter
                     setDeviceLogList = {setDeviceLogList}
-                />
+                /> */}
         <div  className = "deviceLogListContainer">
             <table>
                 <thead>

@@ -11,6 +11,9 @@ function JsonTemplateList(){
     const [deviceIdDeleteList, setDeviceIdDeleteList] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [order, setOrder] = useState('asc');
+    const [sortBy, setSortBy] = useState('deviceTypeName');
+    const [searchName, setSearchName] = useState('');
 
     const {getAccessTokenSilently} = useAuth0();
 
@@ -31,8 +34,26 @@ function JsonTemplateList(){
         .catch(error => console.error(error));
     }
 
+    const getDeviceListOrdered = async () => {
+        const token = await getAccessTokenSilently();
+        fetch(`${URL}api/device-types?page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(response => response.json())
+        .then(json => {
+            setDeviceList(json?.content || []);
+            setTotalPages(json?.totalPages || 0);
+        })
+        .then(()=>setUpdateDeviceList(false))
+        .catch(error => console.error(error));
+    };
+
     useEffect(() => {
-        if (updateDeviceList) getDeviceList();
+        if (updateDeviceList) getDeviceListOrdered();
     });
 
     const handleNextPage = () => {
@@ -47,7 +68,61 @@ function JsonTemplateList(){
         setUpdateDeviceList(true);
     };
 
+    const handleSortDirectionChange = (direction) => {
+        setOrder(direction);
+    };
+
+    const handleSortByChange = (sortBy)=>{
+        setSortBy(sortBy);
+    }
+
     return(<>
+    <div className="orderAddDeleteContainer">
+        <div className="orderContainer">
+        <div className="sortLabel">
+                    Sort By
+                </div>
+            <div className="sortDirection">
+                    <div className="addToken">
+                    <select
+                        className="crudButton greyButton orderButtons"
+                        onChange={(e) => {handleSortByChange(e.target.value);
+                            setUpdateDeviceList(true);
+                        }}
+                    >
+                        <option value="deviceTypeName">Device Name</option>
+                        <option value="loggedAtMapping">Logged at</option>
+                        <option value="lastSeenMapping">Last seen</option>
+                    </select>
+                </div>
+            </div>
+            <div className="sortDirection">
+                    <div className="addToken">
+                    <select
+                        className="crudButton greyButton orderButtons"
+                        onChange={(e) => {handleSortDirectionChange(e.target.value);
+                            setUpdateDeviceList(true);
+                        }}
+                    >
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+            </div>
+                
+        </div>
+        {/* <div className="sortDirection">
+            <div className="addToken">
+            <button
+                className="crudButton greyButton searchByNameButton"
+                onClick={() => getDeviceListOrdered()}
+            >
+            Search
+        </button>
+            </div>
+        </div> */}
+        
+            </div>
+            
         <div className = "deleteAddContainer">
                 <AddJsonTemplate
                 setUpdateDeviceList = {setUpdateDeviceList}
@@ -58,6 +133,7 @@ function JsonTemplateList(){
                             setUpdateDeviceList = {setUpdateDeviceList}
                     />
                 </div>
+        </div>
         </div>
         <div  className = "deviceTokenListContainer">
             

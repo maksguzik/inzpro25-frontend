@@ -44,7 +44,6 @@ function App() {
           const token = await getAccessTokenSilently();
           const decodedToken = decodeJWT(token);
           const permissions = decodedToken.permissions || [];
-          console.log(permissions);
           setRoles(permissions);
           setIsGetUserRoleFunctionCalled(true);
       } catch (error) {
