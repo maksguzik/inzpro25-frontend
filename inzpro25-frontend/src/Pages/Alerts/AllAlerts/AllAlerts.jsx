@@ -8,7 +8,8 @@ function AllAlerts() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchDeviceId, setSearchDeviceId] = useState("");
+  //const [searchDeviceId, setSearchDeviceId] = useState("");
+  const [searchSpecificDeviceId, setSearchSpecificDeviceId] = useState("");
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
   const { getAccessTokenSilently } = useAuth0();
 
@@ -39,13 +40,14 @@ function AllAlerts() {
         setError(null);
       } catch (err) {
         console.error("Error fetching device states:", err);
-        setError("Failed to fetch device states. Please try again.");
+        setError("Failed to fetch device states.");
       }
     };
 
     fetchDeviceStates();
   }, [currentPage, getAccessTokenSilently]);
 
+  /*
   useEffect(() => {
     const filtered = deviceStates.filter((state) => {
       return (
@@ -55,7 +57,68 @@ function AllAlerts() {
     });
     setFilteredDeviceStates(filtered);
   }, [searchDeviceId, deviceStates]);
+  */
 
+  const handleGetAllDevices = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(
+        `http://localhost:8080/alert/device-states?page=${currentPage}&size=8`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setDeviceStates(data.content);
+      setFilteredDeviceStates(data.content);
+      setTotalPages(data.totalPages);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching all device states:", err);
+      setError("Failed to fetch device states.");
+    }
+  };
+
+  const handleSearchSpecificDevice = async () => {
+    if (!searchSpecificDeviceId.trim()) {
+      handleGetAllDevices();
+      return;
+    }
+
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(
+        `http://localhost:8080/alert/device-states/${searchSpecificDeviceId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setFilteredDeviceStates([data]);
+      setError(null);
+    } catch (err) {
+      console.error("Error searching for specific device:", err);
+      setError("Failed to fetch the specific device state.");
+    }
+  };
   const handlePreviousPage = () => {
     if (currentPage > 0) {
       setCurrentPage((prevPage) => prevPage - 1);
@@ -73,22 +136,36 @@ function AllAlerts() {
       {error && <p className="error">{error}</p>}
       <div className="filter-container">
         <div className="filter-group">
-          <label htmlFor="search-device-id" className="search-label">
-            Search Device ID:
+          <label htmlFor="search-specific-device-id" className="search-label">
+            Search Specific Device ID:
           </label>
           <input
-            id="search-device-id"
+            id="search-specific-device-id"
             type="text"
-            placeholder="Enter Device ID"
-            value={searchDeviceId}
-            onChange={(e) => setSearchDeviceId(e.target.value)}
+            placeholder="Enter Device ID to search (leave empty to fetch all)"
+            value={searchSpecificDeviceId}
+            onChange={(e) => setSearchSpecificDeviceId(e.target.value)}
             className="search-input"
           />
+        </div>
+        <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+          <button
+            onClick={handleSearchSpecificDevice}
+            className="crudButton greyButton searchButton"
+          >
+            Search Device
+          </button>
+          <button
+            onClick={handleGetAllDevices}
+            className="crudButton greyButton searchButton"
+          >
+            Get All Devices
+          </button>
         </div>
         {selectedDeviceId && (
           <div style={{ marginTop: "10px" }}>
             <button
-              className="crudButton greyButton paginationButton"
+              className="crudButton greyButton searchButton"
               onClick={() =>
                 (window.location.href = `/Raports/Device Summary/${selectedDeviceId}`)
               }
@@ -106,14 +183,12 @@ function AllAlerts() {
                 <th>Device ID</th>
                 <th>Last Seen</th>
                 <th>
-                  Downtime
-                  Detection
+                  Downtime Detection
                   <br />
                   Duration (min)
                 </th>
                 <th>
-                  Alarm
-                  Detection
+                  Alarm Detection
                   <br />
                   Duration (min)
                 </th>

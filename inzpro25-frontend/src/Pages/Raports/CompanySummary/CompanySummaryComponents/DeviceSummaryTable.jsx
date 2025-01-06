@@ -9,11 +9,45 @@ function DeviceSummaryTable({ companyId }) {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchDeviceId, setSearchDeviceId] = useState("");
-  const [searchDeviceType, setSearchDeviceType] = useState("");
+  // const [searchDeviceId, setSearchDeviceId] = useState("");
+  // const [searchDeviceType, setSearchDeviceType] = useState("");
+  const [searchDeviceName, setSearchDeviceName] = useState(""); 
+  const [searchDeviceSerialNumber, setSearchDeviceSerialNumber] = useState(""); 
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
 
   const { getAccessTokenSilently } = useAuth0();
+
+  const fetchDeviceState = async (id) => {
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(
+        `http://localhost:8080/alert/device-states/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setDeviceStates((prevStates) => ({
+        ...prevStates,
+        [id]: data.down ? "Inactive" : "Active",
+      }));
+    } catch (err) {
+      console.error(`Error fetching state for device ${id}:`, err);
+      setDeviceStates((prevStates) => ({
+        ...prevStates,
+        [id]: "Unknown",
+      }));
+    }
+  };
 
   useEffect(() => {
     const fetchDevices = async () => {
@@ -35,7 +69,6 @@ function DeviceSummaryTable({ companyId }) {
         }
 
         const data = await response.json();
-        //console.log(data)
         setDevices(data.content);
         setFilteredDevices(data.content);
         setTotalPages(data.totalPages);
@@ -48,41 +81,10 @@ function DeviceSummaryTable({ companyId }) {
       }
     };
 
-    const fetchDeviceState = async (id) => {
-      try {
-        const token = await getAccessTokenSilently();
-        const response = await fetch(
-          `http://localhost:8080/alert/device-states/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setDeviceStates((prevStates) => ({
-          ...prevStates,
-          [id]: data.down ? "Inactive" : "Active",
-        }));
-      } catch (err) {
-        console.error(`Error fetching state for device ${id}:`, err);
-        setDeviceStates((prevStates) => ({
-          ...prevStates,
-          [id]: "Unknown",
-        }));
-      }
-    };
-
     fetchDevices();
   }, [companyId, currentPage, getAccessTokenSilently]);
 
+  /*
   useEffect(() => {
     const filtered = devices.filter((device) => {
       const matchesDeviceId =
@@ -97,6 +99,37 @@ function DeviceSummaryTable({ companyId }) {
     });
     setFilteredDevices(filtered);
   }, [searchDeviceId, searchDeviceType, devices]);
+  */
+
+  const handleSearchForDevice = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(
+        `http://localhost:8080/api/companies/${companyId}/devices?name=${searchDeviceName}&serialNumber=${searchDeviceSerialNumber}&page=0&size=10&sortBy=id&order=asc`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setFilteredDevices(data.content);
+      setError(null);
+
+      // Aktualizacja statusu każdego wyszukanego urządzenia
+      data.content.forEach((device) => fetchDeviceState(device.id));
+    } catch (err) {
+      console.error("Error searching for devices:", err);
+      setError("Failed to search for devices. Please try again.");
+    }
+  };
 
   const handlePreviousPage = () => {
     if (currentPage > 0) {
@@ -114,6 +147,7 @@ function DeviceSummaryTable({ companyId }) {
     <div className="device-table-container">
       {error && <p className="error">{error}</p>}
       <div className="filter-container">
+        {/*
         <div className="filter-group">
           <label htmlFor="search-device-id" className="search-label">
             Search Device ID:
@@ -140,6 +174,40 @@ function DeviceSummaryTable({ companyId }) {
             className="search-input"
           />
         </div>
+        */}
+        <div className="filter-group">
+          <label htmlFor="search-device-name" className="search-label">
+            Search Device Name:
+          </label>
+          <input
+            id="search-device-name"
+            type="text"
+            placeholder="Enter Device Name"
+            value={searchDeviceName}
+            onChange={(e) => setSearchDeviceName(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        <div className="filter-group">
+          <label htmlFor="search-device-serial-number" className="search-label">
+            Search Serial Number:
+          </label>
+          <input
+            id="search-device-serial-number"
+            type="text"
+            placeholder="Enter Serial Number"
+            value={searchDeviceSerialNumber}
+            onChange={(e) => setSearchDeviceSerialNumber(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        <button
+          onClick={handleSearchForDevice}
+          className="crudButton greyButton searchButton"
+          style={{ marginTop: "10px" }}
+        >
+          Search Device
+        </button>
         {selectedDeviceId && (
           <div style={{ marginTop: "10px" }}>
             <button
@@ -176,9 +244,9 @@ function DeviceSummaryTable({ companyId }) {
                     backgroundColor:
                       selectedDeviceId === device.id
                         ? "lightblue"
-                        : index % 2 === 0 
-                        ? "#e9e7e79c" 
-                        : "white", 
+                        : index % 2 === 0
+                        ? "#e9e7e79c"
+                        : "white",
                   }}
                 >
                   <td>{device.id}</td>
