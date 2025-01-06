@@ -65,6 +65,7 @@ function Dashboard() {
       }
 
       const data = await response.json();
+      console.log(data)
       return data;
     } catch (error) {
       console.error("Error fetching stats:", error);
@@ -130,7 +131,7 @@ function Dashboard() {
 
   const renderChart = (chart, index) => {
     if (!chart || !chart.data) return null;
-
+  
     const data = {
       labels: ["Inactive Devices", "Active Devices"],
       datasets: [
@@ -140,11 +141,11 @@ function Dashboard() {
             chart.data.inactiveDevices,
             chart.data.totalDevices - chart.data.inactiveDevices,
           ],
-          backgroundColor: ["#FF4D4F", "#4CAF50"], // Czerwień i zieleń
+          backgroundColor: ["#FF4D4F", "#4CAF50"],
         },
       ],
     };
-
+  
     return (
       <div className="chart-container">
         <div className="chart-description">
@@ -164,15 +165,37 @@ function Dashboard() {
         </div>
         <div className="chart-delete-button">
           <button
-            className="crudButton"
+            className="crudButton greyButton paginationButton"
             onClick={() => handleDelete(index)}
           >
             Delete
+          </button>
+          <button
+            className="crudButton greyButton paginationButton"
+            onClick={() => handleRefresh(index)}
+          >
+            Refresh
           </button>
         </div>
       </div>
     );
   };
+
+  const handleRefresh = async (index) => {
+    const chartToUpdate = charts[index];
+    if (!chartToUpdate) return;
+  
+    const statsData = await fetchStats(); 
+    if (statsData) {
+      const newCharts = [...charts];
+      newCharts[index] = {
+        ...chartToUpdate,
+        data: statsData,
+      };
+      setCharts(newCharts);
+    }
+  };
+  
 
   return (
     <div className="dashboard-grid">
