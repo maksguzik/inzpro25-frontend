@@ -1,0 +1,263 @@
+import React, { useState, useEffect, useContext } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Doughnut, Bar } from "react-chartjs-2";
+import "./Dashboard.css";
+import { ChartContext } from "../../../context/ChartContext";
+
+function Dashboard() {
+  const { getAccessTokenSilently } = useAuth0();
+  const { charts, setCharts } = useContext(ChartContext);
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [activeDashboard, setActiveDashboard] = useState(null);
+  const [chartType, setChartType] = useState("donut");
+  const [deviceType, setDeviceType] = useState("All");
+
+  const fetchCompanies = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(
+        "http://localhost:8080/api/companies?page=0&size=10&sortBy=id&order=asc",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setCompanies(data.content);
+      if (data.content.length > 0) {
+        setSelectedCompany(data.content[0].id);
+      }
+    } catch (error) {
+      console.error("Error fetching companies:", error);
+    }
+  };
+
+  const fetchStats = async () => {
+    try {
+      if (!selectedCompany) {
+        console.error("No company selected.");
+        return;
+      }
+
+      const token = await getAccessTokenSilently();
+
+      const url = `http://localhost:8080/api/companies/${selectedCompany}/devices/stats${
+        deviceType.toLowerCase() !== "all" ? `?deviceType=${deviceType}` : ""
+      }`;
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching stats:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCompanies();
+  }, []);
+
+  const openPopup = (index) => {
+    setActiveDashboard(index);
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setPopupOpen(false);
+    setActiveDashboard(null);
+    setChartType("donut");
+    setDeviceType("All");
+  };
+
+  const handleDropdownChange = (event) => {
+    setSelectedCompany(event.target.value);
+  };
+
+  const handleChartTypeSelection = (type) => {
+    setChartType(type);
+  };
+
+  const handleDeviceTypeChange = (event) => {
+    setDeviceType(event.target.value);
+  };
+
+  const handleCreate = async () => {
+    const statsData = await fetchStats();
+    if (statsData) {
+      const selectedCompanyData = companies.find(
+        (company) => company.id === Number(selectedCompany)
+      );
+
+      const newCharts = [...charts];
+      newCharts[activeDashboard] = {
+        chartType,
+        data: statsData,
+        companyName: selectedCompanyData?.name || "Unknown Company",
+        deviceType,
+      };
+      setCharts(newCharts);
+    }
+    closePopup();
+  };
+
+  const handleDelete = (index) => {
+    const newCharts = [...charts];
+    newCharts[index] = null;
+    setCharts(newCharts);
+  };
+
+  const renderChart = (chart, index) => {
+    if (!chart || !chart.data) return null;
+
+    const data = {
+      labels: ["Inactive Devices", "Active Devices"],
+      datasets: [
+        {
+          label: "Device Stats",
+          data: [
+            chart.data.inactiveDevices,
+            chart.data.totalDevices - chart.data.inactiveDevices,
+          ],
+          backgroundColor: ["#FF4D4F", "#4CAF50 "],
+        },
+      ],
+    };
+
+    return (
+      <div className="chart-container">
+        <div className="chart-description">
+          <p>
+            <strong>Company:</strong> {chart.companyName}
+          </p>
+          <p>
+            <strong>Device Type:</strong> {chart.deviceType}
+          </p>
+        </div>
+        <div className="chart-content">
+          {chart.chartType === "donut" ? (
+            <Doughnut data={data} />
+          ) : (
+            <Bar data={data} />
+          )}
+        </div>
+        <div className="chart-delete-button">
+          <button
+            className="crudButton"
+            onClick={() => handleDelete(index)}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="dashboard-grid">
+      {[...Array(6)].map((_, index) => (
+        <div key={index} className="dashboard-item">
+          {charts[index] ? (
+            renderChart(charts[index], index)
+          ) : (
+            <button className="plus-button" onClick={() => openPopup(index)}>
+              +
+            </button>
+          )}
+        </div>
+      ))}
+
+      {popupOpen && (
+        <div className="dashboard-popup-overlay">
+          <div className="dashboard-popup">
+            <h3>Choose a Company</h3>
+            <label htmlFor="companySelect" className="dashboard-popup-label">
+              Choose a Company:
+            </label>
+            <select
+              id="companySelect"
+              onChange={handleDropdownChange}
+              value={selectedCompany || ""}
+            >
+              <option value="" disabled>
+                Select a company
+              </option>
+              {companies.map((company) => (
+                <option key={company.id} value={company.id}>
+                  {company.name}
+                </option>
+              ))}
+            </select>
+
+            <label htmlFor="chartType" className="dashboard-popup-label">
+              Choose a Chart Type:
+            </label>
+            <div className="chart-buttons">
+              <button
+                className={`chart-button ${
+                  chartType === "donut" ? "selected" : ""
+                }`}
+                onClick={() => handleChartTypeSelection("donut")}
+              >
+                Donut Chart
+              </button>
+              <button
+                className={`chart-button ${
+                  chartType === "bar" ? "selected" : ""
+                }`}
+                onClick={() => handleChartTypeSelection("bar")}
+              >
+                Bar Chart
+              </button>
+            </div>
+
+            <label htmlFor="deviceType" className="dashboard-popup-label">
+              Device Type:
+            </label>
+            <div className="dashboard-device-type-input">
+              <input
+                type="text"
+                id="deviceType"
+                value={deviceType}
+                onChange={handleDeviceTypeChange}
+              />
+            </div>
+
+            <div className="popup-buttons">
+              <button
+                className="crudButton greyButton paginationButton"
+                style={{ backgroundColor: "gray" }}
+                onClick={closePopup}
+              >
+                Close
+              </button>
+              <button
+                className="crudButton greyButton paginationButton"
+                onClick={handleCreate}
+              >
+                Create
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default Dashboard;

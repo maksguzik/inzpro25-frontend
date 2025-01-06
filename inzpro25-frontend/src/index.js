@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Auth0Provider } from '@auth0/auth0-react';
+import { ChartProvider } from "./context/ChartContext";
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
@@ -23,7 +24,9 @@ root.render(
       window.history.replaceState({}, document.title, appState?.returnTo || "/");
     }}
     >
+      <ChartProvider>
       <App />
+    </ChartProvider>
     </Auth0Provider>
   </React.StrictMode>
 );
