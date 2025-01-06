@@ -18,12 +18,11 @@ import AdminPanel from "./Pages/AdminPanel/AdminPanel";
 import UserManagement from "./Pages/AdminPanel/AdminPanelComponents/UserManagement";
 import Profile from "./Pages/Profile/Profile";
 import UserDeviceList from "./Pages/UserDevices/UserDeviceList";
-import AllAlertsPage from "./Pages/Alerts/Tabs/AllAlertsPage";
-import CreateNewAlarmPage from "./Pages/Alerts/Tabs/CreateNewAlarmPage";
-import DevicesPage from "./Pages/Logs/Tabs/DevicesPage";
 // import LoginPage from "./Pages/Root.js/rootComponents/LoginPage";
 // import LoginButton from "./Pages/Root.js/rootComponents/LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
+import DeviceSummary from "./Pages/Raports/SummaryRaportsPage/SummaryRaportsComponents/DeviceSummary/DeviceSummary";
+import CompanySummary from "./Pages/Raports/CompanySummary/CompanySummary";
 
 function App() {
 
@@ -81,7 +80,11 @@ function App() {
               <Route path="Logs" element={<LogsPage />}>
                 <Route path="All logs" element={<DeviceLogPage />} />
               </Route>
-              <Route path="Raports" element={<RaportsPage />} />
+              <Route path="Raports" element={<RaportsPage />}>
+                <Route path="Device Summary" element={<DeviceSummary />} />
+                <Route path="/Raports/Device Summary/:deviceId" element={<DeviceSummary />} />
+                <Route path="Company Summary" element={<CompanySummary />} />
+              </Route>
               <Route path="Settings" element={<SettingsPage />} />
               <Route path="DeviceManagement" element={<DeviceManagement />}>
                 <Route path="Token" element={<DeviceTokenPage />} />

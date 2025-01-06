@@ -1,0 +1,29 @@
+
+.color-empty {
+    fill: #e0e0e0;
+  }
+  
+
+  .color-downtime {
+    fill: #ff0000;
+  }
+  
+
+  .react-calendar-heatmap .week {
+    font-size: 12px;
+  }
+  
+
+  .react-calendar-heatmap {
+    margin: 20px auto;
+  }
+  
+  .react-calendar-heatmap .day {
+    stroke: #ffffff; 
+    stroke-width: 1px;
+  }
+
+  .calendar-container {
+    max-width: 100vh; 
+    margin: 0; 
+  }

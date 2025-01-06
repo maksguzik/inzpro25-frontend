@@ -1,0 +1,48 @@
+.month-grid-container {
+    width: 300px;
+  }
+  
+  .month-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); 
+    gap: 5px;
+  }
+  
+  .day {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #e0e0e0; 
+  }
+  
+  
+
+  .day.saturday {
+    background-color: blue; 
+  }
+  
+  .day.sunday {
+    background-color: orange; 
+  }
+  
+  .day.active {
+    background-color: green; 
+    color: white;
+  }
+  
+  .day.downtime {
+    background-color: red; 
+    color: white;
+  }
+  
+  .day.empty {
+    background-color: transparent;
+  }
