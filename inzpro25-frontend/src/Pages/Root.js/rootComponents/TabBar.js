@@ -8,8 +8,20 @@ const tabValues = {
   Raports: ["Company Summary","Device Summary"],
   Settings: ["Not working yet"],
   DeviceManagement: ["Token", "Json template", "Owner", "Device"],
-  AdminPanel:["UserManagement"]
+  AdminPanel:["User Management"]
 };
+
+const tabPathMap = {
+  Home: "home",
+  Alerts: "alerts",
+  Logs: "logs",
+  Raports: "raports",
+  Settings: "settings",
+  DeviceManagement: "device-management",
+  AdminPanel: "admin-panel",
+};
+
+const getPath = (tabName) => tabPathMap[tabName] || tabName.toLowerCase();
 
 function TabBar({ activeTab }) {
   const tabButtons = tabValues[activeTab] || [];
@@ -19,7 +31,7 @@ function TabBar({ activeTab }) {
       <div>
         {tabButtons.map((tabValue, index) => (
           <NavLink
-            to={`${activeTab}/${tabValue}`}
+            to={`${getPath(activeTab)}/${tabValue.replace(/\s+/g, "-").toLowerCase()}`}
             key={index}
             className={({ isActive }) => {
               return isActive ? "tab-button active" : "tab-button";

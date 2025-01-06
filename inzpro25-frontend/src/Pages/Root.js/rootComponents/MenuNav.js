@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import "./MenuNav.css";
 import { useState } from "react";
 
-function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
+function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam}) {
   const [isShrinked, setIsShrinked] = useState(false);
 
   const toggleMenu = () => {
@@ -30,9 +30,11 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
                 <i className="material-icons-outlined">home</i>
               </NavLink>
             </li>
+            {isSupportTeam && (
+              <>
             <li>
               <NavLink
-                to="Logs"
+                to="logs"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Logs");
                   return isActive ? "active" : undefined;
@@ -43,7 +45,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
             </li>
             <li>
               <NavLink
-                to="Alerts"
+                to="alerts"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Alerts");
                   return isActive ? "active" : undefined;
@@ -54,7 +56,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
             </li>
             <li>
               <NavLink
-                to="Raports"
+                to="raports"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Raports");
                   return isActive ? "active" : undefined;
@@ -63,9 +65,12 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
                 <i className="material-icons-outlined">show_chart</i>
               </NavLink>
             </li>
-            <li>
+            </>)}
+            {
+              isAdmin && (
+                <li>
               <NavLink
-                to="DeviceManagement"
+                to="device-management"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("DeviceManagement");
                   return isActive ? "active" : undefined;
@@ -74,9 +79,11 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
                 <i className="material-icons-outlined">schema</i>
               </NavLink>
             </li>
-            {!isNotAdmin && (<li>
+              )
+            }
+            {isAdmin && (<li>
               <NavLink
-                to="AdminPanel"
+                to="admin-panel"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("AdminPanel");
                   return isActive ? "active" : undefined;
@@ -85,9 +92,22 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
                 <i className="material-icons-outlined">shield</i>
               </NavLink>
             </li>)}
+            {isUser && (
+              <>
             <li>
               <NavLink
-                to="Profile"
+                to="my-devices"
+                className={({ isActive }) => {
+                  if (isActive) setActiveTab("Devices");
+                  return isActive ? "active" : undefined;
+                }}
+              >
+                <i className="material-icons-outlined">devices</i>
+              </NavLink>
+            </li>             
+            <li>
+              <NavLink
+                to="profile"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Profile");
                   return isActive ? "active" : undefined;
@@ -96,6 +116,8 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
                 <i className="material-icons-outlined">perm_identity</i>
               </NavLink>
             </li>
+            </>
+            )}
           </ul>
         ) : (
           <ul className="menu-top">
@@ -104,16 +126,18 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
                 to="/"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Home");
-                  return isActive ? "active" : undefined;
+                  return isActive ? "active icon-button" : "icon-button";
                 }}
               >
                 <i className="material-icons-outlined">home</i>
                 Home
               </NavLink>
             </li>
+            {isSupportTeam && (
+              <>
             <li>
               <NavLink
-                to="Logs"
+                to="logs"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Logs");
                   return isActive ? "active" : undefined;
@@ -125,7 +149,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
             </li>
             <li>
               <NavLink
-                to="Alerts"
+                to="alerts"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Alerts");
                   return isActive ? "active" : undefined;
@@ -137,7 +161,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
             </li>
             <li>
               <NavLink
-                to="Raports"
+                to="raports"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Raports");
                   return isActive ? "active" : undefined;
@@ -147,21 +171,26 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
                 Raports
               </NavLink>
             </li>
-            <li>
+            </>)}
+            {
+              isAdmin && (
+                <li>
               <NavLink
-                to="DeviceManagement"
+                to="device-management"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("DeviceManagement");
                   return isActive ? "active" : undefined;
                 }}
               >
                 <i className="material-icons-outlined">schema</i>
-                Device management
+                Device Management
               </NavLink>
             </li>
-            {!isNotAdmin && (<li>
+              )
+            }
+            {isAdmin && (<li>
               <NavLink
-                to="AdminPanel"
+                to="admin-panel"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("AdminPanel");
                   return isActive ? "active" : undefined;
@@ -171,9 +200,23 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
                 Admin Panel
               </NavLink>
             </li>)}
+            {isUser &&  (
+              <>
             <li>
               <NavLink
-                to="Profile"
+                to="my-devices"
+                className={({ isActive }) => {
+                  if (isActive) setActiveTab("Devices");
+                  return isActive ? "active" : undefined;
+                }}
+              >
+                <i className="material-icons-outlined">devices</i>
+                My Devices
+              </NavLink>
+            </li>             
+            <li>
+              <NavLink
+                to="profile"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Profile");
                   return isActive ? "active" : undefined;
@@ -183,6 +226,8 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isNotAdmin}) {
                 Profile
               </NavLink>
             </li>
+            </>
+            )}
           </ul>
         )}
       </nav>

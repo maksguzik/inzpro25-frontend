@@ -52,26 +52,11 @@ function DeviceToken({index, tokenId, token, deviceTypeName, setUpdateDeviceToke
                 onClick = { () => {handleClick();}}
                 ref = {rowRef}
             >   
-            { /*<td>{index}</td>  TYLKO DO DEBUGU*/}
                 <DeviceTokenDisplay
                     tokenId = {tokenId}
                     token = {token}
                     deviceTypeName = {deviceTypeName}
                 />
-                {/* {hover && (
-                    <td>
-                    <DeviceTokenDelete
-                        tokenId = {tokenId}
-                        setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-                        // setSelectedRecord = {setSelectedRecord}
-                    />
-                    <UpdateDeviceToken
-                        tokenId = {tokenId}
-                        setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-                        // setSelectedRecord = {setSelectedRecord}
-                    />
-                    </td>
-                )} */}
                 {(hover)?(
                     <td className = "editDeleteSpaceBetween">
                     <UpdateDeviceToken

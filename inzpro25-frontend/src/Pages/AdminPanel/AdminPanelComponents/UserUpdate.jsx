@@ -32,10 +32,13 @@ function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList
           .catch(error=>console.error('Error updating user:', error));
           console.log(await response.json());
           
-          if (response.ok) {
-            // await new Promise(resolve => setTimeout(resolve, 1000));
+          if (String(response.status).at(0)!=='2') {
+            alert("Something went wrong! Please check your input and try again.");
             setUpdateUserList(true);
-            setUpdateRoles(true);
+          }
+          if (response.ok) {
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            setUpdateUserList(true);
           }
       };
     

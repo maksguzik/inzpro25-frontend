@@ -18,8 +18,9 @@ import AdminPanel from "./Pages/AdminPanel/AdminPanel";
 import UserManagement from "./Pages/AdminPanel/AdminPanelComponents/UserManagement";
 import Profile from "./Pages/Profile/Profile";
 import UserDeviceList from "./Pages/UserDevices/UserDeviceList";
-// import LoginPage from "./Pages/Root.js/rootComponents/LoginPage";
-// import LoginButton from "./Pages/Root.js/rootComponents/LoginButton";
+import AllAlertsPage from "./Pages/Alerts/Tabs/AllAlertsPage";
+import CreateNewAlarmPage from "./Pages/Alerts/Tabs/CreateNewAlarmPage";
+import DevicesPage from "./Pages/Logs/Tabs/DevicesPage";
 import { useAuth0 } from "@auth0/auth0-react";
 import DeviceSummary from "./Pages/Raports/SummaryRaportsPage/SummaryRaportsComponents/DeviceSummary/DeviceSummary";
 import CompanySummary from "./Pages/Raports/CompanySummary/CompanySummary";
@@ -27,9 +28,7 @@ import AllAlerts from "./Pages/Alerts/AllAlerts/AllAlerts";
 import Dashboard from "./Pages/Home/Dashboard/Dashboard";
 
 function App() {
-
-  const [isAdmin, setIsAdmin] = useState(true);
-  const {loginWithRedirect, getAccessTokenSilently, isAuthenticated, login, logout, user, isLoading, error } = useAuth0();
+  const {loginWithRedirect, getAccessTokenSilently, isAuthenticated, isLoading, error } = useAuth0();
   
   const [token, setToken] = useState(null);
   const [roles, setRoles] = useState([]);
@@ -49,7 +48,6 @@ function App() {
           const token = await getAccessTokenSilently();
           const decodedToken = decodeJWT(token);
           const permissions = decodedToken.permissions || [];
-          console.log(permissions);
           setRoles(permissions);
           setIsGetUserRoleFunctionCalled(true);
       } catch (error) {
@@ -73,50 +71,55 @@ function App() {
     <Router>
       <Routes>
           <>
-          {(roles.includes('SUPPORT_TEAM')) ?
-            <Route path="/" element={<RootLayout isNotAdmin={(roles.includes('ADMIN'))? false : true}/>}>
-
-            
+         
+            <Route path="/" element={<RootLayout isAdmin={roles.includes('ADMIN')}
+              isUser={roles.includes('USER')} isSupportTeam={roles.includes('SUPPORT_TEAM')}
+            />}>
               <Route index element={<HomePage />} />
-              <Route path="/Home/Dashboard" element={<Dashboard/>}/>
+              {(roles.includes('SUPPORT_TEAM')) &&
+              
+              (<Route>
+                <Route path="/Home/Dashboard" element={<Dashboard/>}/>
               <Route path="Alerts" element={<AlertsPage />}>
                 <Route path="All alerts" element={<AllAlerts/>}></Route>
               </Route>
-              <Route path="Logs" element={<LogsPage />}>
-                <Route path="All logs" element={<DeviceLogPage />} />
+              <Route path="logs" element={<LogsPage />}>
+                <Route path="all-logs" element={<DeviceLogPage />} />
               </Route>
-              <Route path="Raports" element={<RaportsPage />}>
+              <Route path="raports" element={<RaportsPage />}>
                 <Route path="Device Summary" element={<DeviceSummary />} />
                 <Route path="/Raports/Device Summary/:deviceId" element={<DeviceSummary />} />
                 <Route path="Company Summary" element={<CompanySummary />} />
               </Route>
-              <Route path="Settings" element={<SettingsPage />} />
-              <Route path="DeviceManagement" element={<DeviceManagement />}>
-                <Route path="Token" element={<DeviceTokenPage />} />
-                <Route path="Json template" element={<JsonTemplatePage />} />
-                <Route path="Owner" element={<CompanyPage />} />
-                <Route path="Device" element={<DeviceViewPage />} />
-              </Route>
+              <Route path="settings" element={<SettingsPage />} />
+              </Route>)}
               {
-                isAdmin && roles.find((element)=>element === 'ADMIN') && (<Route path="AdminPanel" element={<AdminPanel/>}>
-                  <Route path="UserManagement" element={<UserManagement/>}>
-
-                  </Route>
-
-                </Route>)
-              }
-              <Route path="Profile" element={<Profile role={roles.includes('ADMIN') ? 'ADMIN' : ''}/>}>
-
+                (roles.includes('ADMIN')) && (
+                  <Route path="device-management" element={<DeviceManagement />}>
+                <Route path="token" element={<DeviceTokenPage />} />
+                <Route path="json-template" element={<JsonTemplatePage />} />
+                <Route path="owner" element={<CompanyPage />} />
+                <Route path="device" element={<DeviceViewPage />} />
               </Route>
-  
-            </Route> : 
-            <Route path="/" element={<RootLayout isUser={true}/>}>
-              <Route path="Profile" element={<Profile role={''}/>}/>
-              <Route path="Devices" element={<UserDeviceList/>}/>
+                )
+              }
+              {(roles.includes('ADMIN')) &&
+              (<Route path="admin-panel" element={<AdminPanel/>}>
+                  <Route path="user-management" element={<UserManagement/>}/>
+
+              </Route>) }
+            {
+            roles.includes('USER') && (
+              <Route path="profile" element={<Profile/>}/>
+              )}
+              {
+                (roles.includes('USER')) && (
+                  <Route path="my-devices" element={<UserDeviceList/>}/>
+                )
+              }
 
             </Route>
             
-            }
           </>
       </Routes>
     </Router>

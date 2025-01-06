@@ -7,12 +7,12 @@ function AddCompany({companyId, setUpdateCompanyList}){
     const [companyName, setCompanyName] = useState("");
     // const [companyId, setCompanyId] = useState(0);
     const [popup, setPopup] = useState(false);
-    const URL = 'http://localhost:8080/api/companies';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     const {getAccessTokenSilently} = useAuth0();
     
     const addCompany = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL, {
+        const response = await fetch(URL + 'api/companies', {
                     method: 'POST',
                     headers : { 
                         'Content-Type' : 'application/json',
@@ -23,10 +23,15 @@ function AddCompany({companyId, setUpdateCompanyList}){
                         "name": companyName
                     })    
                     })
-            .then(response => setUpdateCompanyList(true))
-            .then(()=>setPopup(false))
-            .then(()=>setCompanyName(""))
-            .catch(error=>console.error());
+        const responseData = await response.json();
+        if(String(response.status).at(0)=='2'){
+          setPopup(false);
+          setUpdateCompanyList(true);
+          setCompanyName("");
+        }
+        else{
+          alert("Something went wrong! Please check your input and try again.");
+        }
     }
 
     const handleCompanyNameChange = (event) =>{

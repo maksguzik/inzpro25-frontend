@@ -1,7 +1,7 @@
 import "./Topbar.css";
-import AccountSettings from "./TopBarComponents/AccountSettings";
+import Logout from "./TopBarComponents/Logout";
 
-function TopBar({}) {
+function TopBar({isUser}) {
 
   return (
     <>
@@ -10,7 +10,7 @@ function TopBar({}) {
           <div>TraceWave</div>
         </div>
         <div className="right-section">
-          <AccountSettings
+          <Logout isUser={isUser}
           />
         </div>
       </header>

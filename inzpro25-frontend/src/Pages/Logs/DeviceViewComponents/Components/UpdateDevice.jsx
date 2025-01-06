@@ -5,7 +5,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 function UpdateDevice({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCompanyName, setUpdateDeviceList}){
     
     const [updateRequestBody, setUpdateRequestBody] = useState({
-        "id": deviceId,
         "serialNumber": deviceSerialNumber,
         "name": deviceName,
         "deviceType" : deviceType,
@@ -15,28 +14,31 @@ function UpdateDevice({deviceId, deviceSerialNumber, deviceName, deviceType, dev
 
     const {getAccessTokenSilently} = useAuth0();
 
-    const URL = 'http://localhost:8080/api/devices';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     
     const updateDevice = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL, {
-                    method: 'POST',
+        const response = await fetch(URL + 'api/devices/' + deviceId, {
+                    method: 'PUT',
                     headers : { 
                         'Content-Type' : 'application/json',
                         Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify(updateRequestBody)    
                     })
-            .then(response => setUpdateDeviceList(true))
-            .then(()=>setUpdateRequestBody({
-                "id": deviceId,
+            const responseData = await response.json();
+            if(String(response.status).at(0)=='2'){
+              setPopup(false);
+              setUpdateRequestBody({
                 "serialNumber": "",
                 "name": "",
                 "deviceType" : "",
                 "companyName": ""
-              }))
-            .then(()=>setPopup(false))
-            .catch(error=>console.error());
+              });
+              setUpdateDeviceList(true);
+            }else{
+              alert("Something went wrong! Please check your input and try again.");
+            }
     }
 
     const handleInputChange = (event, key) =>{
@@ -65,28 +67,28 @@ function UpdateDevice({deviceId, deviceSerialNumber, deviceName, deviceType, dev
                     <div className="overlay"
                         onClick = {togglePopup}></div>
                     <div className="popupContent deviceUpdate"  onClick={(event) => event.stopPropagation()}>
-                        <div className="popupLabel">New Serial Number</div>
+                        <div className="popupLabel">Serial Number</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.serialNumber} 
                             onChange = {(event)=>handleInputChange(event, "serialNumber")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popupLabel">New Name</div>
+                        <div className="popupLabel">Name</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.name} 
                             onChange = {(event)=>handleInputChange(event, "name")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popupLabel">New Device Type</div>
+                        <div className="popupLabel">Device Type</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.deviceType} 
                             onChange = {(event)=>handleInputChange(event, "deviceType")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popupLabel">New Company Name</div>
+                        <div className="popupLabel">Company Name</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.companyName} 

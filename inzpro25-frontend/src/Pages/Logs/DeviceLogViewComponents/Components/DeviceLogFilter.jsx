@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 function DeviceLogFilter({setDeviceLogList}){
 
-    const URL = 'http://localhost:8080/api/devices-logs/';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     const {getAccessTokenSilently} = useAuth0();
 
     const [chosenTimeStampRange, setChosenTimeStampRange] = useState('between');
@@ -14,7 +14,7 @@ function DeviceLogFilter({setDeviceLogList}){
 
     const FilterDeviceLogList = async() =>{
         const token = await getAccessTokenSilently();
-        fetch(URL + chosenTimeStampRange + `?startTime=${datePickedAfter}:11Z&endTime=${datePickedBefore}:11Z`,
+        fetch(URL + 'api/devices-logs/' + chosenTimeStampRange + `?startTime=${datePickedAfter}:11Z&endTime=${datePickedBefore}:11Z`,
             {
                 method: 'GET',
                 headers : { 

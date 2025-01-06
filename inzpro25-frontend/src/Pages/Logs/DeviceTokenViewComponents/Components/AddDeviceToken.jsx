@@ -8,11 +8,11 @@ function AddDeviceToken({setUpdateDeviceTokenList}){
     const [popup, setPopup] = useState(false);
     const {getAccessTokenSilently} = useAuth0();
 
-    const URL = 'http://localhost:8080/api/devices-tokens';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     
     const addDeviceToken = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL, {
+        const response = await fetch(URL + 'api/devices-tokens', {
                     method: 'POST',
                     headers : {
                         'Content-Type' : 'application/json',
@@ -20,10 +20,14 @@ function AddDeviceToken({setUpdateDeviceTokenList}){
                     },
                     body: JSON.stringify({deviceTypeName: deviceTypeName})    
                     })
-            .then(response => setUpdateDeviceTokenList(true))
-            .then(()=>setPopup(false))
-            .then(()=>setDeviceTypeName(""))
-            .catch(error=>console.error());
+        const responseData = await response.json();
+        if(String(response.status).at(0)=='2'){
+          setPopup(false);
+          setUpdateDeviceTokenList(true);
+          setDeviceTypeName("");
+        }else{
+          alert("Something went wrong! Please check your input and try again.");
+        }
     }
 
     const handleInputChange = (event) =>{
@@ -47,7 +51,7 @@ function AddDeviceToken({setUpdateDeviceTokenList}){
                 <div className="overlay"
                     onClick = {togglePopup}></div>
                 <div className="popupContent">
-                    <div className="popupLabel">New Device Type</div>
+                    <div className="popupLabel">Device Type</div>
                     <input 
                         className = "inputDeviceToken" 
                         value = {deviceTypeName} 

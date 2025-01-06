@@ -9,11 +9,11 @@ function UpdateDeviceToken({tokenId, deviceTypeName, setUpdateDeviceTokenList}){
     const [popup, setPopup] = useState(false);
     const {getAccessTokenSilently} = useAuth0();
 
-    const URL = 'http://localhost:8080/api/devices-tokens/' + tokenId;
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     
     const updateDeviceToken = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL, {
+        const response = await fetch(URL + 'api/devices-tokens/' + tokenId , {
                     method: 'PUT',
                     headers : { 
                         'Content-Type' : 'application/json',
@@ -21,10 +21,15 @@ function UpdateDeviceToken({tokenId, deviceTypeName, setUpdateDeviceTokenList}){
                     },
                     body: JSON.stringify({deviceTypeName: newDeviceTypeName})    
                     })
-            .then(response => setUpdateDeviceTokenList(true))
-            .then(()=>setNewDeviceTypeName(""))
-            .then(()=>setPopup(false))
-            .catch(error=>console.error());
+        const responseData = await response.json();
+        if(String(response.status).at(0)=='2'){
+          setPopup(false);
+          setUpdateDeviceTokenList(true);
+          setNewDeviceTypeName(deviceTypeName);
+        }else{
+          alert("Something went wrong! Please check your input and try again.");
+        }
+                    
     }
 
     const handleInputChange = (event) =>{
@@ -55,7 +60,7 @@ function UpdateDeviceToken({tokenId, deviceTypeName, setUpdateDeviceTokenList}){
                 <div className="overlay"
                     onClick = {togglePopup}></div>
                 <div className="popupContent"  onClick={(event) => event.stopPropagation()}>
-                <div className="popupLabel">New Device Type</div>
+                <div className="popupLabel">Device Type</div>
                     <input 
                         className = "inputDeviceToken" 
                         value = {newDeviceTypeName} 

@@ -9,9 +9,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 function DeviceTokenList(){
     const [deviceTokenList, setDeviceTokenList] = useState([]);
     const [updateDeviceTokenList, setUpdateDeviceTokenList] = useState(true);
-    // const [selectedRecord, setSelectedRecord] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [tokenIdDeleteList, setTokenIdDeleteList] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
+    const [order, setOrder] = useState('asc');
+    const [sortBy, setSortBy] = useState('deviceTypeName');
+    const [deviceTypeName, setDeviceTypeName] = useState('');
 
     const {getAccessTokenSilently} = useAuth0();
 
@@ -19,8 +22,7 @@ function DeviceTokenList(){
 
     const getDeviceTokenList = async() =>{
         const token = await getAccessTokenSilently();
-        console.log(token);
-        fetch(URL + 'api/devices-tokens', {
+        fetch(URL + 'api/devices-tokens?page=' + currentPage + '&size=5', {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -28,16 +30,93 @@ function DeviceTokenList(){
             },
         })
         .then(response => response.json())
-        .then(json => setDeviceTokenList(json.content))
+        .then(json => {setDeviceTokenList(json?.content || []); setTotalPages(json?.totalPages || 0)})
         .then(()=>setUpdateDeviceTokenList(false))
         .catch(error => console.error(error));
     }
 
+    const getDeviceTokenListOrdered = async () => {
+        const token = await getAccessTokenSilently();
+        fetch(`${URL}api/devices-tokens?deviceTypeName=${deviceTypeName}&page=${currentPage}&size=5&sortBy=${sortBy}&order=${order}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(response => response.json())
+        .then(json => {
+            setDeviceTokenList(json?.content || []);
+            setTotalPages(json?.totalPages || 0);
+        })
+        .then(()=>setUpdateDeviceTokenList(false))
+        .catch(error => console.error(error));
+    };
+
     useEffect(() => {
-        if (updateDeviceTokenList) getDeviceTokenList();
+        if (updateDeviceTokenList) getDeviceTokenListOrdered();
     });
+    
+    const handleNextPage = () => {
+        if (currentPage < totalPages - 1) {
+          setCurrentPage((prevPage) => prevPage + 1);
+          setUpdateDeviceTokenList(true);
+        }
+    };
+    
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => (prevPage > 0 ? prevPage - 1 : 0));
+        setUpdateDeviceTokenList(true);
+    };
+
+    const handleSortDirectionChange = (direction) => {
+        setOrder(direction);
+    };
+
+    const handleSortByChange = (sortBy)=>{
+        setSortBy(sortBy);
+    }
 
     return(<>
+    <div className="orderAddDeleteContainer">
+        <div className="orderContainer">
+        <div className="searchByNameContainer">
+                    <input
+                        type="text"
+                        className="input-field"
+                        placeholder="Search by Device Type"
+                        value={deviceTypeName}
+                        onChange={(e) => {setDeviceTypeName(e.target.value);
+                            setUpdateDeviceTokenList(true);
+                        }}
+                    />
+                </div>
+                <div className="sortDirection">
+                    <div className="addToken">
+                    <select
+                        className="crudButton greyButton orderButtons"
+                        onChange={(e) => {handleSortDirectionChange(e.target.value);
+                            setUpdateDeviceTokenList(true);
+                        }}
+                    >
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+                
+        </div>
+        <div className="sortDirection">
+            <div className="addToken">
+            {/* <button
+                className="crudButton greyButton searchByNameButton"
+                onClick={() => getDeviceTokenListOrdered()}
+            >
+            Search
+        </button> */}
+            </div>
+        </div>
+        
+            </div>
     <div className = "deleteAddContainer">
                 <AddDeviceToken
                 setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
@@ -48,6 +127,7 @@ function DeviceTokenList(){
                             setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
                 />
                 </div>
+            </div>
             </div>
         <div  className = "deviceTokenListContainer">
             
@@ -76,6 +156,23 @@ function DeviceTokenList(){
                     ))}
                 </tbody>
             </table>
+            <div className="pagination">
+                <button 
+                    onClick={handlePreviousPage} 
+                    disabled={currentPage === 0}
+                    className="crudButton greyButton paginationButton"
+                >
+                    ◀ Previous
+                </button>
+                <span className="paginationInfo">PAGE {currentPage + 1}</span>
+                <button
+                    onClick={handleNextPage}
+                    disabled={currentPage >= totalPages - 1}
+                    className="crudButton greyButton paginationButton"
+                >
+                    Next ▶
+                </button>
+            </div>
         </div>
         </>
     );

@@ -13,11 +13,11 @@ function AddJsonTemplate({setUpdateDeviceList}){
     const [popup, setPopup] = useState(false);
     const {getAccessTokenSilently} = useAuth0();
 
-    const URL = 'http://localhost:8080/api/device-types';
+    const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     
     const addDevice = async() => {
         const token = await getAccessTokenSilently();
-        fetch(URL, {
+        const response  = await fetch(URL + 'api/device-types', {
                     method: 'POST',
                     headers : { 
                         'Content-Type' : 'application/json',
@@ -30,15 +30,19 @@ function AddJsonTemplate({setUpdateDeviceList}){
                         "lastSeenMapping": updateRequestBody.lastSeenMapping
                     })    
                     })
-            .then(response => setUpdateDeviceList(true))
-            .then(()=>setPopup(false))
-            .then(()=>setUpdateRequestBody({
+            const responseData = await response.json();
+            if(String(response.status).at(0)=='2'){
+              setPopup(false);
+              setUpdateDeviceList(true);
+              setUpdateRequestBody({
                 "deviceTypeName": "",
                 "idMapping": "",
                 "loggedAtMapping" : "",
                 "lastSeenMapping": ""
-              }))
-            .catch(error=>console.error());
+              });
+            }else{
+              alert("Something went wrong! Please check your input and try again.");
+            }
     }
 
     const handleInputChange = (event, key) =>{
@@ -79,7 +83,7 @@ function AddJsonTemplate({setUpdateDeviceList}){
                             onChange = {(event)=>handleInputChange(event, "deviceTypeName")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popupLabel">Id</div>
+                        <div className="popupLabel">Mapping Id</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.idMapping} 
