@@ -49,25 +49,29 @@ const DeviceDowntimeHeatMap = ({ deviceId: deviceIdFromProps }) => {
   const expandDowntimePeriods = (downtimes) => {
     const expandedDates = [];
     downtimes.forEach((downtime) => {
-
-        const startDate = new Date(downtime.started.split("T")[0] + "T00:00:00Z"); 
+      try {
+        const startDate = new Date(downtime.started.split("T")[0] + "T00:00:00Z");
         const endDate = downtime.ended
-            ? new Date(downtime.ended.split("T")[0] + "T00:00:00Z") 
-            : new Date(new Date().toISOString().split("T")[0] + "T00:00:00Z"); 
-
+          ? new Date(downtime.ended.split("T")[0] + "T00:00:00Z")
+          : new Date(new Date().toISOString().split("T")[0] + "T00:00:00Z");
+  
         let currentDate = new Date(startDate);
-
+  
         while (currentDate <= endDate) {
-            expandedDates.push({
-                date: currentDate.toISOString().split("T")[0], 
-                count: downtime.active ? 1 : 0,
-            });
-            currentDate.setUTCDate(currentDate.getUTCDate() + 1); 
+          expandedDates.push({
+            date: currentDate.toISOString().split("T")[0],
+            count: downtime.active ? 1 : 1, 
+          });
+          currentDate.setUTCDate(currentDate.getUTCDate() + 1);
         }
+      } catch (error) {
+        console.error("Błąd podczas przetwarzania przestoju:", downtime, error);
+      }
     });
-
+  
+    console.log("Rozszerzone daty:", expandedDates); 
     return expandedDates;
-};
+  };
 
   const mappedData = useMemo(() => expandDowntimePeriods(downtimes), [downtimes]);
 

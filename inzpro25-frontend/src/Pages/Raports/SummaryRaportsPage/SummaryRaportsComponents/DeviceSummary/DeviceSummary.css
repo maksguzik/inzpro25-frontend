@@ -18,6 +18,10 @@
     display: flex;
     gap: 10px;
   }
+
+  .input-container .crudButton {
+    margin-top: 8px;
+  }
   
   .details-container {
     display: flex;
