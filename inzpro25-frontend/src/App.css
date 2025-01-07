@@ -1,8 +1,9 @@
 html, body {
   height: 100%;
   /* overflow: hidden;  */
-  font-family: Andale Mono, monospace; 
+  /* font-family: Andale Mono, monospace;  */
   /* overflow-y:auto; */
+  font-family: Arial, sans-serif;
 }
 
 body {
@@ -12,4 +13,9 @@ body {
 
 td{
   height:75px;
+  font-weight: normal;
+}
+
+table td{
+  font-weight: normal;
 }
