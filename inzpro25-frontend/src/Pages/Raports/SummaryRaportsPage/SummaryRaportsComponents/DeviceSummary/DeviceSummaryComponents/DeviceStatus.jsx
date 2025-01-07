@@ -98,7 +98,7 @@ const DeviceStatus = ({ deviceState, deviceId: deviceIdFromProps }) => {
           </span>
         </div>
         <div className="status-row">
-          <span className="status-label">Sent Mail:</span>
+          <span className="status-label">Send Mail:</span>
           <span className="status-content">
             <span className="status-text">
               {deviceState.shouldSendEmail ? "Yes" : "No"}

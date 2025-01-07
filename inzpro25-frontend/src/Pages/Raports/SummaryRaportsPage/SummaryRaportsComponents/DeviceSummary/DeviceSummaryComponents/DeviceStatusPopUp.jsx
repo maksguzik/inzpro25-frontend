@@ -39,7 +39,7 @@ const DeviceStatusPopUp = ({ isOpen, onClose, onSave, initialValues }) => {
         <h2>Edit Device Settings</h2>
         <div className="popup-form">
           <label>
-            Time Detection Duration:
+            Downtime Detection Duration:
             <input
               type="number"
               value={downTimeDetectionDuration}
@@ -66,6 +66,7 @@ const DeviceStatusPopUp = ({ isOpen, onClose, onSave, initialValues }) => {
               }}
               min="0"
               placeholder="Enter duration"
+              style={{ width: "196px"}}
             />
           </label>
           <label className="checkbox-label">

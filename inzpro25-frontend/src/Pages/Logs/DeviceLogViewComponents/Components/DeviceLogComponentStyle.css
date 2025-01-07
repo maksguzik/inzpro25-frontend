@@ -72,3 +72,7 @@ table td{
 .deviceLogOrderButtons{
   width:auto;
 }
+
+.orderAddDeleteContainer{
+  flex-direction: column;
+}

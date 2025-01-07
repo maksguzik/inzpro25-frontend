@@ -44,7 +44,7 @@ function Dashboard() {
     }
   };
 
-  const fetchStats = async () => {
+  const fetchStats = async (deviceTypeOverride = deviceType) => {
     try {
       if (!selectedCompany) {
         console.error("No company selected.");
@@ -53,9 +53,13 @@ function Dashboard() {
 
       const token = await getAccessTokenSilently();
 
-      const url = URL + `api/companies/${selectedCompany}/devices/stats${
-        deviceType.toLowerCase() !== "all" ? `?deviceType=${deviceType}` : ""
-      }`;
+      const url =
+        URL +
+        `api/companies/${selectedCompany}/devices/stats${
+          deviceTypeOverride.toLowerCase() !== "all"
+            ? `?deviceType=${deviceTypeOverride}`
+            : ""
+        }`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -76,7 +80,6 @@ function Dashboard() {
       console.error("Error fetching stats:", error);
     }
   };
-
   useEffect(() => {
     fetchCompanies();
   }, []);
@@ -198,7 +201,7 @@ function Dashboard() {
     const chartToUpdate = charts[index];
     if (!chartToUpdate) return;
 
-    const statsData = await fetchStats();
+    const statsData = await fetchStats(chartToUpdate.deviceType);
     if (statsData) {
       const newCharts = [...charts];
       newCharts[index] = {
@@ -226,8 +229,10 @@ function Dashboard() {
         <div className="dashboard-popup-overlay">
           <div className="dashboard-popup">
             <h3>Choose a Company</h3>
-            <label htmlFor="searchQuery" className="dashboard-popup-label">
-            </label>
+            <label
+              htmlFor="searchQuery"
+              className="dashboard-popup-label"
+            ></label>
             <input
               type="text"
               id="searchQuery"
@@ -252,7 +257,6 @@ function Dashboard() {
                 </option>
               ))}
             </select>
-  
             <label htmlFor="chartType" className="dashboard-popup-label">
               Choose a Chart Type:
             </label>
@@ -274,7 +278,7 @@ function Dashboard() {
                 Bar Chart
               </button>
             </div>
-  
+
             <label htmlFor="deviceType" className="dashboard-popup-label">
               Device Type:
             </label>
@@ -286,7 +290,7 @@ function Dashboard() {
                 onChange={handleDeviceTypeChange}
               />
             </div>
-  
+
             <div className="popup-buttons">
               <button
                 className="crudButton greyButton paginationButton"
