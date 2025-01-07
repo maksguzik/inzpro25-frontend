@@ -19,7 +19,9 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
         </div>
         {isShrinked ? (
           <ul className="menu-top-shrinked">
-            <li>
+            {
+              isSupportTeam && (
+                <li>
               <NavLink
                 to="/home/dashboard"
                 className={({ isActive }) => {
@@ -30,6 +32,8 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
                 <i className="material-icons-outlined">home</i>
               </NavLink>
             </li>
+              )
+            }
             {isSupportTeam && (
               <>
             <li>
@@ -121,7 +125,9 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
           </ul>
         ) : (
           <ul className="menu-top">
-            <li>
+            {
+              isSupportTeam && (
+                <li>
               <NavLink
                 to="/home/dashboard"
                 className={({ isActive }) => {
@@ -133,6 +139,8 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
                 Home
               </NavLink>
             </li>
+              )
+            }
             {isSupportTeam && (
               <>
             <li>

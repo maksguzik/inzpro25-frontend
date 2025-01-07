@@ -163,3 +163,7 @@
 .inputDeviceToken.rolePadding .css-26l3qy-menu {
   z-index: 1050;
 }
+
+.resizeButton{
+  margin: 20px;
+}

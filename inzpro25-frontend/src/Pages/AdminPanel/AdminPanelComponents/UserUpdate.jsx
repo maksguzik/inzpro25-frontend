@@ -3,23 +3,46 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Select from "react-select";
 import './UserManagementStyle.css';
 
-function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList, setUpdateRoles, companyList}){
+function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList, setUpdateRoles}){
 
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     const {getAccessTokenSilently} = useAuth0();
 
+    const [companyList, setCompanyList] = useState([]);
+    const [companyName, setCompanyName] = useState("");
+    const [firstName, setFirstName] = useState(name.split(' ').at(0));
+    const [lastName, setLastName] = useState(name.split(' ').at(1) || '');
+    
     const [userData, setUserData] = useState({
         email:email,
-        name:name,
+        name:firstName + " " + lastName,
         companyNames:companyNames,
         roles:roles
     });
     
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+    const getCompanyList = async() =>{
+      const token = await getAccessTokenSilently();
+      fetch(URL + `api/companies?name=${companyName}&size=2`, {
+          method: 'GET',
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+          },
+      })
+      .then(response => response.json())
+      .then(json => {
+        setCompanyList(json.content)
+
+      })
+      .catch(error => console.error(error));
+  }
+
     const updateUser = async () => {
         setIsPopupOpen(false);
+        console.log(userData);
         const token = await getAccessTokenSilently();
           const response = await fetch(URL + "api/admin-panel/users/" + userId, {
             method: "PATCH",
@@ -27,17 +50,22 @@ function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            body:JSON.stringify(userData),
+            body:JSON.stringify({
+              email:userData.email,
+              name:firstName + " " + lastName,
+              companyNames:userData.companyNames,
+              roles:userData.roles
+            }),
           })
           .catch(error=>console.error('Error updating user:', error));
-          console.log(await response.json());
-          
+          const data = await response.json();
+          console.log(data);
           if (String(response.status).at(0)!=='2') {
             alert("Something went wrong! Please check your input and try again.");
             setUpdateUserList(true);
           }
           if (response.ok) {
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            // await new Promise(resolve => setTimeout(resolve, 2000));
             setUpdateUserList(true);
           }
       };
@@ -81,6 +109,11 @@ function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList
         }));
     };
 
+    const handleCompanyNameChange = (value)=>{
+      setCompanyName(value);
+      getCompanyList();
+    }
+
     const companiesOptions = companyList.map((company) => ({
         value: company.name,
         label: company.name,
@@ -109,11 +142,18 @@ function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList
         onChange={(event) => handleChange(event, "email")}
         onKeyDown={handleKeyDown}
       />
-      <label className="popupLabel">Name</label>
+      <label className="popupLabel">First Name</label>
       <input
         className="inputDeviceToken"
-        value={userData.name}
-        onChange={(event) => handleChange(event, "name")}
+        value={firstName}
+        onChange={(e)=>setFirstName(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
+      <label className="popupLabel">Last Name</label>
+      <input
+        className="inputDeviceToken"
+        value={lastName}
+        onChange={(e)=>setLastName(e.target.value)}
         onKeyDown={handleKeyDown}
       />
       <label className="popupLabel roleLabel">Roles</label>
@@ -134,6 +174,8 @@ function UserUpdate({userId, email, name, companyNames, roles, setUpdateUserList
           userData.companyNames.includes(option.value)
         )}
         onChange={handleCompaniesChange}
+        onInputChange={(inputValue) => {
+          handleCompanyNameChange(inputValue) }}
         className="inputDeviceToken rolePadding"
       />
       <div className="buttonsContainer">

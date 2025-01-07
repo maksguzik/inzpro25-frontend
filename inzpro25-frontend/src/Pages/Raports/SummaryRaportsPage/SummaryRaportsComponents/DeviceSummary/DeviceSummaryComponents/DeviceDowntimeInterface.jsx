@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import DeviceDowntimeHeatMap from "./DeviceDowntimeHeatMap";
-import DeviceDowntimeCalendarTwo from "./DeviceDowntimeCalendarTwo";
 import DeviceDowntimeBarChart from "./DeviceDowntimeBarChart";
 
 const DeviceDowntimeInterface = ({ deviceId}) => {
-  const [selectedChart, setSelectedChart] = useState("heatmap"); 
-  const downtimes = [
-    { started: "2025-01-01T00:00:00Z" },
-  ];
+  const [selectedChart, setSelectedChart] = useState("barchart"); 
 
   const renderSelectedChart = () => {
     switch (selectedChart) {
@@ -18,7 +14,7 @@ const DeviceDowntimeInterface = ({ deviceId}) => {
       // case "grid":
       //   return <DeviceDowntimeCalendarTwo month={0} year={2025} downtimes={downtimes} />;
       default:
-        return <DeviceDowntimeHeatMap deviceId={deviceId}/>;
+        return <DeviceDowntimeBarChart deviceId={deviceId}/>;
     }
   };
 
@@ -26,11 +22,9 @@ const DeviceDowntimeInterface = ({ deviceId}) => {
     <div>
       <h3 style={{ marginRight: "8px", marginTop: "0px" }}>Device downtime days</h3>
       <div>
-        <button style={{ marginRight: "8px", marginTop: "5px" }} className="crudButton greyButton paginationButton" onClick={() => setSelectedChart("heatmap")}>Heatmap</button>
         <button style={{ marginRight: "8px" }} className="crudButton greyButton paginationButton" onClick={() => setSelectedChart("barchart")}>Bar Chart</button>
-        {/* <button className="crudButton greyButton paginationButton" onClick={() => setSelectedChart("grid")}>Calendar</button> */}
+        <button style={{ marginRight: "8px", marginTop: "5px" }} className="crudButton greyButton paginationButton" onClick={() => setSelectedChart("heatmap")}>Heatmap</button>
       </div>
-
       {renderSelectedChart()}
     </div>
   );

@@ -3,10 +3,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Select from "react-select";
 import './UserManagementStyle.css';
 
-function UserAdd({setUpdateUserList, companyList}){
+function UserAdd({setUpdateUserList}){
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     const {getAccessTokenSilently} = useAuth0();
+    const [companyList, setCompanyList] = useState([]);
+    const [companyName, setCompanyName] = useState("");
 
     const [userData, setUserData] = useState({
         email:"example@example.com",
@@ -17,6 +19,23 @@ function UserAdd({setUpdateUserList, companyList}){
     });
     
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const getCompanyList = async() =>{
+      const token = await getAccessTokenSilently();
+      fetch(URL + `api/companies?name=${companyName}&size=2`, {
+          method: 'GET',
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+          },
+      })
+      .then(response => response.json())
+      .then(json => {
+        setCompanyList(json.content)
+
+      })
+      .catch(error => console.error(error));
+  }
 
     const addUser = async () => {
         setIsPopupOpen(false);
@@ -84,6 +103,11 @@ function UserAdd({setUpdateUserList, companyList}){
         }));
     };
 
+    const handleCompanyNameChange = (value)=>{
+      setCompanyName(value);
+      getCompanyList();
+    }
+
     const companiesOptions = companyList.map((company) => ({
         value: company.name,
         label: company.name,
@@ -148,6 +172,8 @@ function UserAdd({setUpdateUserList, companyList}){
           userData.companyNames.includes(option.value)
         )}
         onChange={handleCompaniesChange}
+        onInputChange={(inputValue) => {
+          handleCompanyNameChange(inputValue) }}
         className="inputDeviceToken rolePadding"
       />
       <div className="buttonsContainer">

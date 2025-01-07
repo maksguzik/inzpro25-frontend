@@ -21,7 +21,8 @@ function Logout({isUser}){
     return (
         <div className="LogoutContainer">
           <button className="actionButton" 
-          onClick = {()=>logout({ logoutParams: { returnTo: "http://localhost:3000/login" } })}>
+          onClick = {()=>{logout({ logoutParams: { returnTo: "http://localhost:3000/login" } });localStorage.clear();
+          }}>
             Logout
           </button>
           {/* {isPopupOpen && (

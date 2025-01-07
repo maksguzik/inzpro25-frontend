@@ -75,7 +75,8 @@ function App() {
               <Route index element={<HomePage />} />
               {(roles.includes('SUPPORT_TEAM')) &&
               
-              (<Route>
+              (
+              <Route>
                   <Route path="home/dashboard" element={<Dashboard/>}/>                
               <Route path="alerts" element={<AlertsPage />}>
                 <Route path="all-alerts" element={<AllAlerts/>}></Route>

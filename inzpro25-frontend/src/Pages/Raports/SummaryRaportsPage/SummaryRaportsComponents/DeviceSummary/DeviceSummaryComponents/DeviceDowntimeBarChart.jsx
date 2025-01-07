@@ -49,7 +49,7 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
     "December",
   ];
 
-  const years = [2023, 2024, 2025]; // Add more years dynamically if needed
+  const years = [2023, 2024, 2025];
 
   const viewModes = [
     { value: "year", label: "Whole Year" },
@@ -115,60 +115,63 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
     const activeDays = new Array(12).fill(0);
 
     downtimeData.forEach((downtime) => {
-      const startDate = new Date(downtime.started);
-      const endDate = downtime.ended ? new Date(downtime.ended) : today;
-      let currentDate = new Date(startDate);
+        const startDate = new Date(downtime.started.split("T")[0] + "T00:00:00Z");
+        const endDate = downtime.ended
+            ? new Date(downtime.ended.split("T")[0] + "T00:00:00Z")
+            : new Date(new Date().toISOString().split("T")[0] + "T00:00:00Z");
+        
+        let currentDate = new Date(startDate);
 
-      while (currentDate <= endDate) {
-        const monthIndex = currentDate.getMonth();
-        const year = currentDate.getFullYear();
+        while (currentDate <= endDate) {
+            const monthIndex = currentDate.getUTCMonth();
+            const year = currentDate.getUTCFullYear();
 
-        if (year === selectedYear && currentDate <= today) {
-          downtimeDays[monthIndex] += 1;
+            if (year === selectedYear) {
+                downtimeDays[monthIndex] += 1;
+            }
+
+            currentDate.setUTCDate(currentDate.getUTCDate() + 1);
         }
-
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
     });
 
     activeDays.forEach((_, index) => {
-      const daysInMonth = new Date(selectedYear, index + 1, 0).getDate();
+        const daysInMonth = new Date(Date.UTC(selectedYear, index + 1, 0)).getUTCDate();
 
-      if (selectedYear === today.getFullYear() && index === today.getMonth()) {
-        activeDays[index] = today.getDate() - downtimeDays[index];
-      } else if (selectedYear < today.getFullYear() || index < today.getMonth()) {
-        activeDays[index] = daysInMonth - downtimeDays[index];
-      } else {
-        activeDays[index] = 0;
-      }
+        if (selectedYear === today.getUTCFullYear() && index === today.getUTCMonth()) {
+            activeDays[index] = today.getUTCDate() - downtimeDays[index];
+        } else if (selectedYear < today.getUTCFullYear() || index < today.getUTCMonth()) {
+            activeDays[index] = daysInMonth - downtimeDays[index];
+        } else {
+            activeDays[index] = 0;
+        }
     });
 
     if (viewMode === "year") {
-      return {
-        filteredMonths: months,
-        filteredDowntimeDays: downtimeDays,
-        filteredActiveDays: activeDays,
-      };
+        return {
+            filteredMonths: months,
+            filteredDowntimeDays: downtimeDays,
+            filteredActiveDays: activeDays,
+        };
     } else if (viewMode === "month") {
-      const monthIndex = months.indexOf(selectedMonth);
-      return {
-        filteredMonths: [selectedMonth],
-        filteredDowntimeDays: [downtimeDays[monthIndex]],
-        filteredActiveDays: [activeDays[monthIndex]],
-      };
+        const monthIndex = months.indexOf(selectedMonth);
+        return {
+            filteredMonths: [selectedMonth],
+            filteredDowntimeDays: [downtimeDays[monthIndex]],
+            filteredActiveDays: [activeDays[monthIndex]],
+        };
     } else if (viewMode === "threeMonths") {
-      const filteredMonths = months.slice(startMonthIndex, startMonthIndex + 3);
-      const filteredDowntimeDays = downtimeDays.slice(
-        startMonthIndex,
-        startMonthIndex + 3
-      );
-      const filteredActiveDays = activeDays.slice(
-        startMonthIndex,
-        startMonthIndex + 3
-      );
-      return { filteredMonths, filteredDowntimeDays, filteredActiveDays };
+        const filteredMonths = months.slice(startMonthIndex, startMonthIndex + 3);
+        const filteredDowntimeDays = downtimeDays.slice(
+            startMonthIndex,
+            startMonthIndex + 3
+        );
+        const filteredActiveDays = activeDays.slice(
+            startMonthIndex,
+            startMonthIndex + 3
+        );
+        return { filteredMonths, filteredDowntimeDays, filteredActiveDays };
     }
-  };
+};
 
   const { filteredMonths, filteredDowntimeDays, filteredActiveDays } = processData();
 

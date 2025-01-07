@@ -46,20 +46,13 @@ function User({userId, index, email, emailVerified, name, companies, setUpdateUs
           })
           .catch(error=>console.error('Error fetching roles:', error));
           const data =  await response.json();
-          
+          await new Promise(resolve => setTimeout(resolve, 500));
           if (response.ok) {
-            // await new Promise(resolve => setTimeout(resolve, 1000));
+            
             setRoles(data);
             setUpdateRoles(false);
           }
     },[getAccessTokenSilently, userId, setRoles, URL]);
-
-    useEffect(()=>{
-        if(updateRoles){
-            getUserRole();
-            setUpdateRoles(false);
-        }
-    }, [updateRoles, getUserRole])
     
 
     return(<tr
@@ -74,7 +67,7 @@ function User({userId, index, email, emailVerified, name, companies, setUpdateUs
         emailVerified = {emailVerified}
         name = {name}
         companies = {companies}
-        roles = {roles}
+        // getUserRole = {}
         />
         
         {(hover)?(
