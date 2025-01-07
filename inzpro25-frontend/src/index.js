@@ -9,6 +9,7 @@ import { ChartProvider } from "./context/ChartContext";
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
+const URL = process.env.REACT_APP_BASE_URL;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,7 +18,7 @@ root.render(
       domain={domain}
       clientId={clientId}
       authorizationParams={{
-        redirect_uri: "http://localhost:3000", // https://tracewave.me
+        redirect_uri: URL, // https://tracewave.me
         audience: audience
     }}
     onRedirectCallback={(appState) => {
