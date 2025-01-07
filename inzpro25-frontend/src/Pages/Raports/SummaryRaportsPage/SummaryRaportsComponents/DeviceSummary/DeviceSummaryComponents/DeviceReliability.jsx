@@ -17,6 +17,8 @@ const DeviceReliability = ({ deviceId: deviceIdFromProps }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { deviceId: deviceIdFromParams } = useParams();
+
+  const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
   
   const deviceId = deviceIdFromProps || deviceIdFromParams;
 
@@ -36,7 +38,7 @@ const DeviceReliability = ({ deviceId: deviceIdFromProps }) => {
       const end = formatDateToISO(endDate);
 
       const response = await fetch(
-        `http://localhost:8080/alert/device-states/${deviceId}/reliability-report?start=${start}&end=${end}`,
+        URL + `alert/device-states/${deviceId}/reliability-report?start=${start}&end=${end}`,
         {
           method: "GET",
           headers: {

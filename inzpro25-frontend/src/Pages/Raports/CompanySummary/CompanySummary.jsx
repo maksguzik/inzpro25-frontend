@@ -10,11 +10,13 @@ function CompanySummary() {
   const [showDevices, setShowDevices] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
 
+  const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
+
   const fetchCompanies = async (query = "", page = 0, size = 5) => {
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(
-        `http://localhost:8080/api/companies?name=${query}&page=${page}&size=${size}&sortBy=id&order=asc`,
+        URL + `api/companies?name=${query}&page=${page}&size=${size}&sortBy=id&order=asc`,
         {
           method: "GET",
           headers: {

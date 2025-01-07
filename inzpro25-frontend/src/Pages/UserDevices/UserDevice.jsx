@@ -1,5 +1,5 @@
 
-function UserDevice({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCompanyName}){
+function UserDevice({deviceId, deviceSerialNumber, deviceName, deviceType, deviceCompanyName, down}){
 
 
 
@@ -10,6 +10,7 @@ function UserDevice({deviceId, deviceSerialNumber, deviceName, deviceType, devic
             <td>{deviceName}</td>
             <td>{deviceType}</td>
             <td>{deviceCompanyName}</td>
+            <td>{down}</td>
             </tr>
     );
 }

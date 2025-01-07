@@ -14,13 +14,15 @@ function DeviceSummaryTable({ companyId }) {
   const [searchDeviceType, setSearchDeviceType] = useState("");
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
 
+  const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
+
   const { getAccessTokenSilently } = useAuth0();
 
   const fetchDeviceState = async (id) => {
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(
-        `http://localhost:8080/alert/device-states/${id}`,
+        URL + `alert/device-states/${id}`,
         {
           method: "GET",
           headers: {
@@ -53,7 +55,7 @@ function DeviceSummaryTable({ companyId }) {
       try {
         const token = await getAccessTokenSilently();
         const response = await fetch(
-          `http://localhost:8080/api/companies/${companyId}/devices?page=${currentPage}&size=8&sortBy=id&order=asc`,
+          URL + `api/companies/${companyId}/devices?page=${currentPage}&size=8&sortBy=id&order=asc`,
           {
             method: "GET",
             headers: {
@@ -87,7 +89,7 @@ function DeviceSummaryTable({ companyId }) {
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(
-        `http://localhost:8080/api/companies/${companyId}/devices?deviceType=${searchDeviceType}&deviceName=${searchDeviceName}&serialNumber=${searchDeviceSerialNumber}&page=0&size=10&sortBy=id&order=asc`,
+        URL + `api/companies/${companyId}/devices?deviceType=${searchDeviceType}&deviceName=${searchDeviceName}&serialNumber=${searchDeviceSerialNumber}&page=0&size=10&sortBy=id&order=asc`,
         {
           method: "GET",
           headers: {

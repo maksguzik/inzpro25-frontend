@@ -10,6 +10,8 @@ const DeviceDowntimeHeatMap = ({ deviceId: deviceIdFromProps }) => {
   const { getAccessTokenSilently } = useAuth0();
   const { deviceId: deviceIdFromParams } = useParams();
 
+  const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
+
   const deviceId = deviceIdFromProps || deviceIdFromParams;
 
 
@@ -22,7 +24,7 @@ const DeviceDowntimeHeatMap = ({ deviceId: deviceIdFromProps }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/alert/device-states/${deviceId}/downtimes?days=365`,
+        URL + `alert/device-states/${deviceId}/downtimes?days=365`,
         {
           method: "GET",
           headers: {

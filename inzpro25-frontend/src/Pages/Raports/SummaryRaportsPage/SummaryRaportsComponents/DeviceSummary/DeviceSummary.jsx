@@ -27,6 +27,8 @@ function DeviceSummary() {
   const [error, setError] = useState(null); 
   const { getAccessTokenSilently } = useAuth0();
 
+  const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
+
   const fetchDeviceState = async (id) => {
     try {
       setLoading(true);
@@ -34,7 +36,7 @@ function DeviceSummary() {
       const token = await getAccessTokenSilently();
 
       const response = await fetch(
-        `http://localhost:8080/alert/device-states/${id}`,
+        URL + `alert/device-states/${id}`,
         {
           method: "GET",
           headers: {

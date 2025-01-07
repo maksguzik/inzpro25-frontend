@@ -14,6 +14,8 @@ function AllAlerts() {
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
   const { getAccessTokenSilently } = useAuth0();
 
+  const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +23,7 @@ function AllAlerts() {
       try {
         const token = await getAccessTokenSilently();
         const response = await fetch(
-          `http://localhost:8080/alert/device-states?page=${currentPage}&size=8`,
+          URL + `alert/device-states?page=${currentPage}&size=8`,
           {
             method: "GET",
             headers: {
@@ -66,7 +68,7 @@ function AllAlerts() {
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(
-        `http://localhost:8080/alert/device-states?page=${currentPage}&size=8`,
+        URL + `alert/device-states?page=${currentPage}&size=8`,
         {
           method: "GET",
           headers: {
@@ -100,7 +102,7 @@ function AllAlerts() {
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(
-        `http://localhost:8080/alert/device-states/${searchSpecificDeviceId}`,
+        URL + `alert/device-states/${searchSpecificDeviceId}`,
         {
           method: "GET",
           headers: {

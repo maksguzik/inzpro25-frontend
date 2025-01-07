@@ -18,11 +18,13 @@ function Dashboard() {
   const [chartType, setChartType] = useState("donut");
   const [deviceType, setDeviceType] = useState("All");
 
+  const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
+
   const fetchCompanies = async (query = "") => {
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(
-        `http://localhost:8080/api/companies?name=${query}&page=0&size=10&sortBy=id&order=asc`,
+        URL + `api/companies?name=${query}&page=0&size=10&sortBy=id&order=asc`,
         {
           method: "GET",
           headers: {
@@ -51,7 +53,7 @@ function Dashboard() {
 
       const token = await getAccessTokenSilently();
 
-      const url = `http://localhost:8080/api/companies/${selectedCompany}/devices/stats${
+      const url = URL + `api/companies/${selectedCompany}/devices/stats${
         deviceType.toLowerCase() !== "all" ? `?deviceType=${deviceType}` : ""
       }`;
 

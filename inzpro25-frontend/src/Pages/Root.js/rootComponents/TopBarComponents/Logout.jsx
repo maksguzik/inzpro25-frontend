@@ -10,6 +10,7 @@ function Logout({isUser}){
     const {logout} = useAuth0();
     const navigate = useNavigate();
 
+    const URL = process.env.REACT_APP_BASE_URL;
     // const handleClickedButton = () =>{
     //     setIsPopupOpen(!isPopupOpen);
     // }
@@ -21,8 +22,9 @@ function Logout({isUser}){
     return (
         <div className="LogoutContainer">
           <button className="actionButton" 
-          onClick = {()=>{logout({ logoutParams: { returnTo: "http://localhost:3000/login" } });localStorage.clear();
+          onClick = {()=>{logout({ logoutParams: { returnTo: `${URL}login` } });localStorage.clear();
           }}>
+        
             Logout
           </button>
           {/* {isPopupOpen && (

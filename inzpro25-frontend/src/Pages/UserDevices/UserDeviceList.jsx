@@ -120,6 +120,7 @@ function UserDeviceList(){
                         <th>name</th>
                         <th>device Type</th>
                         <th>owner</th>
+                        <th>status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,6 +133,7 @@ function UserDeviceList(){
                         deviceName = {element.name}
                         deviceType = {element.deviceType}
                         deviceCompanyName = {element.companyName} 
+                        down={(element.down)? 'inactive' : 'active'}
                         />
                     ))}
                 </tbody>
