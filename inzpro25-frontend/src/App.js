@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useCallback } from "react";
 import HomePage from "./Pages/Home/Home";
 import AlertsPage from "./Pages/Alerts/Alerts";
@@ -23,6 +23,8 @@ import DeviceSummary from "./Pages/Raports/SummaryRaportsPage/SummaryRaportsComp
 import CompanySummary from "./Pages/Raports/CompanySummary/CompanySummary";
 import AllAlerts from "./Pages/Alerts/AllAlerts/AllAlerts";
 import Dashboard from "./Pages/Home/Dashboard/Dashboard";
+import UserPage from "./Pages/UserDevices/UserPage";
+import ProfilePage from "./Pages/Profile/ProfilePage";
 
 function App() {
   const {loginWithRedirect, getAccessTokenSilently, isAuthenticated, isLoading, error } = useAuth0();
@@ -85,6 +87,7 @@ function App() {
                 <Route path="all-logs" element={<DeviceLogPage />} />
               </Route>
               <Route path="raports" element={<RaportsPage />}>
+                <Route index element={<Navigate to="company-summary" replace />} />
                 <Route path="device-summary" element={<DeviceSummary />} />
                 <Route path="device-summary/:deviceId" element={<DeviceSummary />} />
                 <Route path="company-summary" element={<CompanySummary />} />
@@ -94,11 +97,12 @@ function App() {
               {
                 (roles.includes('ADMIN')) && (
                   <Route path="device-management" element={<DeviceManagement />}>
-                <Route path="token" element={<DeviceTokenPage />} />
-                <Route path="json-template" element={<JsonTemplatePage />} />
-                <Route path="owner" element={<CompanyPage />} />
-                <Route path="device" element={<DeviceViewPage />} />
-              </Route>
+                    <Route index element={<Navigate to="token" replace />} />
+                    <Route path="token" element={<DeviceTokenPage />} />
+                    <Route path="json-template" element={<JsonTemplatePage />} />
+                    <Route path="owner" element={<CompanyPage />} />
+                    <Route path="device" element={<DeviceViewPage />} />
+                  </Route>
                 )
               }
               {(roles.includes('ADMIN')) &&
@@ -108,14 +112,19 @@ function App() {
               </Route>) }
             {
             roles.includes('USER') && (
-              <Route path="profile" element={<Profile/>}/>
+              <Route path="profile" element={<ProfilePage/>}>
+                <Route index element={<Navigate to="profile-details" replace />} />
+                <Route path="profile-details" element={<Profile />} />
+              </Route>
               )}
               {
                 (roles.includes('USER')) && (
-                  <Route path="my-devices" element={<UserDeviceList/>}/>
+                  <Route path="my-devices" element={<UserPage/>}>
+                    <Route index element={<Navigate to="all-devices" replace />} />
+                    <Route path="all-devices" element={<UserDeviceList />} />
+                  </Route>
                 )
               }
-
             </Route>
             
           </>

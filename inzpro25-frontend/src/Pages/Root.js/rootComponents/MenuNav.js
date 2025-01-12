@@ -60,7 +60,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
             </li>
             <li>
               <NavLink
-                to="raports/company-summary"
+                to="raports"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Raports");
                   return isActive ? "active" : undefined;
@@ -169,7 +169,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
             </li>
             <li>
               <NavLink
-                to="raports/company-summary"
+                to="raports"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("Raports");
                   return isActive ? "active" : undefined;
@@ -184,7 +184,7 @@ function MenuNav({ setActiveTab , toggleMenuRoot, isAdmin, isUser, isSupportTeam
               isAdmin && (
                 <li>
               <NavLink
-                to="device-management/token"
+                to="device-management"
                 className={({ isActive }) => {
                   if (isActive) setActiveTab("DeviceManagement");
                   return isActive ? "active" : undefined;

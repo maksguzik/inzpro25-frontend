@@ -8,7 +8,9 @@ const tabValues = {
   Raports: ["Company Summary","Device Summary"],
   Settings: ["Not working yet"],
   DeviceManagement: ["Token", "Json template", "Owner", "Device"],
-  AdminPanel:["User Management"]
+  AdminPanel:["User Management"],
+  Devices:["All devices"],
+  Profile:["Profile details"]
 };
 
 const tabPathMap = {
@@ -19,6 +21,8 @@ const tabPathMap = {
   Settings: "settings",
   DeviceManagement: "device-management",
   AdminPanel: "admin-panel",
+  Devices: "my-devices",
+  Profile: "profile"
 };
 
 const getPath = (tabName) => tabPathMap[tabName] || tabName.toLowerCase();
