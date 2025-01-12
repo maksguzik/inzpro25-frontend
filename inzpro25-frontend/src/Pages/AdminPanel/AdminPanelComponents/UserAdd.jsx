@@ -204,17 +204,17 @@ function UserAdd({setUpdateUserList}){
       {userData.errors.companyNames && (
       <p className="errorText">{userData.errors.companyNames}</p>)}
       <div className="buttonsContainer">
+      <button
+          className="closeButton crudButton"
+          onClick={togglePopup}
+        >
+          CLOSE
+        </button>
         <button
           className="crudButton blueButton saveButton"
           onClick={addUser}
         >
           SAVE
-        </button>
-        <button
-          className="closeButton crudButton"
-          onClick={togglePopup}
-        >
-          CLOSE
         </button>
       </div>
     </div>
