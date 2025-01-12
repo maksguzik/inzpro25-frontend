@@ -17,6 +17,7 @@ function Dashboard() {
   const [activeDashboard, setActiveDashboard] = useState(null);
   const [chartType, setChartType] = useState("donut");
   const [deviceType, setDeviceType] = useState("All");
+  const [error, setError] = useState("");
 
   const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
@@ -99,6 +100,7 @@ function Dashboard() {
   const openPopup = (index) => {
     setActiveDashboard(index);
     setPopupOpen(true);
+    setError("");
   };
 
   const closePopup = () => {
@@ -121,6 +123,11 @@ function Dashboard() {
   };
 
   const handleCreate = async () => {
+    if (deviceType.trim() === "") {
+      setError("Device Type cannot be empty!");
+      return;
+    }
+
     const statsData = await fetchStats();
     if (statsData) {
       const selectedCompanyData = companies.find(
@@ -135,6 +142,7 @@ function Dashboard() {
         deviceType,
       };
       setCharts(newCharts);
+      setError("");
     }
     closePopup();
   };
@@ -288,8 +296,10 @@ function Dashboard() {
                 id="deviceType"
                 value={deviceType}
                 onChange={handleDeviceTypeChange}
+                className={`inputDeviceToken ${error ? "inputError" : ""}`}
               />
             </div>
+            {error && <p className="errorText">{error}</p>}
 
             <div className="popup-buttons">
               <button
