@@ -79,5 +79,9 @@
   }
   
   .icon.inactive {
-    color: #6c757d;
+    color: #dc3545;
+  }
+
+  .icon.inactive.mail{
+    color: gray
   }
