@@ -15,8 +15,8 @@ function RootLayout({isAdmin, isUser, isSupportTeam}) {
 
   return (
     <div className="root-layout">
-      <TopBar isUser={isUser}
-      />
+      {/* <TopBar isUser={isUser}
+      /> */}
       <div className="container">
         <div className={`${isMenuMinimized ? "menu-minimized" : "menu"}`}>
           <MenuNav setActiveTab={setActiveTab} toggleMenuRoot={toggleMenu} isAdmin={isAdmin}
@@ -24,7 +24,7 @@ function RootLayout({isAdmin, isUser, isSupportTeam}) {
           />
         </div>
         <div className="content">
-          <TabBar activeTab={activeTab} />
+          <TabBar activeTab={activeTab} isUser={isUser} />
           <div className="outlet-content">
             <Outlet />
           </div>

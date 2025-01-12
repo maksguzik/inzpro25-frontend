@@ -25,22 +25,9 @@ function Logout({isUser}){
           onClick = {()=>{logout({ logoutParams: { returnTo: `${URL}login` } });localStorage.clear();
           }}>
         
-            Logout
+          <i className="material-icons-outlined">logout</i>
+          Logout
           </button>
-          {/* {isPopupOpen && (
-            <div className="popupOverlayLogout">
-              <div className="popupContentLogout">
-                <button
-                  className="buttonLogoutLogout"
-                  onClick = {()=>logout({ logoutParams: { returnTo: "http://localhost:3000/login" } })}
-                > Logout</button>
-                {isUser && (
-                <button className="buttonLogoutLogout" onClick={handleRedirect}>
-                  Profile
-                </button>)}
-              </div>
-            </div>
-          )} */}
         </div>
       );
     }

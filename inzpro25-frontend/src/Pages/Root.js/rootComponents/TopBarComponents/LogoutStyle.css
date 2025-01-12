@@ -2,11 +2,28 @@
     position: relative;
     display: inline-block;
   }
-  
+
   .actionButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+    background-color: rgb(120, 120, 233); 
+    color: white; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    transition: background-color 0.2s ease;
+    margin-top: -8px;
+    padding: 14px 10px;
+    margin-right: 2px;
+  }
+  
+  .actionButton:hover {
+    background-color: #6708a7; 
+  }
+  
+  .material-icons-outlined {
+    font-size: 20px; 
   }
   
   .popupOverlayAccountSettings {
