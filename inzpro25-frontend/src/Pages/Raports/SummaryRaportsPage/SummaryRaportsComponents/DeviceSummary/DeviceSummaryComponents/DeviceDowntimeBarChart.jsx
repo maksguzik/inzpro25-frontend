@@ -51,7 +51,7 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
     "December",
   ];
 
-  const years = [2023, 2024, 2025];
+  const years = [2024, 2025];
 
   const viewModes = [
     { value: "year", label: "Whole Year" },
@@ -99,7 +99,9 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
+      
       const data = await response.json();
+      console.log(data)
       setDowntimeData(data);
       setIsLoading(false);
     } catch (error) {
@@ -115,65 +117,74 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
   const processData = () => {
     const downtimeDays = new Array(12).fill(0);
     const activeDays = new Array(12).fill(0);
-
+  
+    const downtimeDaysSet = new Set();
+  
     downtimeData.forEach((downtime) => {
-        const startDate = new Date(downtime.started.split("T")[0] + "T00:00:00Z");
-        const endDate = downtime.ended
-            ? new Date(downtime.ended.split("T")[0] + "T00:00:00Z")
-            : new Date(new Date().toISOString().split("T")[0] + "T00:00:00Z");
-        
+      const startDate = new Date(downtime.started);
+      const endDate = downtime.ended ? new Date(downtime.ended) : new Date();
+  
+      for (
         let currentDate = new Date(startDate);
-
-        while (currentDate <= endDate) {
-            const monthIndex = currentDate.getUTCMonth();
-            const year = currentDate.getUTCFullYear();
-
-            if (year === selectedYear) {
-                downtimeDays[monthIndex] += 1;
-            }
-
-            currentDate.setUTCDate(currentDate.getUTCDate() + 1);
+        currentDate <= endDate;
+        currentDate.setUTCDate(currentDate.getUTCDate() + 1)
+      ) {
+        const year = currentDate.getUTCFullYear();
+        const monthIndex = currentDate.getUTCMonth();
+        const day = currentDate.getUTCDate();
+  
+        if (year === selectedYear) {
+          const uniqueDayKey = `${year}-${monthIndex}-${day}`;
+          downtimeDaysSet.add(uniqueDayKey);
         }
+      }
     });
-
+  
+    downtimeDaysSet.forEach((uniqueDayKey) => {
+      const [year, monthIndex] = uniqueDayKey.split("-").map(Number);
+      downtimeDays[monthIndex] += 1;
+    });
+  
+    const today = new Date();
     activeDays.forEach((_, index) => {
-        const daysInMonth = new Date(Date.UTC(selectedYear, index + 1, 0)).getUTCDate();
-
-        if (selectedYear === today.getUTCFullYear() && index === today.getUTCMonth()) {
-            activeDays[index] = today.getUTCDate() - downtimeDays[index];
-        } else if (selectedYear < today.getUTCFullYear() || index < today.getUTCMonth()) {
-            activeDays[index] = daysInMonth - downtimeDays[index];
-        } else {
-            activeDays[index] = 0;
-        }
+      const daysInMonth = new Date(selectedYear, index + 1, 0).getDate();
+  
+      if (selectedYear === today.getFullYear() && index === today.getMonth()) {
+        activeDays[index] = today.getDate() - downtimeDays[index];
+      } else if (selectedYear < today.getFullYear() || index < today.getMonth()) {
+        activeDays[index] = daysInMonth - downtimeDays[index];
+      } else {
+        activeDays[index] = 0;
+      }
     });
-
+  
     if (viewMode === "year") {
-        return {
-            filteredMonths: months,
-            filteredDowntimeDays: downtimeDays,
-            filteredActiveDays: activeDays,
-        };
+      return {
+        filteredMonths: months,
+        filteredDowntimeDays: downtimeDays,
+        filteredActiveDays: activeDays,
+      };
     } else if (viewMode === "month") {
-        const monthIndex = months.indexOf(selectedMonth);
-        return {
-            filteredMonths: [selectedMonth],
-            filteredDowntimeDays: [downtimeDays[monthIndex]],
-            filteredActiveDays: [activeDays[monthIndex]],
-        };
+      const monthIndex = months.indexOf(selectedMonth);
+      return {
+        filteredMonths: [selectedMonth],
+        filteredDowntimeDays: [downtimeDays[monthIndex]],
+        filteredActiveDays: [activeDays[monthIndex]],
+      };
     } else if (viewMode === "threeMonths") {
-        const filteredMonths = months.slice(startMonthIndex, startMonthIndex + 3);
-        const filteredDowntimeDays = downtimeDays.slice(
-            startMonthIndex,
-            startMonthIndex + 3
-        );
-        const filteredActiveDays = activeDays.slice(
-            startMonthIndex,
-            startMonthIndex + 3
-        );
-        return { filteredMonths, filteredDowntimeDays, filteredActiveDays };
+      const filteredMonths = months.slice(startMonthIndex, startMonthIndex + 3);
+      const filteredDowntimeDays = downtimeDays.slice(
+        startMonthIndex,
+        startMonthIndex + 3
+      );
+      const filteredActiveDays = activeDays.slice(
+        startMonthIndex,
+        startMonthIndex + 3
+      );
+      return { filteredMonths, filteredDowntimeDays, filteredActiveDays };
     }
-};
+  };
+  
 
   const { filteredMonths, filteredDowntimeDays, filteredActiveDays } = processData();
 

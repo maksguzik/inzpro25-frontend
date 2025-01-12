@@ -47,29 +47,44 @@ const DeviceDowntimeHeatMap = ({ deviceId: deviceIdFromProps }) => {
 
 
   const expandDowntimePeriods = (downtimes) => {
-    const expandedDates = [];
+    const uniqueDates = new Set();
+  
     downtimes.forEach((downtime) => {
       try {
         const startDate = new Date(downtime.started.split("T")[0] + "T00:00:00Z");
         const endDate = downtime.ended
           ? new Date(downtime.ended.split("T")[0] + "T00:00:00Z")
-          : new Date(new Date().toISOString().split("T")[0] + "T00:00:00Z");
+          : new Date();
+  
+        if (startDate > endDate) {
+          console.warn(
+            "Nieprawidłowy zakres dat w przestoju:",
+            downtime
+          );
+          return;
+        }
   
         let currentDate = new Date(startDate);
   
         while (currentDate <= endDate) {
-          expandedDates.push({
-            date: currentDate.toISOString().split("T")[0],
-            count: downtime.active ? 1 : 1, 
-          });
+          const dateKey = currentDate.toISOString().split("T")[0];
+          uniqueDates.add(dateKey);
           currentDate.setUTCDate(currentDate.getUTCDate() + 1);
         }
       } catch (error) {
-        console.error("Błąd podczas przetwarzania przestoju:", downtime, error);
+        console.error(
+          "Błąd podczas przetwarzania przestoju:",
+          downtime,
+          error
+        );
       }
     });
   
-    console.log("Rozszerzone daty:", expandedDates); 
+    const expandedDates = Array.from(uniqueDates).map((date) => ({
+      date,
+      count: 1, 
+    }));
+    //console.log("Rozszerzone daty:", expandedDates);
     return expandedDates;
   };
 
