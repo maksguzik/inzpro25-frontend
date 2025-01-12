@@ -47,7 +47,7 @@ function DeviceSummary() {
       );
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`Device not found`);
       }
 
       const data = await response.json();
