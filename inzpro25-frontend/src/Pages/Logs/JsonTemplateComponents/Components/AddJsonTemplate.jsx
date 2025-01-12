@@ -76,7 +76,7 @@ function AddJsonTemplate({setUpdateDeviceList}){
                     <div className="overlay"
                         onClick = {togglePopup}></div>
                     <div className="popupContent deviceUpdate"  onClick={(event) => event.stopPropagation()}>
-                        <div className="popupLabel">Device Name</div>
+                        <div className="popupLabel">Device Type</div>
                         <input
                             className = "inputDeviceToken"  
                             value = {updateRequestBody.deviceTypeName} 
