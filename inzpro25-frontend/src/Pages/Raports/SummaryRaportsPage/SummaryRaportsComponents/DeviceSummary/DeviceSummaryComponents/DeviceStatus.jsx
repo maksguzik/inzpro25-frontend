@@ -11,9 +11,11 @@ import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import DeviceStatusPopUp from "./DeviceStatusPopUp";
 
-const DeviceStatus = ({ deviceState, deviceId: deviceIdFromProps }) => {
+const DeviceStatus = ({ deviceState, deviceId: deviceIdFromProps, onSave }) => {
   const { deviceId: deviceIdFromParams } = useParams();
   const deviceId = deviceIdFromProps || deviceIdFromParams;
+
+  const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
   const { getAccessTokenSilently } = useAuth0();
 
@@ -34,7 +36,7 @@ const DeviceStatus = ({ deviceState, deviceId: deviceIdFromProps }) => {
     setFormValues(values);
     const token = await getAccessTokenSilently();
     try {
-      const response = await fetch("http://localhost:8080/alert/device-states", {
+      const response = await fetch( URL + "alert/device-states", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +58,12 @@ const DeviceStatus = ({ deviceState, deviceId: deviceIdFromProps }) => {
 
       const data = await response.json();
       alert("Update successful")
-      console.log("Update successful:", data);
+
+      setIsPopupOpen(false);
+      if (onSave) {
+        onSave();
+      }
+      // console.log("Update successful:", data);
     } catch (error) {
       console.error("Error updating device state:", error);
     }

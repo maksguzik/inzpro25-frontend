@@ -20,11 +20,11 @@ const options = {
 
 function DeviceSummary() {
   const { deviceId: deviceIdFromParams } = useParams();
-  const [inputValue, setInputValue] = useState(""); 
-  const [deviceId, setDeviceId] = useState(""); 
-  const [deviceState, setDeviceState] = useState(null); 
-  const [loading, setLoading] = useState(false); 
-  const [error, setError] = useState(null); 
+  const [inputValue, setInputValue] = useState("");
+  const [deviceId, setDeviceId] = useState("");
+  const [deviceState, setDeviceState] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { getAccessTokenSilently } = useAuth0();
 
   const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
@@ -84,6 +84,12 @@ function DeviceSummary() {
     }
   };
 
+  const refreshDeviceState = () => {
+    if (deviceId) {
+      fetchDeviceState(deviceId);
+    }
+  };
+
   return (
     <div className="deviceSummaryContainer">
 
@@ -116,7 +122,7 @@ function DeviceSummary() {
       {!loading && !error && (
         <>
           <div className="details-container">
-            {deviceState && <DeviceStatus deviceState={deviceState} deviceId={deviceId} />}
+            {deviceState && <DeviceStatus deviceState={deviceState} deviceId={deviceId} onSave={refreshDeviceState} />}
             {deviceState && <DeviceReliability deviceId={deviceId} />}
           </div>
 
