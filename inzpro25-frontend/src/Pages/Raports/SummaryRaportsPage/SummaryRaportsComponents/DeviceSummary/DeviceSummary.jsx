@@ -88,6 +88,10 @@ function DeviceSummary() {
     <div className="deviceSummaryContainer">
 
       <div className="input-container">
+        <div className="filter-group2">
+          <label htmlFor="search-specific-device-id" className="search-label">
+            Search Specific Device ID:
+          </label>
         <input
           type="text"
           placeholder="Enter Device ID"
@@ -96,12 +100,14 @@ function DeviceSummary() {
           onKeyPress={handleKeyPress} 
           className="input-field"
         />
+        </div>
         <button
           onClick={handleSearch} 
           className="crudButton greyButton paginationButton"
         >
-          Search
+          Search Device
         </button>
+
       </div>
 
       {loading && <div className="loading">Loading data...</div>}
