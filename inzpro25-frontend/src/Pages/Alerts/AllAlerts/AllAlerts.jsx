@@ -164,7 +164,7 @@ function AllAlerts() {
             onClick={handleGetAllDevices}
             className="crudButton greyButton searchButton"
           >
-            Get All Devices
+            Get All Inactive
           </button>
         </div>
         {selectedDeviceId && (
