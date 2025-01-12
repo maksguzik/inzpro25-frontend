@@ -11,13 +11,42 @@ function AddDevice({setUpdateDeviceList}){
         "deviceType" : "",
         "companyName": ""
     });
+    const [errors, setErrors] = useState({
+        id: "",
+        serialNumber: "",
+        name: "",
+        deviceType: "",
+        companyName: "",
+    });
     
     const {getAccessTokenSilently} = useAuth0();
 
     const [popup, setPopup] = useState(false);
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     
+    const validateForm = () => {
+        const newErrors = {};
+    
+        if (!updateRequestBody.serialNumber.trim()) {
+            newErrors.serialNumber = "Serial number cannot be empty.";
+        }
+        if (!updateRequestBody.name.trim()) {
+            newErrors.name = "Device name cannot be empty.";
+        }
+        if (!updateRequestBody.deviceType.trim()) {
+            newErrors.deviceType = "Device type cannot be empty.";
+        }
+        if (!updateRequestBody.companyName.trim()) {
+            newErrors.companyName = "Company name cannot be empty.";
+        }
+    
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
     const addDevice = async() => {
+        if (!validateForm()) {
+            return;
+        }
         const token = await getAccessTokenSilently();
         const response = await fetch(URL + 'api/devices', {
                     method: 'POST',
@@ -80,39 +109,47 @@ function AddDevice({setUpdateDeviceList}){
                     <div className="overlay"
                         onClick = {togglePopup}></div>
                     <div className="popupContent deviceUpdate"  onClick={(event) => event.stopPropagation()}>
-                        <div className="popup-label">Serial Number</div>
+                        <div className="popupLabel">Serial Number:</div>
                         <input
-                            className = "inputDeviceToken"  
+                            className={`inputDeviceToken ${errors.serialNumber ? "inputError" : ""}`}
+                            placeholder="Enter serial number"
                             value = {updateRequestBody.serialNumber} 
                             onChange = {(event)=>handleInputChange(event, "serialNumber")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popupLabel">Name</div>
+                        {errors.serialNumber && <p className="errorText">{errors.serialNumber}</p>}
+                        <div className="popupLabel">Name:</div>
                         <input
-                            className = "inputDeviceToken"  
+                            className={`inputDeviceToken ${errors.name ? "inputError" : ""}`}
+                            placeholder="Enter device name"
                             value = {updateRequestBody.name} 
                             onChange = {(event)=>handleInputChange(event, "name")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popupLabel">Device Type</div>
+                        {errors.name && <p className="errorText">{errors.name}</p>}
+                        <div className="popupLabel">Device Type:</div>
                         <input
-                            className = "inputDeviceToken"  
+                            className={`inputDeviceToken ${errors.deviceType ? "inputError" : ""}`} 
+                            placeholder="Enter device type"
                             value = {updateRequestBody.deviceType} 
                             onChange = {(event)=>handleInputChange(event, "deviceType")}
                             onKeyDown = {handleKeyDown}>
                         </input>
-                        <div className="popupLabel">Company Name</div>
+                        {errors.deviceType && <p className="errorText">{errors.deviceType}</p>}
+                        <div className="popupLabel">Company Name:</div>
                         <input
-                            className = "inputDeviceToken"  
+                            className={`inputDeviceToken ${errors.companyName ? "inputError" : ""}`}
+                            placeholder="Enter company name"
                             value = {updateRequestBody.companyName} 
                             onChange = {(event)=>handleInputChange(event, "companyName")}
                             onKeyDown = {handleKeyDown}>
                         </input>
+                        {errors.companyName && <p className="errorText">{errors.companyName}</p>}
                         <div className="buttonsContainer">
-                        <button className = "crudButton blueButton saveButton"
-                        onClick = {addDevice}>SAVE</button>
                         <button className = "closeButton crudButton"
                         onClick = {togglePopup}>Close</button>
+                        <button className = "crudButton blueButton saveButton"
+                        onClick = {addDevice}>SAVE</button>
                         </div>
                     </div>
                 </div>

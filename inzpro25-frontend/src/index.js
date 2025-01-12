@@ -18,7 +18,7 @@ root.render(
       domain={domain}
       clientId={clientId}
       authorizationParams={{
-        redirect_uri: URL, // https://tracewave.me
+        redirect_uri: URL,
         audience: audience
     }}
     onRedirectCallback={(appState) => {

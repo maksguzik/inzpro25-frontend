@@ -171,8 +171,10 @@
     flex: 1; 
     display: flex;
     justify-content: center;
-    align-items: center;
-    justify-content: space-between;
+    align-items: center; 
+    overflow: hidden; 
+    max-width: 100%; 
+    flex-wrap: wrap; 
   }
   
   .chart-delete-button {

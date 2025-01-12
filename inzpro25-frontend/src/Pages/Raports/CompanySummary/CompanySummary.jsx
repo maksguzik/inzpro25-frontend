@@ -9,6 +9,7 @@ function CompanySummary() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDevices, setShowDevices] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
+  const [searchedCompany, setSearchedCompany] = useState(null);
 
   const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
 
@@ -41,24 +42,26 @@ function CompanySummary() {
     const delayDebounceFn = setTimeout(() => {
       fetchCompanies(searchQuery); 
     }, 300);
-
     return () => clearTimeout(delayDebounceFn);
   }, [searchQuery]);
+  
 
   const handleSearchQueryChange = (e) => {
     setSearchQuery(e.target.value);
-    setShowDevices(false); 
+    // setShowDevices(false); 
   };
 
   const handleSelectionChange = (e) => {
     const companyId = parseInt(e.target.value, 10);
     const company = companies.find((c) => c.id === companyId);
     setSelectedCompany(company);
-    setShowDevices(false); 
+    // setShowDevices(false); 
   };
 
   const handleSearch = () => {
-    setShowDevices(true); 
+    // fetchCompanies(searchQuery);
+    setSearchedCompany(selectedCompany);
+    setShowDevices(true);
   };
 
   return (
@@ -88,11 +91,11 @@ function CompanySummary() {
           className="crudButton greyButton searchButton"
           disabled={!selectedCompany}
         >
-          Search
+          Search Company
         </button>
       </div>
-      {showDevices && selectedCompany && (
-        <DeviceSummaryTable companyId={selectedCompany.id} />
+      {showDevices && searchedCompany && (
+        <DeviceSummaryTable companyId={searchedCompany.id} />
       )}
     </div>
   );

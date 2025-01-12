@@ -37,3 +37,13 @@
     font-weight: bold;
   }
   
+
+  .menu-nav-h3 {
+    display: flex;
+  }
+
+  .tab-bar-logout-layout {
+    display: flex;
+    justify-content: space-between; 
+    width: 100%;
+  }

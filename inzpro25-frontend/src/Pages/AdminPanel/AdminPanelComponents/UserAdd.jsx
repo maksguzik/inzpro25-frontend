@@ -11,11 +11,12 @@ function UserAdd({setUpdateUserList}){
     const [companyName, setCompanyName] = useState("");
 
     const [userData, setUserData] = useState({
-        email:"example@example.com",
-        firstName:"example",
-        lastName:"example",
+        email:"",
+        firstName:"",
+        lastName:"",
         companyNames:["GreenTech Innovations"],
-        roles:["ADMIN"]
+        roles:["ADMIN"],
+        errors: {},
     });
     
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -37,7 +38,24 @@ function UserAdd({setUpdateUserList}){
       .catch(error => console.error(error));
   }
 
+  const validateForm = () => {
+    const errors = {};
+    const { email, firstName, lastName, companyNames, roles } = userData;
+  
+    if (!email) errors.email = "Email is required.";
+    if (!firstName) errors.firstName = "First name is required.";
+    if (!lastName) errors.lastName = "Last name is required.";
+    if (companyNames.length === 0) errors.companyNames = "At least one company must be selected.";
+    if (roles.length === 0) errors.roles = "At least one role must be selected.";
+  
+    setUserData((prev) => ({ ...prev, errors })); 
+    return Object.keys(errors).length === 0;
+  };
+
     const addUser = async () => {
+      if (!validateForm()) {
+        return;
+      }
         setIsPopupOpen(false);
         const token = await getAccessTokenSilently();
         console.log(userData)
@@ -133,28 +151,34 @@ function UserAdd({setUpdateUserList}){
       className="popupContent addUser fancyPopupContent"
       onClick={(event) => event.stopPropagation()}
     >
-      <label className="popupLabel">Email</label>
+      <label className="popupLabel">Email:</label>
       <input
-        className="inputDeviceToken"
+        className={`inputDeviceToken ${userData.errors.email ? "inputError" : ""}`}
         value={userData.email}
         onChange={(event) => handleChange(event, "email")}
         onKeyDown={handleKeyDown}
+        placeholder="Enter email"
       />
-      <label className="popupLabel">First Name</label>
+      {userData.errors.email && <p className="errorText">{userData.errors.email}</p>}
+      <label className="popupLabel">First Name:</label>
       <input
-        className="inputDeviceToken"
+        className={`inputDeviceToken ${userData.errors.firstName ? "inputError" : ""}`}
         value={userData.firstName}
         onChange={(event) => handleChange(event, "firstName")}
         onKeyDown={handleKeyDown}
+        placeholder="Enter first name"
       />
-      <label className="popupLabel">Last Name</label>
+      {userData.errors.firstName && <p className="errorText">{userData.errors.firstName}</p>}
+      <label className="popupLabel">Last Name:</label>
       <input
-        className="inputDeviceToken"
+        className={`inputDeviceToken ${userData.errors.lastName ? "inputError" : ""}`}
         value={userData.lastName}
         onChange={(event) => handleChange(event, "lastName")}
         onKeyDown={handleKeyDown}
+        placeholder="Enter last name"
       />
-      <label className="popupLabel roleLabel">Roles</label>
+      {userData.errors.lastName && <p className="errorText">{userData.errors.lastName}</p>}
+      <label className="popupLabel roleLabel">Roles:</label>
       <Select
         isMulti
         options={rolesOptions}
@@ -162,9 +186,10 @@ function UserAdd({setUpdateUserList}){
           userData.roles.includes(option.value)
         )}
         onChange={handleRolesChange}
-        className="inputDeviceToken rolePadding"
+        className={`inputDeviceToken rolePadding ${userData.errors.roles ? "inputError" : ""}`}
       />
-      <label className="popupLabel">Company Names</label>
+      {userData.errors.roles && <p className="errorText">{userData.errors.roles}</p>}
+      <label className="popupLabel">Company Names:</label>
       <Select
         isMulti
         options={companiesOptions}
@@ -174,20 +199,22 @@ function UserAdd({setUpdateUserList}){
         onChange={handleCompaniesChange}
         onInputChange={(inputValue) => {
           handleCompanyNameChange(inputValue) }}
-        className="inputDeviceToken rolePadding"
+          className={`inputDeviceToken rolePadding ${userData.errors.companyNames ? "inputError" : ""}`}
       />
+      {userData.errors.companyNames && (
+      <p className="errorText">{userData.errors.companyNames}</p>)}
       <div className="buttonsContainer">
+      <button
+          className="closeButton crudButton"
+          onClick={togglePopup}
+        >
+          CLOSE
+        </button>
         <button
           className="crudButton blueButton saveButton"
           onClick={addUser}
         >
           SAVE
-        </button>
-        <button
-          className="closeButton crudButton"
-          onClick={togglePopup}
-        >
-          CLOSE
         </button>
       </div>
     </div>

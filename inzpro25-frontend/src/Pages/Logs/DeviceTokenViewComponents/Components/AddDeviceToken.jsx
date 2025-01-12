@@ -7,10 +7,23 @@ function AddDeviceToken({setUpdateDeviceTokenList}){
     const [deviceTypeName, setDeviceTypeName] = useState("");
     const [popup, setPopup] = useState(false);
     const {getAccessTokenSilently} = useAuth0();
+    const [error, setError] = useState("");
 
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     
+    const validateForm = () => {
+        if (!deviceTypeName.trim()) {
+            setError("Device type cannot be empty.");
+            return false;
+        }
+        setError("");
+        return true;
+    };
+
     const addDeviceToken = async() => {
+        if (!validateForm()) {
+            return;
+        }
         const token = await getAccessTokenSilently();
         const response = await fetch(URL + 'api/devices-tokens', {
                     method: 'POST',
@@ -51,18 +64,20 @@ function AddDeviceToken({setUpdateDeviceTokenList}){
                 <div className="overlay"
                     onClick = {togglePopup}></div>
                 <div className="popupContent">
-                    <div className="popupLabel">Device Type</div>
+                    <div className="popupLabel">Device Type:</div>
                     <input 
-                        className = "inputDeviceToken" 
+                        className={`inputDeviceToken ${error ? "inputError" : ""}`}
+                        placeholder="Enter device type"
                         value = {deviceTypeName} 
                         onChange = {handleInputChange}
                         onKeyDown = {handleKeyDown}>
                      </input>
+                     {error && <p className="errorText">{error}</p>}
                      <div className="buttonsContainer">
+                     <button className = "closeButton crudButton"
+                    onClick = {togglePopup}>Close</button>
                      <button className = "crudButton blueButton saveButton"
                     onClick = {addDeviceToken}>SAVE</button>
-                    <button className = "closeButton crudButton"
-                    onClick = {togglePopup}>Close</button>
                     </div>
                 </div>
             </div>

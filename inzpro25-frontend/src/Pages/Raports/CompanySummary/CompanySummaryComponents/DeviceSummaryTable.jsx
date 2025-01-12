@@ -256,23 +256,6 @@ function DeviceSummaryTable({ companyId }) {
       ) : (
         <>
           <p>No devices found.</p>
-          <div className="pagination">
-            <button
-              onClick={handlePreviousPage}
-              disabled={currentPage === 0}
-              className="crudButton greyButton paginationButton"
-            >
-              ◀ Previous
-            </button>
-            <span className="paginationInfo">PAGE {currentPage + 1}</span>
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage >= totalPages - 1}
-              className="crudButton greyButton paginationButton"
-            >
-              Next ▶
-            </button>
-          </div>
         </>
       )}
     </div>

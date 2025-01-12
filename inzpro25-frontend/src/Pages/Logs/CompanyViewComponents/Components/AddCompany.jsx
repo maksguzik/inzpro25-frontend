@@ -9,8 +9,21 @@ function AddCompany({companyId, setUpdateCompanyList}){
     const [popup, setPopup] = useState(false);
     const URL = process.env.REACT_APP_AUTH0_AUDIENCE;
     const {getAccessTokenSilently} = useAuth0();
+    const [error, setError] = useState("");
     
+    const validateForm = () => {
+      if (!companyName.trim()) {
+          setError("Company name cannot be empty.");
+          return false;
+      }
+      setError("");
+      return true;
+    };
+
     const addCompany = async() => {
+      if (!validateForm()) {
+        return; 
+    }
         const token = await getAccessTokenSilently();
         const response = await fetch(URL + 'api/companies', {
                     method: 'POST',
@@ -65,25 +78,27 @@ function AddCompany({companyId, setUpdateCompanyList}){
       className="popupContent"
       onClick={(event) => event.stopPropagation()}
     >
-      <div className="popupLabel">New Company Name</div>
+      <div className="popupLabel">New Company Name:</div>
       <input
-        className="inputDeviceToken"
+        className={`inputDeviceToken ${error ? "inputError" : ""}`}
+        placeholder="Enter company name"
         value={companyName}
         onChange={handleCompanyNameChange}
         onKeyDown={handleKeyDown}
       />
+      {error && <p className="errorText">{error}</p>}
       <div className="buttonsContainer">
-      <button
-        className="crudButton blueButton saveButton"
-        onClick={addCompany}
-      >
-        SAVE
-      </button>
       <button
         className="closeButton crudButton"
         onClick={togglePopup}
       >
         CLOSE
+      </button>
+      <button
+        className="crudButton blueButton saveButton"
+        onClick={addCompany}
+      >
+        SAVE
       </button>
       </div>
     </div>

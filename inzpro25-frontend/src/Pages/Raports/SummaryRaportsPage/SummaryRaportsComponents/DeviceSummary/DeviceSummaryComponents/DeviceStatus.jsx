@@ -5,6 +5,7 @@ import {
   FaTimesCircle,
   FaEnvelope,
   FaBell,
+  FaBan,
 } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -106,7 +107,7 @@ const DeviceStatus = ({ deviceState, deviceId: deviceIdFromProps }) => {
             {deviceState.shouldSendEmail ? (
               <FaEnvelope className="icon success" title="Email Sent" />
             ) : (
-              <FaTimesCircle className="icon inactive" title="Email Not Sent" />
+              <FaBan className="icon inactive mail" title="Email Not Sent" />
             )}
           </span>
         </div>

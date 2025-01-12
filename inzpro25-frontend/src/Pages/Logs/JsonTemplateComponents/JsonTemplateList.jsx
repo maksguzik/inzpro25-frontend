@@ -136,52 +136,59 @@ function JsonTemplateList(){
                 </div>
         </div>
         </div>
-        <div  className = "deviceTokenListContainer">
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Device Type</th>
-                        <th>Id Mapping</th>
-                        <th>Logged at</th>
-                        <th>Last seen</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {deviceList.map((element, index) => (
-                        <JsonTemplate
-                        key = {element.deviceTypeName}
-                        index = {index}
-                        deviceId={element.id}
-                        deviceTypeName = {element.deviceTypeName}
-                        idMapping = {element.idMapping}
-                        loggedAtMapping = {element.loggedAtMapping}
-                        lastSeenMapping = {element.lastSeenMapping}
-                        setUpdateDeviceList = {setUpdateDeviceList}
-                        setDeviceIdDeleteList = {setDeviceIdDeleteList}
-                        />
-                    ))}
-                </tbody>
-            </table>
-            <div className="pagination">
-                <button 
-                    onClick={handlePreviousPage} 
-                    disabled={currentPage === 0}
-                    className="crudButton greyButton paginationButton"
-                >
-                    ◀ Previous
-                </button>
-                <span className="paginationInfo">PAGE {currentPage + 1}</span>
-                <button
-                    onClick={handleNextPage}
-                    disabled={currentPage >= totalPages - 1}
-                    className="crudButton greyButton paginationButton"
-                >
-                    Next ▶
-                </button>
-            </div>
+        <div className="deviceTokenListContainer">
+  {deviceList.length > 0 ? (
+    <>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Device Type</th>
+            <th>Id Mapping</th>
+            <th>Logged at</th>
+            <th>Last seen</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {deviceList.map((element, index) => (
+            <JsonTemplate
+              key={element.deviceTypeName}
+              index={index}
+              deviceId={element.id}
+              deviceTypeName={element.deviceTypeName}
+              idMapping={element.idMapping}
+              loggedAtMapping={element.loggedAtMapping}
+              lastSeenMapping={element.lastSeenMapping}
+              setUpdateDeviceList={setUpdateDeviceList}
+              setDeviceIdDeleteList={setDeviceIdDeleteList}
+            />
+          ))}
+        </tbody>
+      </table>
+      <div className="pagination">
+        <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 0}
+          className="crudButton greyButton paginationButton"
+        >
+          ◀ Previous
+        </button>
+        <span className="paginationInfo">PAGE {currentPage + 1}</span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage >= totalPages - 1}
+          className="crudButton greyButton paginationButton"
+        >
+          Next ▶
+        </button>
+      </div>
+    </>
+        ) : (
+        <div className="no-results-message">
+        No devices found.
+        </div>
+    )}
         </div>
         </>
     );

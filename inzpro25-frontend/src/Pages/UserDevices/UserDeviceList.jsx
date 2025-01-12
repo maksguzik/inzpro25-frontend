@@ -48,6 +48,7 @@ function UserDeviceList(){
 
     useEffect(() => {
         if (updateDeviceList) getDeviceListOrderedByNameAndSerialNumber();
+        console.log(deviceList)
     }, [updateDeviceList, getDeviceListOrderedByNameAndSerialNumber]);
 
     const handleNextPage = () => {
@@ -133,7 +134,7 @@ function UserDeviceList(){
                         deviceName = {element.name}
                         deviceType = {element.deviceType}
                         deviceCompanyName = {element.companyName} 
-                        down={(element.down)? 'inactive' : 'active'}
+                        down={element.down}
                         />
                     ))}
                 </tbody>

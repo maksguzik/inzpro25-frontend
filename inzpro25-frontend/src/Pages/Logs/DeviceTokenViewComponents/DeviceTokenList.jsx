@@ -129,51 +129,57 @@ function DeviceTokenList(){
                 </div>
             </div>
             </div>
-        <div  className = "deviceTokenListContainer">
-            
-            
-            <table>
-                <thead>
-                    <tr>
-                    <th></th>
-                        <th>Id</th>
-                        <th>token</th>
-                        <th>device Type</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody className = "kielba">
-                    {deviceTokenList.map((element, index) => (
-                        <DeviceToken
-                        key = {element.id}
-                        index = {index}
-                        tokenId = {element.id} 
-                        token = {element.token}
-                        deviceTypeName = {element.deviceTypeName} 
-                        setUpdateDeviceTokenList = {setUpdateDeviceTokenList}
-                        setTokenIdDeleteList = {setTokenIdDeleteList}
-                        />
-                    ))}
-                </tbody>
-            </table>
-            <div className="pagination">
-                <button 
-                    onClick={handlePreviousPage} 
-                    disabled={currentPage === 0}
-                    className="crudButton greyButton paginationButton"
-                >
-                    ◀ Previous
-                </button>
-                <span className="paginationInfo">PAGE {currentPage + 1}</span>
-                <button
-                    onClick={handleNextPage}
-                    disabled={currentPage >= totalPages - 1}
-                    className="crudButton greyButton paginationButton"
-                >
-                    Next ▶
-                </button>
-            </div>
-        </div>
+            <div className="deviceTokenListContainer">
+  {deviceTokenList.length > 0 ? (
+    <>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Id</th>
+            <th>Token</th>
+            <th>Device Type</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody className="kielba">
+          {deviceTokenList.map((element, index) => (
+            <DeviceToken
+              key={element.id}
+              index={index}
+              tokenId={element.id}
+              token={element.token}
+              deviceTypeName={element.deviceTypeName}
+              setUpdateDeviceTokenList={setUpdateDeviceTokenList}
+              setTokenIdDeleteList={setTokenIdDeleteList}
+            />
+          ))}
+        </tbody>
+      </table>
+      <div className="pagination">
+        <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 0}
+          className="crudButton greyButton paginationButton"
+        >
+          ◀ Previous
+        </button>
+        <span className="paginationInfo">PAGE {currentPage + 1}</span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage >= totalPages - 1}
+          className="crudButton greyButton paginationButton"
+        >
+          Next ▶
+        </button>
+      </div>
+    </>
+  ) : (
+    <div className="no-results-message">
+      No device type found.
+    </div>
+  )}
+</div>
         </>
     );
 }

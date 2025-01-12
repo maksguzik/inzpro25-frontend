@@ -25,7 +25,7 @@ function DeviceDelete({deviceIdDeleteList, setUpdateDeviceList}){
 
     return (
         <> 
-            <button className = "crudButton redButton" onClick={deleteDevice}>DELETED</button>
+            <button className = "crudButton redButton" onClick={deleteDevice}>DELETE</button>
         </>
     )
 }
