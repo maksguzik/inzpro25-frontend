@@ -167,3 +167,13 @@
 .resizeButton{
   margin: 20px;
 }
+
+.errorText {
+  color: red;
+  font-size: 12px; 
+  margin-top: -10px; 
+}
+
+.inputError {
+  border: 2px solid red !important; 
+}
