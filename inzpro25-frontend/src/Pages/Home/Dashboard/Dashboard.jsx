@@ -152,7 +152,7 @@ function Dashboard() {
       labels: ["Inactive Devices", "Active Devices"],
       datasets: [
         {
-          label: "Device Stats",
+          label: "Devices",
           data: [
             chart.data.inactiveDevices,
             chart.data.totalDevices - chart.data.inactiveDevices,
