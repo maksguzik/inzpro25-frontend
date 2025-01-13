@@ -101,7 +101,7 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
 
       
       const data = await response.json();
-      console.log(data)
+      //  console.log(data)
       setDowntimeData(data);
       setIsLoading(false);
     } catch (error) {
@@ -122,13 +122,18 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
   
     downtimeData.forEach((downtime) => {
       const startDate = new Date(downtime.started);
+      startDate.setUTCHours(0, 0, 0, 0);
+      // console.log("start" + startDate)
       const endDate = downtime.ended ? new Date(downtime.ended) : new Date();
-  
+      endDate.setUTCHours(22, 59, 59, 999);
       for (
         let currentDate = new Date(startDate);
         currentDate <= endDate;
         currentDate.setUTCDate(currentDate.getUTCDate() + 1)
       ) {
+
+          // console.log("current" + currentDate);
+          // console.log("end", endDate)
         const year = currentDate.getUTCFullYear();
         const monthIndex = currentDate.getUTCMonth();
         const day = currentDate.getUTCDate();
@@ -138,6 +143,7 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
           downtimeDaysSet.add(uniqueDayKey);
         }
       }
+
     });
   
     downtimeDaysSet.forEach((uniqueDayKey) => {
@@ -181,6 +187,7 @@ const DeviceDowntimeBarChart = ({ deviceId: deviceIdFromProps }) => {
         startMonthIndex,
         startMonthIndex + 3
       );
+
       return { filteredMonths, filteredDowntimeDays, filteredActiveDays };
     }
   };
