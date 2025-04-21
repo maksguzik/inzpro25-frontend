@@ -1,0 +1,78 @@
+
+
+.inputDeviceLogFilter{
+    width: 50px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+table th, table td {
+  padding: 12px 24px;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f4f4f4;
+}
+
+table td{
+  font-weight: normal;
+}
+
+.searchLogs{
+  margin-top: 2%;
+  margin-bottom: 2%;
+  display: flex;
+  align-items: center;
+  display: inline;
+  
+}
+
+.dataPicker{
+  margin-top:20px;
+}
+
+.flex{
+  flex:none;
+}
+
+.inputDatePicker{
+  width: 220px;
+  height: 40px;
+  border-radius: 5px;
+  border: 3px solid rgb(48, 48, 48);
+  margin: 10px;
+  font-size: 20px;
+  font-weight: 900;
+  padding: 0 20px 0px 20px;
+}
+
+.searchButton{
+  background-color: rgb(48, 48, 48);
+}
+
+.searchButton:hover{
+  background-color: rgb(48, 48, 48);
+}
+
+.sortLabel {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  margin-top: 35px;
+}
+
+
+.deviceLogOrderButtons{
+  width:auto;
+}
+
+.orderAddDeleteContainer{
+  flex-direction: column;
+}

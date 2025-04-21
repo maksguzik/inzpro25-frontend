@@ -1,0 +1,118 @@
+.truncatedText{ 
+    width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.inputAddDeviceToken{
+  width: 300px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+
+table th, table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f4f4f4;
+}
+
+/* .popup, .overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.overlay {
+  background: rgba(49,49,49,0.8);
+}
+.popup-content {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  max-width: 600px;
+  min-width: 300px;
+  min-height: 200px;
+} */
+.addToken{
+  padding: 20px 20px 0px 20px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+
+.deleteToken{
+  padding: 20px 20px 0px 20px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+ /* .crudButton.saveButton{
+  width: 80px;
+  height: 40px;
+  position: absolute;
+  right: 40%;
+  left: 40%;
+  bottom: 0;
+  margin-bottom:10px;
+} */
+/* .crudButton.closeButton{
+  width: 50px;
+  height: 25px;
+  font-size: 8px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 5px;
+  margin-right: 5px;
+  color: grey;
+  box-shadow: none;
+} */
+
+/* .popup-label{
+  position: absolute;
+  left: 12%;
+  padding: 5px;
+  margin-top: 65px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color:rgb(0, 100, 200);
+  background-color: #f1f1f1;
+  text-align: center;
+} */
+
+/* .inputDeviceToken{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25%;
+    width: fit-content;
+    width: 300px;
+    height: 50px;
+    font-size: 30px;
+    line-height: 30px;
+    border-radius: 10px;
+    border: solid rgb(0, 100, 200);
+    background-color: transparent;
+}  */
+
+/* .margin{
+  margin-right: 10px;
+} */

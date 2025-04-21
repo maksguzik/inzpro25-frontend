@@ -1,0 +1,72 @@
+.accountSettingsContainer {
+    position: relative;
+    display: inline-block;
+  }
+
+  .actionButton {
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+    background-color: rgb(120, 120, 233); 
+    color: white; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    transition: background-color 0.2s ease;
+    margin-top: -8px;
+    padding: 14px 10px;
+    margin-right: 2px;
+    font-weight: 700;
+  }
+  
+  .actionButton:hover {
+    background-color: #6708a7; 
+  }
+  
+  .material-icons-outlined {
+    font-size: 20px; 
+  }
+  
+  .popupOverlayAccountSettings {
+    position: absolute;
+    top: 130%;
+    left: 15%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: flex-start;
+    background-color: transparent;
+  }
+  .popupContentAccountSettings {
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    max-width:100px;  
+    height: auto;     
+}
+
+
+  .buttonLogoutAccountSettings {
+    font-weight: bold;
+    border: 1px solid #ddd;
+    background-color: white;
+    color: #333;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    width:80px;
+}
+
+.buttonLogoutAccountSettings:hover {
+    background-color: #333;
+    color: #fff;
+}
+

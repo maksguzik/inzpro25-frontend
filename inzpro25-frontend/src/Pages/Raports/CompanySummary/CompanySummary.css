@@ -1,0 +1,45 @@
+
+.company-summary {
+    margin: 20px;
+    /* font-family: Arial, sans-serif; */
+  }
+  
+
+
+  .company-summary .dropdown-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+  }
+  
+
+  .company-summary select {
+    padding: 10px 15px; 
+    font-size: 16px;  
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    height: 40px; 
+  }
+
+  #companySearch {
+    padding: 9px;
+    margin-right: 10px;
+    font-size: 14px;
+    width: 200px;
+    border-radius: 6px;
+  }
+  
+  .dropdown-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  #companyDropdown {
+    padding: 5px;
+    font-size: 14px;
+    width: 200px;
+  }

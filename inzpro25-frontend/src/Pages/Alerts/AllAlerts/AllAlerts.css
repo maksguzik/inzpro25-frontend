@@ -1,0 +1,61 @@
+.device-table-container{
+    margin-top: 15px;
+}
+
+
+.device-table th{
+    font-size: medium;
+}
+.device-table td {
+  font-weight: normal; 
+}
+  .error {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+
+  .filter-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+  }
+  
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .search-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 15px;
+    color: #333;
+  }
+  
+  .search-input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+  }
+
+  .status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  
+  .status-indicator.red {
+    background-color: red;
+  }
+  
+  .status-indicator.green {
+    background-color: green;
+  }
+  

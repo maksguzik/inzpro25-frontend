@@ -1,0 +1,42 @@
+
+.inputAddDevice{
+  width: 300px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+
+.truncatedText{ 
+  width: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inputAddDeviceToken{
+width: 300px;
+padding: 8px;
+border-radius: 4px;
+border: 1px solid #ccc;
+outline: none;
+}
+
+
+table th, table td {
+padding: 12px 15px;
+border: 1px solid #ddd;
+}
+
+table th {
+background-color: #f4f4f4;
+}
+
+.popup-content.deviceAdd{
+  min-height: 800px;
+}
+
+.popup-content.deviceUpdate{
+  min-height: 650px;
+}

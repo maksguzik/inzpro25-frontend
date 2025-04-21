@@ -1,0 +1,87 @@
+.device-status-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    color: black;
+    max-width: 400px;
+  }
+
+  .device-status-header-button{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .device-status-header-button .crudButton{
+    height: 35px !important;
+    width: 80px !important;
+    font-size: 14px; 
+    cursor: pointer;
+    margin-left: 10px;
+    margin-bottom: 20px;
+  }
+  
+  
+  .device-status-header {
+    font-size: 24px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .device-status-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .status-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; 
+    font-size: 16px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+  }
+  
+  .status-label {
+    flex: 0 0 150px; 
+    font-weight: bold;
+  }
+  
+  .status-content {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+  }
+  
+  .status-text {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .icon {
+    font-size: 18px;
+  }
+  
+  .icon.success {
+    color: #28a745;
+  }
+  
+  .icon.error {
+    color: #dc3545;
+  }
+  
+  .icon.active {
+    color: #dc3545;
+  }
+  
+  .icon.inactive {
+    color: #dc3545;
+  }
+
+  .icon.inactive.mail{
+    color: gray
+  }
